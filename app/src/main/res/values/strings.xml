@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">CineMates20_Mobile</string>
+    <string name="app_name">CineMates20</string>
+    <string name="login">Login</string>
+    <string name="singup">Sing-Up</string>
+    <string name="googleLogin">Login with Google</string>
+    <string name="facebookLogin">Login with Facebook</string>
 </resources>

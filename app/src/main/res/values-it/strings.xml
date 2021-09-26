@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CineMates20</string>
+    <string name="login">Accedi</string>
+    <string name="singup">Registrati</string>
+    <string name="googleLogin">Accedi con Google</string>
+    <string name="facebookLogin">Accedi con Facebook</string>
+</resources>

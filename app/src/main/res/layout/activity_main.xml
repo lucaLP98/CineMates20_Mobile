@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".views.activities.MainActivity">
 
+    <include layout="@layout/toolbar" />
+
     <FrameLayout
         android:id="@+id/mainActivityContainer"
         android:layout_width="match_parent"

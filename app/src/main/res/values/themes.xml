@@ -17,4 +17,8 @@
 
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="ToolbarThemeOverlay" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- <item name="android:fontFamily">@font/</item> -->
+    </style>
 </resources>

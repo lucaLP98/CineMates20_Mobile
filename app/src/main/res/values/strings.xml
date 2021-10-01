@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CineMates20</string>
     <string name="login">Login</string>
     <string name="singup">Sing-Up</string>
-    <string name="googleLogin">Login with Google</string>
-    <string name="facebookLogin">Login with Facebook</string>
+    <string name="google_login">Login with Google</string>
+    <string name="facebook_login">Login with Facebook</string>
+    <string name="login_later">Login later</string>
+    <string name="otherwise">Otherwise</string>
 </resources>

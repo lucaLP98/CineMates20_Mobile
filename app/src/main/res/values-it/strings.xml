@@ -3,6 +3,8 @@
     <string name="app_name">CineMates20</string>
     <string name="login">Accedi</string>
     <string name="singup">Registrati</string>
-    <string name="googleLogin">Accedi con Google</string>
-    <string name="facebookLogin">Accedi con Facebook</string>
+    <string name="google_login">Accedi con Google</string>
+    <string name="facebook_login">Accedi con Facebook</string>
+    <string name="login_later">Accedi più tardi</string>
+    <string name="otherwise">Oppure</string>
 </resources>

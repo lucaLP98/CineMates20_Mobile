@@ -10,4 +10,6 @@
 
     <color name="Cinemate_yellow_clear">#A88D09</color>
     <color name="Cinemate_yellow_dark">#715F05</color>
+    <color name="Cinemates_blue_clear">#0065ff</color>
+    <color name="Cinemates_blue_dark">#00378a</color>
 </resources>

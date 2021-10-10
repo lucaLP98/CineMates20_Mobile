@@ -11,7 +11,21 @@
         android:layout_height="match_parent">
 
         <android.widget.Button
-            android:id="@+id/loginButton"
+            android:id="@+id/facebookLoginButton"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_background"
+            android:text="@string/facebook_login"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.642" />
+
+        <android.widget.Button
+            android:id="@+id/goToLoginButton"
             android:layout_width="230dp"
             android:layout_height="60dp"
             android:background="@drawable/button_background"
@@ -22,7 +36,21 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.12" />
+            app:layout_constraintVertical_bias="0.268" />
+
+        <android.widget.Button
+            android:id="@+id/goToSingUpButton"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_background"
+            android:text="@string/singup"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.393" />
 
         <android.widget.Button
             android:id="@+id/googleLoginButton"
@@ -36,61 +64,21 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.369" />
-
-        <android.widget.Button
-            android:id="@+id/facebookLoginButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
-            android:background="@drawable/button_background"
-            android:text="@string/facebook_login"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.493" />
-
-        <android.widget.Button
-            android:id="@+id/singUpButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
-            android:background="@drawable/button_background"
-            android:text="@string/singup"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.244" />
+            app:layout_constraintVertical_bias="0.517" />
 
         <TextView
-            android:id="@+id/orTextView"
+            android:id="@+id/loginLaterTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/otherwise"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.668" />
-
-        <android.widget.Button
-            android:id="@+id/loginLaterButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
-            android:background="@drawable/button_background"
             android:text="@string/login_later"
-            android:textColor="@color/white"
+            android:textColor="@color/Cinemates_blue_clear"
+            android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.855" />
+            app:layout_constraintVertical_bias="0.844" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

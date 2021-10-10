@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.views.fragments.AccessFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
 

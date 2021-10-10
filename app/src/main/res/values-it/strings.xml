@@ -5,6 +5,10 @@
     <string name="singup">Registrati</string>
     <string name="google_login">Accedi con Google</string>
     <string name="facebook_login">Accedi con Facebook</string>
-    <string name="login_later">Accedi più tardi</string>
-    <string name="otherwise">Oppure</string>
+    <string name="login_later">Accedi in un altro momento</string>
+    <string name="eMail">e-Mail</string>
+    <string name="password">Password</string>
+    <string name="cancel">Annulla</string>
+    <string name="forgotPassword">Password dimenticata ?</string>
+    <string name="loginLabel">LOGIN</string>
 </resources>

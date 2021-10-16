@@ -15,12 +15,10 @@ public class AccessFragment extends Fragment {
     public AccessFragment() {
         // Required empty public constructor
     }
-    public static AccessFragment newInstance(String param1, String param2) {
-        AccessFragment fragment = new AccessFragment();
-        Bundle args = new Bundle();
-        return fragment;
-    }
 
+    public static AccessFragment newInstance(String param1, String param2) {
+        return new AccessFragment();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +27,14 @@ public class AccessFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_access, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_access, container, false);
+
+        inflate.findViewById(R.id.goToLoginButton).setOnClickListener( v -> pressLoginButton() );
+
+        return inflate;
+    }
+
+    private void pressLoginButton(){
+        getParentFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new LoginFragment()).commit();
     }
 }

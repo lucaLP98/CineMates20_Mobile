@@ -15,9 +15,7 @@ public class AccessFragment extends Fragment {
 
     private AccessPresenter accessPresenter;
 
-    public AccessFragment() {
-        // Required empty public constructor
-    }
+    public AccessFragment() { }
 
     public static AccessFragment newInstance(String param1, String param2) {
         return new AccessFragment();

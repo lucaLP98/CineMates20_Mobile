@@ -11,4 +11,12 @@
     <string name="cancel">Annulla</string>
     <string name="forgotPassword">Password dimenticata ?</string>
     <string name="loginLabel">LOGIN</string>
+    <string name="insert_email">e-Mail *</string>
+    <string name="insert_username">Username *</string>
+    <string name="insert_birthdate">Data di nascita *</string>
+    <string name="insert_password">Password *</string>
+    <string name="repeat_password">Ripeti password *</string>
+    <string name="singUp">Registrati</string>
+    <string name="requiredField">* Campo obbligaotrio</string>
+    <string name="singupLabel">REGISTRAZIONE</string>
 </resources>

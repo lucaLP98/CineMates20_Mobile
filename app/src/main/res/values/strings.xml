@@ -11,6 +11,12 @@
     <string name="cancel">Cancel</string>
     <string name="forgotPassword">Forgot password ?</string>
     <string name="loginLabel">LOGIN</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="insert_email">e-Mail *</string>
+    <string name="insert_username">Username *</string>
+    <string name="insert_birthdate">Birth date *</string>
+    <string name="insert_password">Password *</string>
+    <string name="repeat_password">Repeat password *</string>
+    <string name="singUp">Sing Up</string>
+    <string name="requiredField">* Required field</string>
+    <string name="singupLabel">SING UP</string>
 </resources>

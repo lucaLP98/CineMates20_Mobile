@@ -12,14 +12,8 @@ import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.fragments.AccessPresenter;
 
 public class AccessFragment extends Fragment {
-
     private AccessPresenter accessPresenter;
 
-    public AccessFragment() { }
-
-    public static AccessFragment newInstance(String param1, String param2) {
-        return new AccessFragment();
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +27,8 @@ public class AccessFragment extends Fragment {
         View inflate = inflater.inflate(R.layout.fragment_access, container, false);
 
         inflate.findViewById(R.id.goToLoginButton).setOnClickListener( v -> accessPresenter.pressLoginButton());
+        inflate.findViewById(R.id.goToSingUpButton).setOnClickListener( v -> accessPresenter.pressSingUpButton());
 
         return inflate;
     }
-
-
 }

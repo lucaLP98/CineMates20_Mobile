@@ -19,4 +19,8 @@
     <string name="singUp">Registrati</string>
     <string name="requiredField">* Campo obbligaotrio</string>
     <string name="singupLabel">REGISTRAZIONE</string>
+    <string name="insert_name">Nome *</string>
+    <string name="insert_surname">Cognome *</string>
+    <string name="error_empty_field">Riempire tutti i campi obbligatori prima di continuare</string>
+    <string name="error_not_matched_password">ATTENZIONE ! Le password inserite non corrispondono</string>
 </resources>

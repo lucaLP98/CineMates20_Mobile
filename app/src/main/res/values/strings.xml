@@ -19,4 +19,8 @@
     <string name="singUp">Sing Up</string>
     <string name="requiredField">* Required field</string>
     <string name="singupLabel">SING UP</string>
+    <string name="insert_name">Name *</string>
+    <string name="insert_surname">Surname *</string>
+    <string name="error_empty_field">Fill in all required fields before continuing</string>
+    <string name="error_not_matched_password">WARNING ! The passwords entered do not match</string>
 </resources>

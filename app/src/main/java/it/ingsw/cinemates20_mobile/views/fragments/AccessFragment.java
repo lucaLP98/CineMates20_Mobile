@@ -24,7 +24,7 @@ public class AccessFragment extends Fragment {
         accessPresenter = new AccessPresenter(this);
 
         // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.fragment_access, container, false);
+       View inflate = inflater.inflate(R.layout.fragment_access, container, false);
 
         inflate.findViewById(R.id.goToLoginButton).setOnClickListener( v -> accessPresenter.pressLoginButton());
         inflate.findViewById(R.id.goToSingUpButton).setOnClickListener( v -> accessPresenter.pressSingUpButton());

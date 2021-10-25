@@ -6,7 +6,6 @@ import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 
 public class AccessPresenter {
-
     private final AccessFragment accessFragment;
 
     public AccessPresenter(AccessFragment accessFragment){

@@ -4,6 +4,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 
@@ -39,14 +41,14 @@ public class SingUpPresenter {
         }
 
         //matching password check
-        if(!matchingPassword(newPasswordEditText.getText().toString(), repeatNameEditText.getText().toString())){
+        if(!matchingPassword(newPasswordEditText.getText().toString(), repeatNameEditText.getText() .toString())){
             Toast.makeText(singUpFragment.getActivity(), R.string.error_not_matched_password, Toast.LENGTH_SHORT).show();
             return;
         }
 
     }
 
-    private boolean isEmptyEditText(EditText editText){
+    private boolean isEmptyEditText(@NonNull EditText editText){
         boolean isEmpty;
 
         if(editText.getText().toString().equals(""))    isEmpty = true;
@@ -55,7 +57,7 @@ public class SingUpPresenter {
         return isEmpty;
     }
 
-    private boolean matchingPassword(String psw1, String psw2){
+    private boolean matchingPassword(@NonNull String psw1, String psw2){
         boolean matched;
 
         if(psw1.equals(psw2))   matched = true;

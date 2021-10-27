@@ -3,6 +3,8 @@ package it.ingsw.cinemates20_mobile.presenters.fragments;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 
@@ -30,7 +32,7 @@ public class LoginPresenter {
 
     }
 
-    private boolean isEmptyEditText(EditText editText){
+    private boolean isEmptyEditText(@NonNull EditText editText){
         boolean isEmpty;
 
         if(editText.getText().toString().equals(""))    isEmpty = true;

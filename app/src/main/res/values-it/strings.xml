@@ -23,4 +23,8 @@
     <string name="insert_surname">Cognome *</string>
     <string name="error_empty_field">Riempire tutti i campi obbligatori prima di continuare</string>
     <string name="error_not_matched_password">ATTENZIONE ! Le password inserite non corrispondono</string>
+    <string name="verification_code">Codice di Verifica</string>
+    <string name="error_verification_code_null">Inserisci il codice di verifica ricevuto per e-mail prima di continuare la registrazione</string>
+    <string name="already_have_code">Ho già un codice di veririca</string>
+    <string name="email_already_code">Inserire la e-Mail per continuare</string>
 </resources>

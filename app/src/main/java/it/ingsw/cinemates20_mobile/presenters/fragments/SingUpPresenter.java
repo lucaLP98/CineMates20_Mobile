@@ -6,11 +6,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.VerificationCodeSingUpFragment;
 
 public class SingUpPresenter {
-    private SingUpFragment singUpFragment;
+    private final SingUpFragment singUpFragment;
+
+    private final CognitoUserAttributes userAttributes = new CognitoUserAttributes();
 
     public SingUpPresenter(SingUpFragment singUpFragment){
         this.singUpFragment = singUpFragment;
@@ -26,43 +35,74 @@ public class SingUpPresenter {
         EditText newUsernameEditText = singUpFragment.getInflate().findViewById(R.id.newUsernameEditText);
         EditText newEmailEditText = singUpFragment.getInflate().findViewById(R.id.newEmailEditText);
         EditText newPasswordEditText = singUpFragment.getInflate().findViewById(R.id.newPasswordEditText);
-        EditText repeatNameEditText = singUpFragment.getInflate().findViewById(R.id.repeatNewPasswordEditText);
-        EditText newBirthDateEditText = singUpFragment.getInflate().findViewById(R.id.newBirthDateEditText);
+        EditText repeatPasswordEditText = singUpFragment.getInflate().findViewById(R.id.repeatNewPasswordEditText);
 
         //required fields check
         if(
                 isEmptyEditText(newNameEditText) || isEmptyEditText(newSurnameEditText) ||
                 isEmptyEditText(newEmailEditText) || isEmptyEditText(newPasswordEditText) ||
-                isEmptyEditText(newUsernameEditText) || isEmptyEditText(newBirthDateEditText) ||
-                isEmptyEditText(repeatNameEditText)
+                isEmptyEditText(newUsernameEditText) || isEmptyEditText(repeatPasswordEditText)
         ){
             Toast.makeText(singUpFragment.getActivity(), R.string.error_empty_field, Toast.LENGTH_SHORT).show();
             return;
         }
 
         //matching password check
-        if(!matchingPassword(newPasswordEditText.getText().toString(), repeatNameEditText.getText() .toString())){
+        if(!matchingPassword(newPasswordEditText.getText().toString(), repeatPasswordEditText.getText() .toString())){
             Toast.makeText(singUpFragment.getActivity(), R.string.error_not_matched_password, Toast.LENGTH_SHORT).show();
             return;
         }
 
+        String name = String.valueOf(newNameEditText.getText());
+        String surname = String.valueOf(newSurnameEditText.getText());
+        String nickname = String.valueOf(newUsernameEditText.getText());
+        String eMail = String.valueOf(newEmailEditText.getText());
+        String psw = String.valueOf(newPasswordEditText.getText());
+
+        userAttributes.addAttribute("given_name", name);
+        userAttributes.addAttribute("family_name", surname);
+        userAttributes.addAttribute("nickname", nickname);
+        userAttributes.addAttribute("email", eMail);
+
+        CognitoSettings congitoSettings = new CognitoSettings(singUpFragment.getActivity());
+
+        congitoSettings.getUserPool().signUpInBackground(eMail, psw, userAttributes, null,
+                new SignUpHandler() {
+                    @Override
+                    public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
+                        if(signUpConfirmationState){
+                            Log.d("singup", "Registrazione confermata");
+                        }else{
+                            Log.d("singup", "Registrazione in attesa di conferma");
+                            singUpFragment.getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new VerificationCodeSingUpFragment(eMail)).commit();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Exception exception) {
+                        Log.d("singup", "Registrazione fallita");
+                    }
+                }
+        );
+    }
+
+    public void pressAlreadyCodeButton(){
+        EditText newEmailEditText = singUpFragment.getInflate().findViewById(R.id.newEmailEditText);
+
+        if(isEmptyEditText(newEmailEditText)){
+            Toast.makeText(singUpFragment.getActivity(), R.string.email_already_code, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String eMail = String.valueOf(newEmailEditText.getText());
+        singUpFragment.getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new VerificationCodeSingUpFragment(eMail)).commit();
     }
 
     private boolean isEmptyEditText(@NonNull EditText editText){
-        boolean isEmpty;
-
-        if(editText.getText().toString().equals(""))    isEmpty = true;
-        else    isEmpty = false;
-
-        return isEmpty;
+        return editText.getText().toString().equals("");
     }
 
     private boolean matchingPassword(@NonNull String psw1, String psw2){
-        boolean matched;
-
-        if(psw1.equals(psw2))   matched = true;
-        else    matched = false;
-
-        return matched;
+        return psw1.equals(psw2);
     }
 }

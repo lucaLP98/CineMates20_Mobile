@@ -23,4 +23,8 @@
     <string name="insert_surname">Surname *</string>
     <string name="error_empty_field">Fill in all required fields before continuing</string>
     <string name="error_not_matched_password">WARNING ! The passwords entered do not match</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="error_verification_code_null">Enter the verification received via e-Mail code before continuing</string>
+    <string name="already_have_code">Already have verification code</string>
+    <string name="email_already_code">Insert e-Mail to continue</string>
 </resources>

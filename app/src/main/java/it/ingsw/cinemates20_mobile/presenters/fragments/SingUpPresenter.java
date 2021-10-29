@@ -1,10 +1,13 @@
 package it.ingsw.cinemates20_mobile.presenters.fragments;
 
+import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
@@ -70,17 +73,12 @@ public class SingUpPresenter {
                 new SignUpHandler() {
                     @Override
                     public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
-                        if(signUpConfirmationState){
-                            Log.d("singup", "Registrazione confermata");
-                        }else{
-                            Log.d("singup", "Registrazione in attesa di conferma");
-                            singUpFragment.getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new VerificationCodeSingUpFragment(eMail)).commit();
-                        }
+                        singUpFragment.getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new VerificationCodeSingUpFragment(eMail)).commit();
                     }
 
                     @Override
                     public void onFailure(Exception exception) {
-                        Log.d("singup", "Registrazione fallita");
+                        showErrorMessage(exception.getMessage());
                     }
                 }
         );
@@ -104,5 +102,18 @@ public class SingUpPresenter {
 
     private boolean matchingPassword(@NonNull String psw1, String psw2){
         return psw1.equals(psw2);
+    }
+
+    private void showErrorMessage(String errorMsg){
+        new AlertDialog.Builder(this.singUpFragment.getActivity())
+                .setTitle(R.string.error_singup_label)
+                .setMessage(errorMsg)
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 }

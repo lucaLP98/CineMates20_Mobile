@@ -1,15 +1,18 @@
 package it.ingsw.cinemates20_mobile.presenters.fragments;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.google.zxing.Result;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
@@ -44,21 +47,20 @@ public class VerificationCodePresenter {
     }
 
     private class ConfirmCodeTask extends AsyncTask<String, Void, String> {
+        private final String SUCCEDED = "Succeded";
+        private final String FAILED = "Failed";
+
         @Override
         protected String doInBackground(@NonNull String... strings){
             final String[] result = new String[1];
 
             final GenericHandler confirmationCallback = new GenericHandler() {
                 @Override
-                public void onSuccess() {
-                    result[0] = "Succeded";
-
-                    verificationCodeFragment.getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                }
+                public void onSuccess() { result[0] = SUCCEDED; }
 
                 @Override
                 public void onFailure(Exception exception) {
-                    result[0] = "Failed";
+                    result[0] = FAILED;
                 }
             };
 
@@ -68,5 +70,43 @@ public class VerificationCodePresenter {
 
             return result[0];
         };
+
+        @Override
+        protected void onPostExecute (String result){
+            if(result.equals(SUCCEDED)){
+
+                /* INSERIMENTO NUOVO UTENTE IN DB */
+
+                showSuccessMessage();
+            }else{
+                showErrorMessage();
+            }
+        }
+    }
+
+    private void showSuccessMessage(){
+        new AlertDialog.Builder(this.verificationCodeFragment.getActivity())
+                .setTitle(R.string.success_singup_label)
+                .setMessage(R.string.success_singup_msg)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        verificationCodeFragment.getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
+                })
+                .show();
+    }
+
+    private void showErrorMessage(){
+        new AlertDialog.Builder(this.verificationCodeFragment.getActivity())
+                .setTitle(R.string.error_singup_label)
+                .setMessage(R.string.error_verification_code)
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 }

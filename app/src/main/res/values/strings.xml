@@ -27,4 +27,8 @@
     <string name="error_verification_code_null">Enter the verification received via e-Mail code before continuing</string>
     <string name="already_have_code">Already have verification code</string>
     <string name="email_already_code">Insert e-Mail to continue</string>
+    <string name="success_singup_label">SING-UP SUCCESS</string>
+    <string name="success_singup_msg">Sing-Up was successful! You will be redirected to the main login page</string>
+    <string name="error_singup_label">SING-UP ERROR</string>
+    <string name="error_verification_code">The verification code inserted is wrong!</string>
 </resources>

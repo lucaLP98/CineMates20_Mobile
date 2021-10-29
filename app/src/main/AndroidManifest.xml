@@ -13,9 +13,11 @@
         android:theme="@style/Theme.CineMates20_Mobile">
         <activity
             android:name=".views.activities.HomeActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".views.activities.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

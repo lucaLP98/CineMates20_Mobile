@@ -27,4 +27,8 @@
     <string name="error_verification_code_null">Inserisci il codice di verifica ricevuto per e-mail prima di continuare la registrazione</string>
     <string name="already_have_code">Ho già un codice di veririca</string>
     <string name="email_already_code">Inserire la e-Mail per continuare</string>
+    <string name="success_singup_label">SUCCESSO REGISTRAZIONE</string>
+    <string name="success_singup_msg">Registrazione avvenuta con successo! Verrai reindirizzato alla pagina di accesso principale</string>
+    <string name="error_singup_label">ERRORE REGISTRAZIONE</string>
+    <string name="error_verification_code">Il codice di verifica inserito è sbagliato!</string>
 </resources>

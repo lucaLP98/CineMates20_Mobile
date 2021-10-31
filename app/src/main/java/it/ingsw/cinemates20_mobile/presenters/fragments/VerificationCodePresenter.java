@@ -1,10 +1,8 @@
 package it.ingsw.cinemates20_mobile.presenters.fragments;
 
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -12,29 +10,28 @@ import androidx.fragment.app.FragmentManager;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
-import com.google.zxing.Result;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
-import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.VerificationCodeSingUpFragment;
 
-public class VerificationCodePresenter {
-    private VerificationCodeSingUpFragment verificationCodeFragment;
-    private String eMail;
-    private String verificationCode;
+public class VerificationCodePresenter extends FragmentPresenter {
+    private final String eMail;
 
-    public VerificationCodePresenter(VerificationCodeSingUpFragment verificationCodeFragment, String eMail){
-        this.verificationCodeFragment = verificationCodeFragment;
-        this.verificationCode = verificationCode;
+    private final EditText codeEditText;
+
+    public VerificationCodePresenter(VerificationCodeSingUpFragment verificationCodeFragment, View inflate, String eMail){
+        super(verificationCodeFragment);
+
+        codeEditText = inflate.findViewById(R.id.verificationCodeEditText);
+
         this.eMail = eMail;
     }
 
     public void clickConfirmRegistrazion(){
-        EditText codeEditText = verificationCodeFragment.getInflate().findViewById(R.id.verificationCodeEditText);
 
         if(isEmptyEditText(codeEditText)){
-            Toast.makeText(verificationCodeFragment.getActivity(), R.string.error_verification_code_null, Toast.LENGTH_SHORT).show();
+            showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_verification_code_null));
             return;
         }
 
@@ -64,12 +61,12 @@ public class VerificationCodePresenter {
                 }
             };
 
-            CognitoSettings cognitoSettings = new CognitoSettings(verificationCodeFragment.getActivity());
+            CognitoSettings cognitoSettings = new CognitoSettings(getContext());
             CognitoUser thisUser = cognitoSettings.getUserPool().getUser(strings[1]);
             thisUser.confirmSignUp(strings[0], false, confirmationCallback);
 
             return result[0];
-        };
+        }
 
         @Override
         protected void onPostExecute (String result){
@@ -77,36 +74,18 @@ public class VerificationCodePresenter {
 
                 /* INSERIMENTO NUOVO UTENTE IN DB */
 
-                showSuccessMessage();
+                codeVerificationSuccess();
             }else{
-                showErrorMessage();
+                showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_verification_code));
             }
         }
     }
 
-    private void showSuccessMessage(){
-        new AlertDialog.Builder(this.verificationCodeFragment.getActivity())
+    private void codeVerificationSuccess(){
+        new AlertDialog.Builder(getContext())
                 .setTitle(R.string.success_singup_label)
                 .setMessage(R.string.success_singup_msg)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        verificationCodeFragment.getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    }
-                })
-                .show();
-    }
-
-    private void showErrorMessage(){
-        new AlertDialog.Builder(this.verificationCodeFragment.getActivity())
-                .setTitle(R.string.error_singup_label)
-                .setMessage(R.string.error_verification_code)
-                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setPositiveButton("OK", (dialog, which) -> getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE))
                 .show();
     }
 }

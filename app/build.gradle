@@ -39,8 +39,6 @@ dependencies {
         exclude group:'commons-logging', module: 'commons-logging'
     }
 
-    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
-
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
     implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.29'
     implementation 'com.amazonaws:aws-android-sdk-core:2.6.29'

@@ -29,10 +29,10 @@ public class VerificationCodeSingUpFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        verificationCodePresenter = new VerificationCodePresenter(this, userEmail);
-
         // Inflate the layout for this fragment
         inflate = inflater.inflate(R.layout.fragment_verification_code_sing_up, container, false);
+
+        verificationCodePresenter = new VerificationCodePresenter(this, inflate, userEmail);
 
         inflate.findViewById(R.id.singupVerificationCodeButton).setOnClickListener( v -> verificationCodePresenter.clickConfirmRegistrazion());
 

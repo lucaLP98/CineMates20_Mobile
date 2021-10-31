@@ -31,4 +31,5 @@
     <string name="success_singup_msg">Registrazione avvenuta con successo! Verrai reindirizzato alla pagina di accesso principale</string>
     <string name="error_singup_label">ERRORE REGISTRAZIONE</string>
     <string name="error_verification_code">Il codice di verifica inserito è sbagliato!</string>
+    <string name="error_singin_label">ERRORE ACCESSO</string>
 </resources>

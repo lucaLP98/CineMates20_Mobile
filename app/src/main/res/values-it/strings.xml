@@ -32,4 +32,8 @@
     <string name="error_singup_label">ERRORE REGISTRAZIONE</string>
     <string name="error_verification_code">Il codice di verifica inserito è sbagliato!</string>
     <string name="error_singin_label">ERRORE ACCESSO</string>
+    <string name="send_new_verification_code">Invia nuovo codice</string>
+    <string name="resend_verification_code_success_label">CODICE INVIATO CON SUCCESSO</string>
+    <string name="resend_verification_code_success_msg">Un nuovo codice di verifica è stato mandato all\'indirizzo e-Mail indicato in fase di registrazione.</string>
+    <string name="resend_verification_code_error_label">ERRORE INVIO NUOVO CODICE</string>
 </resources>

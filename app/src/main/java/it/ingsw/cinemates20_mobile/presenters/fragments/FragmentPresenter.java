@@ -24,6 +24,7 @@ public abstract class FragmentPresenter {
     public void showErrorMessage(String title, String errorMsg){
         new AlertDialog.Builder(getContext())
                 .setTitle(title)
+                .setIcon(R.drawable.ic_baseline_error_outline_24)
                 .setMessage(errorMsg)
                 .setNegativeButton("OK", (dialog, which) -> {})
                 .show();
@@ -32,6 +33,7 @@ public abstract class FragmentPresenter {
     public void showSuccessMessage(String title, String successMsg){
         new AlertDialog.Builder(getContext())
                 .setTitle(title)
+                .setIcon(R.drawable.ic_baseline_done_outline_24)
                 .setMessage(successMsg)
                 .setPositiveButton("OK", (dialog, which) -> {})
                 .show();

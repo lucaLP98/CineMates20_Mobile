@@ -34,7 +34,8 @@ public class VerificationCodeSingUpFragment extends Fragment {
 
         verificationCodePresenter = new VerificationCodePresenter(this, inflate, userEmail);
 
-        inflate.findViewById(R.id.singupVerificationCodeButton).setOnClickListener( v -> verificationCodePresenter.clickConfirmRegistrazion());
+        inflate.findViewById(R.id.singupVerificationCodeButton).setOnClickListener( v -> verificationCodePresenter.pressConfirmRegistrazion());
+        inflate.findViewById(R.id.resendVerificationCodeButton).setOnClickListener( v -> verificationCodePresenter.pressResendVerificationCodeButton());
 
         return inflate;
     }

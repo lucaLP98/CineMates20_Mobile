@@ -32,4 +32,8 @@
     <string name="error_singup_label">SING-UP ERROR</string>
     <string name="error_verification_code">The verification code inserted is wrong!</string>
     <string name="error_singin_label">LOG-IN ERROR</string>
+    <string name="send_new_verification_code">Resend verification code</string>
+    <string name="resend_verification_code_success_label">CODE SENT WITH SUCCESS</string>
+    <string name="resend_verification_code_success_msg">A new verification code has been sent to the e-mail address indicated during registration.</string>
+    <string name="resend_verification_code_error_label">SENDING NEW CODE ERROR</string>
 </resources>

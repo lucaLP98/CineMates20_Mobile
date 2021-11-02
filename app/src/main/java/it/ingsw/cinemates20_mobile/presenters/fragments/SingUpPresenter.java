@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
@@ -56,8 +57,12 @@ public class SingUpPresenter extends FragmentPresenter{
             return;
         }
 
-        //do user sing-up
-        singUpUser();
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.privacy_policy_label)
+                .setMessage(R.string.privacy_policy)
+                .setPositiveButton(R.string.accept, (dialog, which) -> {singUpUser();})
+                .setNegativeButton(R.string.refuse, (dialog, which) -> {})
+                .show();
     }
 
     private void singUpUser(){

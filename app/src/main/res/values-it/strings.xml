@@ -36,4 +36,15 @@
     <string name="resend_verification_code_success_label">CODICE INVIATO CON SUCCESSO</string>
     <string name="resend_verification_code_success_msg">Un nuovo codice di verifica è stato mandato all\'indirizzo e-Mail indicato in fase di registrazione.</string>
     <string name="resend_verification_code_error_label">ERRORE INVIO NUOVO CODICE</string>
+    <string name="accept">Accetto</string>
+    <string name="refuse">Rifiuta</string>
+    <string name="privacy_policy_label">Informativa sulla privacy</string>
+    <string name="privacy_policy">Effettuando la registrazione alla piattaforma CineMates20, accetti la nostra informativa sulla privacy, conforme al GDPR, in materia di trattamento dei dati forniti.</string>
+    <string name="movie_label">Film</string>
+    <string name="users_label">Utenti</string>
+    <string name="notifications_label">Notifiche</string>
+    <string name="profile_label">Profilo</string>
+    <string name="denied_access_label">Accesso Negato</string>
+    <string name="denied_access">Questa funzionalità è disponibile solo per utenti autenticati.</string>
+    <string name="continue_not_uthenticated">Continua senza autenticazione</string>
 </resources>

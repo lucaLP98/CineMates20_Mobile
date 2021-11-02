@@ -1,6 +1,7 @@
 package it.ingsw.cinemates20_mobile.presenters.fragments;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -16,6 +17,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
@@ -47,9 +49,9 @@ public class LoginPresenter extends FragmentPresenter{
 
     private void loginUser(String eMail){
         CognitoSettings cognitoSettings = new CognitoSettings(getContext());
-        CognitoUser thisUser = cognitoSettings.getUserPool().getUser(eMail);
+        CognitoUser user = cognitoSettings.getUserPool().getUser(eMail);
 
-        thisUser.getSessionInBackground(authenticationHandler);
+        user.getSessionInBackground(authenticationHandler);
     }
 
     private boolean isEmptyEditText(@NonNull EditText editText){
@@ -60,7 +62,18 @@ public class LoginPresenter extends FragmentPresenter{
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
             Intent loginIntent = new Intent(getContext(), HomeActivity.class);
-            loginIntent.putExtra("loginToken", userSession.getIdToken().toString());
+
+            User.setUserAuthenticated(true);
+
+            /*
+                CREARE INSTANZA SINGLETON AD UTENTE, ACCEDERE AD INFORMAZIONI UTENTE SU DB,
+                SALVARE INFORMAZIONI TOKEN IN OGGETTO UTENTE
+                Accedere all'utente dai vari presenter grazie al metodo statico GetInstance in user
+                User deve essere un singleton
+
+                Prelevare dati utente all'atto di login
+             */
+
             getContext().startActivity(loginIntent);
         }
 
@@ -83,7 +96,7 @@ public class LoginPresenter extends FragmentPresenter{
 
         @Override
         public void onFailure(Exception exception) {
-            showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), exception.getMessage());
+            showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), exception.getLocalizedMessage());
         }
     };
 }

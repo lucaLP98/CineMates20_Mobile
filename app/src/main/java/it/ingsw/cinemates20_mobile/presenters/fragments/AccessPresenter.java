@@ -1,27 +1,35 @@
 package it.ingsw.cinemates20_mobile.presenters.fragments;
 
+import android.content.Intent;
+import android.view.View;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.AccessFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 
-public class AccessPresenter {
-    private final AccessFragment accessFragment;
-    private final FragmentManager fragmentManager;
+public class AccessPresenter extends FragmentPresenter{
 
     public AccessPresenter(AccessFragment accessFragment){
-        this.accessFragment = accessFragment;
-        fragmentManager = accessFragment.getParentFragmentManager();
+        super(accessFragment);
     }
 
     public void pressLoginButton(){
-        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new LoginFragment()).commit();
+        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new LoginFragment()).commit();
     }
 
     public void pressSingUpButton(){
-        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new SingUpFragment()).commit();
+        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new SingUpFragment()).commit();
+    }
+
+    public void pressSingInLater(){
+        User.setUserAuthenticated(false);
+        Intent goToHomePageIntent = new Intent(getContext(), HomeActivity.class);
+        getContext().startActivity(goToHomePageIntent);
     }
 }

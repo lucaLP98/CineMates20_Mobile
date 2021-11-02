@@ -28,6 +28,7 @@ public class AccessFragment extends Fragment {
 
         inflate.findViewById(R.id.goToLoginButton).setOnClickListener( v -> accessPresenter.pressLoginButton());
         inflate.findViewById(R.id.goToSingUpButton).setOnClickListener( v -> accessPresenter.pressSingUpButton());
+        inflate.findViewById(R.id.loginLaterTextView).setOnClickListener( v -> accessPresenter.pressSingInLater());
 
         return inflate;
     }

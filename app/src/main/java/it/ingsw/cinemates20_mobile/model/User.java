@@ -3,6 +3,8 @@ package it.ingsw.cinemates20_mobile.model;
 import android.net.Uri;
 
 public class User {
+    private static boolean authenticated;
+
     private String name;
     private String surname;
     private String username;
@@ -27,5 +29,13 @@ public class User {
 
     public void setProfileImage(Uri newImage){
 
+    }
+
+    public static void setUserAuthenticated(boolean login){
+        User.authenticated = login;
+    }
+
+    public static boolean getUserAuthenticated(){
+        return User.authenticated;
     }
 }

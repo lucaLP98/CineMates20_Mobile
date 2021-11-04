@@ -22,7 +22,17 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goToLoginButton"
-            app:layout_constraintVertical_bias="0.114" />
+            app:layout_constraintVertical_bias="0.11" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/loginLaterTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fb_button"
+            app:layout_constraintVertical_bias="0.283" />
 
         <android.widget.Button
             android:id="@+id/goToLoginButton"
@@ -36,7 +46,7 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.204" />
+            app:layout_constraintVertical_bias="0.19" />
 
         <TextView
             android:id="@+id/loginLaterTextView"
@@ -63,14 +73,14 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:layout_constraintVertical_bias="0.275"
+            app:layout_constraintVertical_bias="0.195"
             tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="300dp"
             android:layout_height="1dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="68dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"

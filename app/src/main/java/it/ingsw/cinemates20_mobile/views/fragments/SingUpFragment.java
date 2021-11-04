@@ -28,7 +28,7 @@ public class SingUpFragment extends Fragment {
         singUpPresenter = new SingUpPresenter(this, inflate);
 
         inflate.findViewById(R.id.cancelSingUpButton).setOnClickListener( v -> singUpPresenter.pressCancelButton());
-        inflate.findViewById(R.id.singupButton).setOnClickListener( v -> singUpPresenter.pressSingUpButton());
+        inflate.findViewById(R.id.nextButton).setOnClickListener( v -> singUpPresenter.pressNextButton());
         inflate.findViewById(R.id.alreadyCodeButton).setOnClickListener( v -> singUpPresenter.pressAlreadyCodeButton());
 
         return inflate;

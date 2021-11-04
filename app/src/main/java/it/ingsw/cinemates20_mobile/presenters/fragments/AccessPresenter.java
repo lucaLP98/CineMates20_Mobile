@@ -3,9 +3,6 @@ package it.ingsw.cinemates20_mobile.presenters.fragments;
 import android.content.Intent;
 import android.view.View;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
@@ -15,7 +12,7 @@ import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 
 public class AccessPresenter extends FragmentPresenter{
 
-    public AccessPresenter(AccessFragment accessFragment){
+    public AccessPresenter(AccessFragment accessFragment, View inflate){
         super(accessFragment);
     }
 

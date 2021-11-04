@@ -47,4 +47,10 @@
     <string name="denied_access_label">Denied access</string>
     <string name="denied_access">This feature is only available for authenticated users.</string>
     <string name="continue_not_uthenticated">Continue without authentication</string>
+    <string name="next">Next</string>
+    <string name="passwrod_rule">The password must be at least 8 characters and must contain: at least one uppercase, at least one lowercase, at least one special character</string>
+    <string name="confirm">Confirm</string>
+    
+    <string name="facebook_app_id">3075965812643488</string>
+    <string name="fb_login_protocol_scheme">fb3075965812643488</string>
 </resources>

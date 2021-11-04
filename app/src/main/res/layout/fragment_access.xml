@@ -11,23 +11,23 @@
         android:layout_height="match_parent">
 
         <android.widget.Button
-            android:id="@+id/facebookLoginButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
+            android:id="@+id/goToSingUpButton"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_background"
-            android:text="@string/facebook_login"
+            android:text="@string/singup"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.642" />
+            app:layout_constraintTop_toBottomOf="@+id/goToLoginButton"
+            app:layout_constraintVertical_bias="0.114" />
 
         <android.widget.Button
             android:id="@+id/goToLoginButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_background"
             android:text="@string/login"
             android:textColor="@color/white"
@@ -36,36 +36,7 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.268" />
-
-        <android.widget.Button
-            android:id="@+id/goToSingUpButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
-            android:background="@drawable/button_background"
-            android:text="@string/singup"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.393" />
-
-        <android.widget.Button
-            android:id="@+id/googleLoginButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
-            android:background="@drawable/button_background"
-            android:text="@string/google_login"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.517" />
-
+            app:layout_constraintVertical_bias="0.204" />
 
         <TextView
             android:id="@+id/loginLaterTextView"
@@ -76,10 +47,34 @@
             android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintHorizontal_bias="0.47"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.917" />
+            app:layout_constraintVertical_bias="0.977" />
 
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_fb_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintVertical_bias="0.275"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="72dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goToSingUpButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

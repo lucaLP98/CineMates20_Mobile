@@ -7,17 +7,17 @@
     tools:context=".views.activities.MainActivity">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/toolbar_main_activity"
         layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/mainActivityContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/include"
+        android:layout_below="@id/toolbar_main_activity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main_activity"
         app:layout_constraintVertical_bias="1.0" />
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package it.ingsw.cinemates20_mobile.presenters.fragments;
+package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
 import android.view.View;

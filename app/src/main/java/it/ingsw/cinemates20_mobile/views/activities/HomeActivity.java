@@ -13,21 +13,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
-import it.ingsw.cinemates20_mobile.presenters.activities.HomePresenter;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.NotificationsFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.UsersFragment;
 
 public class HomeActivity extends AppCompatActivity {
-    private HomePresenter homePresenter;
-
-    private Fragment filmFragment = new FilmFragment();
-    private Fragment notificationsFragment = new NotificationsFragment();
-    private Fragment usersFragment = new UsersFragment();
-    private Fragment profileFragment = new ProfileFragment();
+    private final Fragment filmFragment;
+    private final Fragment notificationsFragment;
+    private final Fragment usersFragment;
+    private final Fragment profileFragment;
 
     private BottomNavigationView bottomNavView;
+
+    public HomeActivity(){
+        super();
+
+        filmFragment = new FilmFragment();
+        notificationsFragment = new NotificationsFragment();
+        usersFragment = new UsersFragment();
+        profileFragment = new ProfileFragment();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +48,6 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment tmpFrag = null;
-                String fragmentTag = null;
-
                 switch(item.getItemId()){
                     case R.id.nav_movie:
                         getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, filmFragment, FilmFragment.filmFragmentLabel).commit();

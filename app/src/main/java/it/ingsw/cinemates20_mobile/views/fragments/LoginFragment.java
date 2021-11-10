@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.presenters.fragments.LoginPresenter;
+import it.ingsw.cinemates20_mobile.presenters.LoginPresenter;
 
 public class LoginFragment extends Fragment {
     private LoginPresenter loginPresenter;
@@ -28,6 +28,7 @@ public class LoginFragment extends Fragment {
 
         inflate.findViewById(R.id.cancelLoginButton).setOnClickListener( v -> loginPresenter.pressCancelButton());
         inflate.findViewById(R.id.loginButton).setOnClickListener( v -> loginPresenter.pressLoginButton());
+        inflate.findViewById(R.id.forgotPasswordTextView).setOnClickListener( v -> loginPresenter.pressForgottenPassword());
 
         return inflate;
     }

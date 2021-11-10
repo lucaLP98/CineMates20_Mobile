@@ -50,6 +50,16 @@
     <string name="next">Avanti</string>
     <string name="passwrod_rule">La password deve essere almeno 8 caratteri e deve contenere: almeno una maiuscola, almeno una minuscola, almeno un carattere speciale</string>
     <string name="confirm">Conferma</string>
+    <string name="back">Indietro</string>
+    <string name="filters">Filtri</string>
+    <string name="search">Cerca</string>
+    <string name="recovery_password_label">RECUPERA PASSWORD</string>
+    <string name="recovery_password_error_label">ERRORE RECUPERA PASSWORD</string>
+    <string name="new_password">Nuova Password *</string>
+    <string name="reset_password">Ripristina password</string>
+    <string name="send_verification_code_forgot_password_success_msg">Un codice di verifica è stato mandato all\'indirizzo e-Mail indicato. Inserire tale codice nella pagina successiva per ripristinare la propria password</string>
+    <string name="recovery_password_success_label">Password ripristinata</string>
+    <string name="recovery_password_success_msg">La password è stata ripristinata con successo! Effettua il login per iniziare a scoprire i film.</string>
 
     <string name="facebook_app_id">3075965812643488</string>
     <string name="fb_login_protocol_scheme">fb3075965812643488</string>

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.presenters.fragments.VerificationCodePresenter;
+import it.ingsw.cinemates20_mobile.presenters.VerificationCodePresenter;
 
 public class VerificationCodeSingUpFragment extends Fragment {
     private View inflate;

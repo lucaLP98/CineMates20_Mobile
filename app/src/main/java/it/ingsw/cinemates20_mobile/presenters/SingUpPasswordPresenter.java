@@ -1,11 +1,10 @@
-package it.ingsw.cinemates20_mobile.presenters.fragments;
+package it.ingsw.cinemates20_mobile.presenters;
 
 import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
@@ -52,7 +51,7 @@ public class SingUpPasswordPresenter extends FragmentPresenter{
         }
 
         //matching password check
-        if(!matchingPassword(newPasswordEditText.getText().toString(), repeatPasswordEditText.getText() .toString())){
+        if(!matchingPassword(newPasswordEditText.getText().toString(), repeatPasswordEditText.getText().toString())){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_not_matched_password));
             return;
         }
@@ -63,10 +62,6 @@ public class SingUpPasswordPresenter extends FragmentPresenter{
                 .setPositiveButton(R.string.accept, (dialog, which) -> singUpUser())
                 .setNegativeButton(R.string.refuse, (dialog, which) -> {})
                 .show();
-    }
-
-    private boolean isEmptyEditText(@NonNull EditText editText){
-        return editText.getText().toString().equals("");
     }
 
     private boolean matchingPassword(@NonNull String psw1, String psw2){

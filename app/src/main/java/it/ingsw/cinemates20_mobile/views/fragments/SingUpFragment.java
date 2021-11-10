@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.presenters.fragments.SingUpPresenter;
+import it.ingsw.cinemates20_mobile.presenters.SingUpPresenter;
 
 public class SingUpFragment extends Fragment {
     private SingUpPresenter singUpPresenter;

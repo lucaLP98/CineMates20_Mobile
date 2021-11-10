@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.presenters.fragments.SingUpPasswordPresenter;
+import it.ingsw.cinemates20_mobile.presenters.SingUpPasswordPresenter;
 
 public class SingUpPasswordFragment extends Fragment {
     private final String name;
@@ -38,7 +38,7 @@ public class SingUpPasswordFragment extends Fragment {
 
         singUpPasswordPresenter = new SingUpPasswordPresenter(this, inflate, name, surname, username, eMail);
 
-        inflate.findViewById(R.id.cancelSingUpButton2).setOnClickListener( v -> singUpPasswordPresenter.pressCancelButton());
+        inflate.findViewById(R.id.backSingUpPasswordButton).setOnClickListener( v -> singUpPasswordPresenter.pressCancelButton());
         inflate.findViewById(R.id.confirmButton).setOnClickListener( v -> singUpPasswordPresenter.pressConfirmButton());
 
         return inflate;

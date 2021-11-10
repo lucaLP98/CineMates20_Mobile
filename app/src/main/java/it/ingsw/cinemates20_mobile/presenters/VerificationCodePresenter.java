@@ -1,4 +1,4 @@
-package it.ingsw.cinemates20_mobile.presenters.fragments;
+package it.ingsw.cinemates20_mobile.presenters;
 
 import android.os.AsyncTask;
 import android.view.View;
@@ -41,10 +41,6 @@ public class VerificationCodePresenter extends FragmentPresenter {
         new ConfirmCodeTask().execute(code, eMail);
     }
 
-    private boolean isEmptyEditText(@NonNull EditText editText){
-        return editText.getText().toString().equals("");
-    }
-
     private class ConfirmCodeTask extends AsyncTask<String, Void, String> {
         private final String SUCCEDED = "Succeded";
         private final String FAILED = "Failed";
@@ -74,7 +70,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
         protected void onPostExecute (String result){
             if(result.equals(SUCCEDED)){
 
-                /* INSERIMENTO NUOVO UTENTE IN DB */
+                /* INSERIMENTO NUOVO UTENTE IN DB - fare con lambda da back-end direttamente da cognito*/
 
                 codeVerificationSuccess();
             }else{

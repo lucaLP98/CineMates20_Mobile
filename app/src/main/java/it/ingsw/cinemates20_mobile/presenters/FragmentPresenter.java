@@ -1,7 +1,9 @@
-package it.ingsw.cinemates20_mobile.presenters.fragments;
+package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Context;
+import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -37,5 +39,9 @@ public abstract class FragmentPresenter {
                 .setMessage(successMsg)
                 .setPositiveButton("OK", (dialog, which) -> {})
                 .show();
+    }
+
+    public boolean isEmptyEditText(@NonNull EditText editText){
+        return String.valueOf(editText.getText()).equals("");
     }
 }

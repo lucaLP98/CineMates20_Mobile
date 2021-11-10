@@ -50,7 +50,17 @@
     <string name="next">Next</string>
     <string name="passwrod_rule">The password must be at least 8 characters and must contain: at least one uppercase, at least one lowercase, at least one special character</string>
     <string name="confirm">Confirm</string>
-    
+    <string name="back">Back</string>
+    <string name="filters">Filters</string>
+    <string name="search">Search</string>
+    <string name="recovery_password_label">PASSWORD RECOVERY</string>
+    <string name="recovery_password_error_label">PASSWORD RECOVERY ERROR</string>
+    <string name="new_password">New Password *</string>
+    <string name="reset_password">Reset password</string>
+    <string name="send_verification_code_forgot_password_success_msg">A verification code has been sent to the indicated e-mail address. Enter this code on the next page to reset your password</string>
+    <string name="recovery_password_success_label">Password reset</string>
+    <string name="recovery_password_success_msg">The password was successfully reset! Please login to start discovering movies.</string>
+
     <string name="facebook_app_id">3075965812643488</string>
     <string name="fb_login_protocol_scheme">fb3075965812643488</string>
 </resources>

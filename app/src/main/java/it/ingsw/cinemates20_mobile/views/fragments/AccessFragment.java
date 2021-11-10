@@ -17,7 +17,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.presenters.fragments.AccessPresenter;
+import it.ingsw.cinemates20_mobile.presenters.AccessPresenter;
 
 public class AccessFragment extends Fragment {
     private final int loginWithFacebook = 1001;
@@ -55,7 +55,6 @@ public class AccessFragment extends Fragment {
         inflate.findViewById(R.id.goToSingUpButton).setOnClickListener( v ->{loginType = singupWithCognito; accessPresenter.pressSingUpButton();});
         inflate.findViewById(R.id.loginLaterTextView).setOnClickListener( v ->{loginType = noLogin; accessPresenter.pressSingInLater();});
 
-
         facebookLoginButton = inflate.findViewById(R.id.login_fb_button);
         facebookLoginButton.setOnClickListener( v -> pressLoginWithFacebook());
 
@@ -63,7 +62,7 @@ public class AccessFragment extends Fragment {
     }
 
     private void pressLoginWithFacebook(){
-        loginType = loginWithFacebook;
+    /*    loginType = loginWithFacebook;
 
         facebookLoginButton.setPermissions("email");
         facebookLoginButton.setFragment(this);
@@ -71,7 +70,7 @@ public class AccessFragment extends Fragment {
         facebookLoginButton.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d("facebook", "Successo login, token : " + loginResult.getAccessToken().getToken());
+                Log.d("facebook", "Successo login");
             }
 
             @Override
@@ -83,17 +82,22 @@ public class AccessFragment extends Fragment {
             public void onError(FacebookException exception) {
                 Log.d("facebook", "Errore login : " + exception.getLocalizedMessage());
             }
-        });
+        });*/
+    }
+
+    private void pressLoginWithGoogle(){
+        loginType = loginWithGoogle;
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(loginType == loginWithFacebook)
+    /*    if(loginType == loginWithFacebook)
             facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         else if(loginType == loginWithGoogle){
 
         }
-
+*/
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

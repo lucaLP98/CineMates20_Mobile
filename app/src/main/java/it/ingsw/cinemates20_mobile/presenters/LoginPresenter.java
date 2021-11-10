@@ -1,11 +1,11 @@
-package it.ingsw.cinemates20_mobile.presenters.fragments;
+package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -13,14 +13,17 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ForgotPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.RecoveryPasswordFragment;
 
 public class LoginPresenter extends FragmentPresenter{
     private final EditText emailEditText;
@@ -54,17 +57,9 @@ public class LoginPresenter extends FragmentPresenter{
         user.getSessionInBackground(authenticationHandler);
     }
 
-    private boolean isEmptyEditText(@NonNull EditText editText){
-        return String.valueOf(editText.getText()).equals("");
-    }
-
     private final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            Intent loginIntent = new Intent(getContext(), HomeActivity.class);
-
-            User.setUserAuthenticated(true);
-
             /*
                 CREARE INSTANZA SINGLETON AD UTENTE, ACCEDERE AD INFORMAZIONI UTENTE SU DB,
                 SALVARE INFORMAZIONI TOKEN IN OGGETTO UTENTE
@@ -73,7 +68,9 @@ public class LoginPresenter extends FragmentPresenter{
 
                 Prelevare dati utente all'atto di login
              */
+            User.setUserAuthenticated(true);
 
+            Intent loginIntent = new Intent(getContext(), HomeActivity.class);
             getContext().startActivity(loginIntent);
         }
 
@@ -97,6 +94,41 @@ public class LoginPresenter extends FragmentPresenter{
         @Override
         public void onFailure(Exception exception) {
             showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), exception.getLocalizedMessage());
+        }
+    };
+
+    public void pressForgottenPassword(){
+        if(isEmptyEditText(emailEditText)){
+            showErrorMessage(getContext().getResources().getString(R.string.recovery_password_error_label), getContext().getResources().getString(R.string.email_already_code));
+            return;
+        }
+
+        CognitoSettings cognito = new CognitoSettings(getContext());
+        CognitoUser user = cognito.getUserPool().getUser(String.valueOf(emailEditText.getText()));
+
+        user.forgotPasswordInBackground(forgotPasswordCallback);
+    }
+
+    private final ForgotPasswordHandler forgotPasswordCallback = new ForgotPasswordHandler() {
+        private ForgotPasswordContinuation continuation;
+
+        @Override
+        public void onSuccess() {
+            showSuccessMessage(getContext().getResources().getString(R.string.recovery_password_success_label), getContext().getResources().getString(R.string.recovery_password_success_msg));
+            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
+        @Override
+        public void getResetCode(ForgotPasswordContinuation continuation) {
+            this.continuation = continuation;
+
+            showSuccessMessage(getContext().getResources().getString(R.string.resend_verification_code_success_label), getContext().getResources().getString(R.string.send_verification_code_forgot_password_success_msg));
+            getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new RecoveryPasswordFragment(continuation)).commit();
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            showErrorMessage(getContext().getResources().getString(R.string.recovery_password_error_label), exception.getLocalizedMessage());
         }
     };
 }

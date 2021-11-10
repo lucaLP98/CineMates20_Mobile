@@ -1,4 +1,4 @@
-package it.ingsw.cinemates20_mobile.presenters.fragments;
+package it.ingsw.cinemates20_mobile.presenters;
 
 import android.view.View;
 import android.widget.EditText;
@@ -52,10 +52,6 @@ public class SingUpPresenter extends FragmentPresenter{
         SingUpPasswordFragment singUpPasswordFragment = new SingUpPasswordFragment(name, surname, eMail, nickname);
 
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, singUpPasswordFragment).commit();
-    }
-
-    private boolean isEmptyEditText(@NonNull EditText editText){
-        return editText.getText().toString().equals("");
     }
 
     public void pressAlreadyCodeButton(){

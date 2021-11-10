@@ -13,8 +13,8 @@ public class CognitoSettings {
 
     private Context context;
 
-    public CognitoSettings(Context cont){
-        this.context = cont;
+    public CognitoSettings(Context context){
+        this.context = context;
     }
 
     public String getUserPoolID(){

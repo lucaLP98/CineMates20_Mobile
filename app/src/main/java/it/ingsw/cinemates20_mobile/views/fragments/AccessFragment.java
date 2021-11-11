@@ -20,11 +20,6 @@ import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.AccessPresenter;
 
 public class AccessFragment extends Fragment {
-    private final int loginWithFacebook = 1001;
-    private final int loginWithGoogle = 1002;
-    private final int loginWithCognito = 1003;
-    private final int singupWithCognito = 1004;
-    private final int noLogin = 1005;
 
     private AccessPresenter accessPresenter;
 
@@ -51,18 +46,17 @@ public class AccessFragment extends Fragment {
 
         accessPresenter = new AccessPresenter(this, inflate);
 
-        inflate.findViewById(R.id.goToLoginButton).setOnClickListener( v ->{ loginType = loginWithCognito; accessPresenter.pressLoginButton();});
-        inflate.findViewById(R.id.goToSingUpButton).setOnClickListener( v ->{loginType = singupWithCognito; accessPresenter.pressSingUpButton();});
-        inflate.findViewById(R.id.loginLaterTextView).setOnClickListener( v ->{loginType = noLogin; accessPresenter.pressSingInLater();});
-
+        inflate.findViewById(R.id.goToLoginButton).setOnClickListener( v ->{ accessPresenter.pressLoginButton();});
+        inflate.findViewById(R.id.goToSingUpButton).setOnClickListener( v ->{accessPresenter.pressSingUpButton();});
+        inflate.findViewById(R.id.loginLaterTextView).setOnClickListener( v ->{accessPresenter.pressSingInLater();});
+/*
         facebookLoginButton = inflate.findViewById(R.id.login_fb_button);
         facebookLoginButton.setOnClickListener( v -> pressLoginWithFacebook());
-
+*/
         return inflate;
     }
-
+/*
     private void pressLoginWithFacebook(){
-    /*    loginType = loginWithFacebook;
 
         facebookLoginButton.setPermissions("email");
         facebookLoginButton.setFragment(this);
@@ -70,34 +64,24 @@ public class AccessFragment extends Fragment {
         facebookLoginButton.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d("facebook", "Successo login");
+                Log.d("facebooklogin", "Successo login, user ID : " + loginResult.getAccessToken().getUserId());
             }
 
             @Override
             public void onCancel() {
-                Log.d("facebook", "cancello login");
+                Log.d("facebooklogin", "cancello login");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Log.d("facebook", "Errore login : " + exception.getLocalizedMessage());
+                Log.d("facebooklogin", "Errore login : " + exception.getLocalizedMessage());
             }
-        });*/
-    }
-
-    private void pressLoginWithGoogle(){
-        loginType = loginWithGoogle;
-
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    /*    if(loginType == loginWithFacebook)
-            facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-        else if(loginType == loginWithGoogle){
-
-        }
-*/
+        facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 }

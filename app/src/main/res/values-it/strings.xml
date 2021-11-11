@@ -60,7 +60,4 @@
     <string name="send_verification_code_forgot_password_success_msg">Un codice di verifica è stato mandato all\'indirizzo e-Mail indicato. Inserire tale codice nella pagina successiva per ripristinare la propria password</string>
     <string name="recovery_password_success_label">Password ripristinata</string>
     <string name="recovery_password_success_msg">La password è stata ripristinata con successo! Effettua il login per iniziare a scoprire i film.</string>
-
-    <string name="facebook_app_id">3075965812643488</string>
-    <string name="fb_login_protocol_scheme">fb3075965812643488</string>
 </resources>

@@ -1,6 +1,7 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -51,7 +52,9 @@ public class VerificationCodePresenter extends FragmentPresenter {
 
             final GenericHandler confirmationCallback = new GenericHandler() {
                 @Override
-                public void onSuccess() { result[0] = SUCCEDED; }
+                public void onSuccess() {
+                    result[0] = SUCCEDED;
+                }
 
                 @Override
                 public void onFailure(Exception exception) {
@@ -69,9 +72,6 @@ public class VerificationCodePresenter extends FragmentPresenter {
         @Override
         protected void onPostExecute (String result){
             if(result.equals(SUCCEDED)){
-
-                /* INSERIMENTO NUOVO UTENTE IN DB - fare con lambda da back-end direttamente da cognito*/
-
                 codeVerificationSuccess();
             }else{
                 showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_verification_code));

@@ -3,8 +3,6 @@ package it.ingsw.cinemates20_mobile.presenters;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpPasswordFragment;
@@ -15,8 +13,6 @@ public class SingUpPresenter extends FragmentPresenter{
     private final EditText newSurnameEditText;
     private final EditText newUsernameEditText;
     private final EditText newEmailEditText;
-    private final EditText newPasswordEditText;
-    private final EditText repeatPasswordEditText;
 
     public SingUpPresenter(SingUpFragment singUpFragment, View inflate){
         super(singUpFragment);
@@ -25,8 +21,6 @@ public class SingUpPresenter extends FragmentPresenter{
         newSurnameEditText = inflate.findViewById(R.id.newSurnameEditText);
         newUsernameEditText = inflate.findViewById(R.id.newUsernameEditText);
         newEmailEditText = inflate.findViewById(R.id.newEmailEditText);
-        newPasswordEditText = inflate.findViewById(R.id.newPasswordEditText);
-        repeatPasswordEditText = inflate.findViewById(R.id.repeatNewPasswordEditText);
     }
 
     public void pressCancelButton(){ getFragmentManager().popBackStack(); }

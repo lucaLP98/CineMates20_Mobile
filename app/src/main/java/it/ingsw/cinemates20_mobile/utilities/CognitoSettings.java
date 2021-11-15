@@ -6,34 +6,28 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.regions.Regions;
 
 public class CognitoSettings {
-    private String userPoolID = " us-east-2_XmVrbqS7s";
-    private String clientID = "36lg0jvgdnr95a32gepj5s712f";
-    private String clientSecret = "ubpprb28bm8la2l607dk1b41hd39ndd757he2nt18l5i33jdbk5";
-    private Regions cognitoRegion = Regions.US_EAST_2;
+    private final String userPoolID = " us-east-2_XmVrbqS7s";
+    private final String clientID = "36lg0jvgdnr95a32gepj5s712f";
+    private final String clientSecret = "ubpprb28bm8la2l607dk1b41hd39ndd757he2nt18l5i33jdbk5";
+    private final Regions cognitoRegion = Regions.US_EAST_2;
 
-    private Context context;
 
-    public CognitoSettings(Context context){
-        this.context = context;
-    }
+    private final CognitoUserPool cognitoUserPool;
+    private  static CognitoSettings cognitoSettingsInstance;
 
-    public String getUserPoolID(){
-        return userPoolID;
-    }
-
-    public String getClientID(){
-        return clientID;
-    }
-
-    public String getClientSecret(){
-        return clientSecret;
-    }
-
-    public Regions getRegion(){
-        return cognitoRegion;
+    private CognitoSettings(Context context){
+        this.cognitoUserPool = new CognitoUserPool(context, userPoolID, clientID, clientSecret, cognitoRegion);
     }
 
     public CognitoUserPool getUserPool(){
-        return new CognitoUserPool(context, userPoolID, clientID, clientSecret, cognitoRegion);
+        return cognitoUserPool;
+    }
+
+    public static CognitoSettings getInstance(Context context){
+        if(cognitoSettingsInstance == null){
+            cognitoSettingsInstance = new CognitoSettings(context);
+        }
+
+        return cognitoSettingsInstance;
     }
 }

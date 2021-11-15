@@ -1,7 +1,6 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -62,7 +61,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
                 }
             };
 
-            CognitoSettings cognitoSettings = new CognitoSettings(getContext());
+            CognitoSettings cognitoSettings = CognitoSettings.getInstance(getContext());
             CognitoUser thisUser = cognitoSettings.getUserPool().getUser(strings[1]);
             thisUser.confirmSignUp(strings[0], false, confirmationCallback);
 
@@ -89,7 +88,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
     }
 
     public void pressResendVerificationCodeButton(){
-        CognitoSettings cognitoSettings = new CognitoSettings(getContext());
+        CognitoSettings cognitoSettings = CognitoSettings.getInstance(getContext());
         CognitoUser thisUser = cognitoSettings.getUserPool().getUser(eMail);
 
         new ResendConfirmationCodeAsyncTask().execute(thisUser);
@@ -116,7 +115,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
             cognitoUser[0].resendConfirmationCode(resendVerificationCodeHandler);
 
             return result[0];
-        };
+        }
 
         @Override
         protected void onPostExecute (String result){

@@ -77,7 +77,7 @@ public class SingUpPasswordPresenter extends FragmentPresenter{
         userAttributes.addAttribute("email", eMail);
         userAttributes.addAttribute("preferred_username", nickname);
 
-        CognitoSettings congitoSettings = new CognitoSettings(getContext());
+        CognitoSettings congitoSettings = CognitoSettings.getInstance(getContext());
 
         congitoSettings.getUserPool().signUpInBackground(eMail, psw, userAttributes, null, singUpHandler);
     }

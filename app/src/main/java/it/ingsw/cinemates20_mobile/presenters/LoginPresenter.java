@@ -50,9 +50,9 @@ public class LoginPresenter extends FragmentPresenter{
     }
 
     private void loginUser(String eMail){
-        CognitoSettings cognitoSettings = new CognitoSettings(getContext());
+        CognitoSettings cognitoSettings = CognitoSettings.getInstance(getContext());
         CognitoUser user = cognitoSettings.getUserPool().getUser(eMail);
-
+        user.signOut();
         user.getSessionInBackground(authenticationHandler);
     }
 
@@ -102,15 +102,13 @@ public class LoginPresenter extends FragmentPresenter{
             return;
         }
 
-        CognitoSettings cognito = new CognitoSettings(getContext());
+        CognitoSettings cognito = CognitoSettings.getInstance(getContext());
         CognitoUser user = cognito.getUserPool().getUser(String.valueOf(emailEditText.getText()));
 
         user.forgotPasswordInBackground(forgotPasswordCallback);
     }
 
     private final ForgotPasswordHandler forgotPasswordCallback = new ForgotPasswordHandler() {
-        private ForgotPasswordContinuation continuation;
-
         @Override
         public void onSuccess() {
             showSuccessMessage(getContext().getResources().getString(R.string.recovery_password_success_label), getContext().getResources().getString(R.string.recovery_password_success_msg));
@@ -119,8 +117,6 @@ public class LoginPresenter extends FragmentPresenter{
 
         @Override
         public void getResetCode(ForgotPasswordContinuation continuation) {
-            this.continuation = continuation;
-
             showSuccessMessage(getContext().getResources().getString(R.string.resend_verification_code_success_label), getContext().getResources().getString(R.string.send_verification_code_forgot_password_success_msg));
             getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new RecoveryPasswordFragment(continuation)).commit();
         }

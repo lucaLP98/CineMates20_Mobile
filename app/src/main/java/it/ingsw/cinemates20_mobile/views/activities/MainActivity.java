@@ -1,11 +1,13 @@
 package it.ingsw.cinemates20_mobile.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.views.fragments.AccessFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,5 +20,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.toolbar));
 
         getSupportFragmentManager().beginTransaction().add(R.id.mainActivityContainer, new AccessFragment()).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

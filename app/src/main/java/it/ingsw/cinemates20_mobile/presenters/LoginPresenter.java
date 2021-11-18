@@ -1,6 +1,7 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -17,6 +18,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 
+import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
+import it.ingsw.cinemates20_mobile.DAO.interfaces.UserDAO;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
@@ -59,15 +62,9 @@ public class LoginPresenter extends FragmentPresenter{
     private final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            /*
-                CREARE INSTANZA SINGLETON AD UTENTE, ACCEDERE AD INFORMAZIONI UTENTE SU DB,
-                SALVARE INFORMAZIONI TOKEN IN OGGETTO UTENTE
-                Accedere all'utente dai vari presenter grazie al metodo statico GetInstance in user
-                User deve essere un singleton
-
-                Prelevare dati utente all'atto di login
-             */
             User.setUserAuthenticated(true);
+
+            DAOFactory.getUserDao().getUserdata(userSession, getContext());
 
             Intent loginIntent = new Intent(getContext(), HomeActivity.class);
             getContext().startActivity(loginIntent);

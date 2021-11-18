@@ -2,6 +2,8 @@ package it.ingsw.cinemates20_mobile.model;
 
 import android.net.Uri;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+
 public class User {
     private static boolean authenticated;
 
@@ -11,20 +13,34 @@ public class User {
     private String eMail;
     private String biography;
     private Uri profileImage;
+    private final CognitoUserSession userSession;
 
     private static User userInstance;
 
-    private User(String name, String surname, String nickname, String eMail){
+    private User(String name, String surname, String nickname, String eMail, CognitoUserSession userSession){
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
         this.eMail = eMail;
+        this.userSession = userSession;
     }
 
-    public static User getInstance(String name, String surname, String nickname, String eMail){
+    /*
+        This method allow to create an instance of a User. User class si a Singleto.
+        If there are already an instance of User, this method return the insance which
+        is already present
+     */
+    public static User createInstance(String name, String surname, String nickname, String eMail, CognitoUserSession userSession){
         if(userInstance == null){
-            userInstance = new User(name, surname, nickname, eMail);
+            userInstance = new User(name, surname, nickname, eMail, userSession);
         }
+
+        return userInstance;
+    }
+
+    public static User getInstance(){
+        if(userInstance == null)
+            throw new NullPointerException();
 
         return userInstance;
     }
@@ -36,6 +52,10 @@ public class User {
     public String getUsername(){ return nickname; }
 
     public String getEmail(){ return eMail; }
+
+    public CognitoUserSession getUserSession(){
+        return userSession;
+    }
 
     public void setProfileImage(Uri newImage){
 
@@ -51,5 +71,10 @@ public class User {
 
     public static boolean getUserAuthenticated(){
         return User.authenticated;
+    }
+
+    public void logout(){
+        User.userInstance = null;
+        User.setUserAuthenticated(false);
     }
 }

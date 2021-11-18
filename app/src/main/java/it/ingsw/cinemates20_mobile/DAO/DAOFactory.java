@@ -14,16 +14,16 @@ public abstract class DAOFactory {
     private static final DatabaseType concreteDatabase = DatabaseType.LAMBDA;
 
     public static UserDAO getUserDao(){
-        UserDAO concreeteDAO;
+        UserDAO concreteDAO;
 
         switch (concreteDatabase){
             case LAMBDA:
-                concreeteDAO = new UserDAOLambda();
+                concreteDAO = new UserDAOLambda();
                 break;
 
             default: throw new RuntimeException();
         }
 
-        return concreeteDAO;
+        return concreteDAO;
     }
 }

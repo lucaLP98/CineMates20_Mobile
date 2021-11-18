@@ -3,10 +3,12 @@ package it.ingsw.cinemates20_mobile.views.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -96,7 +98,6 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         Fragment film = getSupportFragmentManager().findFragmentByTag(FilmFragment.filmFragmentLabel);
 
         if(film != null && film.isVisible()){

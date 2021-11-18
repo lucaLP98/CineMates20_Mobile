@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".views.fragments.UsersFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/user_label_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_gravity="center"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/users_label"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textSize="45sp" />
+    <include
+        android:id="@+id/toolbar_users_fragment"
+        layout="@layout/toolbar"/>
 
-    <EditText
-        android:id="@+id/searchUserEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12sp"
-        android:background="@drawable/textfield_rounded_corner"
-        android:drawableEnd="@drawable/ic_baseline_search_24"
-        android:ems="10"
-        android:inputType="text"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_search_result_Recycle_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10sp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_below="@+id/toolbar_users_fragment"
+        android:orientation="vertical"
+        tools:context=".views.fragments.UsersFragment">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/user_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/users_label"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="45sp" />
+
+        <EditText
+            android:id="@+id/searchUserEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12sp"
+            android:background="@drawable/textfield_rounded_corner"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:ems="10"
+            android:inputType="text"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_search_result_Recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10sp"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

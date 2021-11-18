@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".views.fragments.NotificationsFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/notification_label_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/notifications_label"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textSize="45sp"
-        android:layout_gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/toolbar_notifications_fragment"
+        layout="@layout/toolbar"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notifications_Recycle_view"
+    <LinearLayout
+        android:id="@+id/frameLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15sp"
-        tools:layout_editor_absoluteX="0dp"/>
+        android:layout_below="@+id/toolbar_notifications_fragment"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/notification_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/notifications_label"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="45sp"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notifications_Recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15sp"
+            tools:layout_editor_absoluteX="0dp"/>
+
+    </LinearLayout>
+</RelativeLayout>
+

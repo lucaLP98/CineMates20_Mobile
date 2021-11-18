@@ -60,4 +60,8 @@
     <string name="send_verification_code_forgot_password_success_msg">A verification code has been sent to the indicated e-mail address. Enter this code on the next page to reset your password</string>
     <string name="recovery_password_success_label">Password reset</string>
     <string name="recovery_password_success_msg">The password was successfully reset! Please login to start discovering movies.</string>
+    <string name="data_modify">Modify Data</string>
+    <string name="friends_list">Friends List</string>
+    <string name="reviews_made">Reviews Made</string>
+    <string name="logout">Logout</string>
 </resources>

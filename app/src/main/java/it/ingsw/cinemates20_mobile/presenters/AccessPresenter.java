@@ -12,7 +12,7 @@ import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 
 public class AccessPresenter extends FragmentPresenter{
 
-    public AccessPresenter(AccessFragment accessFragment, View inflate){
+    public AccessPresenter(AccessFragment accessFragment){
         super(accessFragment);
     }
 

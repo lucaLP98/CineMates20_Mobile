@@ -27,7 +27,7 @@ public class SingUpPasswordPresenter extends FragmentPresenter{
 
     private final CognitoUserAttributes userAttributes;
 
-    public SingUpPasswordPresenter(SingUpPasswordFragment fragment, View inflate, String name, String surname, String nickname, String eMail) {
+    public SingUpPasswordPresenter(SingUpPasswordFragment fragment, @NonNull View inflate, String name, String surname, String nickname, String eMail) {
         super(fragment);
 
         this.name = name;

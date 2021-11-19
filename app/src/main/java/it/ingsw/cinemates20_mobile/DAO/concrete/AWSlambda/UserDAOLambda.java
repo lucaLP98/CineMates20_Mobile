@@ -60,4 +60,17 @@ public class UserDAOLambda implements UserDAO {
 
         return user[0];
     }
+
+    public void editUserData(String newName, String newSurname, String newNickname, String newBio){
+        User user = User.getInstance();
+
+        user.setName(newName);
+        user.setSurname(newSurname);
+        user.setNickname(newNickname);
+        user.setBiography(newBio);
+
+        //crea JSON con nuovi dati
+        //richiama API per richiamare lambda (MODIFICA NEL DATABASE)
+        //modifica utente in COGNITO USER POOL
+    }
 }

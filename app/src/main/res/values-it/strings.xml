@@ -64,4 +64,12 @@
     <string name="friends_list">Lista Amici</string>
     <string name="reviews_made">Recensioni Fatte</string>
     <string name="logout">Esci</string>
+    <string name="edit_psw">Modifica Password</string>
+    <string name="save_changes">Salva Modifiche</string>
+    <string name="edit_data_label">Modifica Dati Utente</string>
+    <string name="edit_nickname">Modifica Nickname</string>
+    <string name="edit_name">Modifica Nome</string>
+    <string name="edit_surname">Modifica Cognome</string>
+    <string name="edit_bio">Modifica Biografia</string>
+    <string name="edit_data_error_label">ERRORE MODIFICA DATI</string>
 </resources>

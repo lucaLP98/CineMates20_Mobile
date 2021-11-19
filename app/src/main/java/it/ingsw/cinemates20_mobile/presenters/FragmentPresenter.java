@@ -14,7 +14,7 @@ public abstract class FragmentPresenter {
     private final FragmentManager fragmentManager;
     private final Context context;
 
-    public FragmentPresenter(Fragment fragment){
+    public FragmentPresenter(@NonNull Fragment fragment){
         fragmentManager = fragment.getParentFragmentManager();
         context = fragment.getContext();
     }

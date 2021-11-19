@@ -3,13 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:id="@+id/toolbar"
+    android:id="@+id/toolbar_fragments"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_gravity="top"
     android:background="?attr/colorPrimary"
     android:elevation="4dp"
-    android:theme="@style/ToolbarThemeOverlay"
-
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:title="@string/app_name"/>
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>

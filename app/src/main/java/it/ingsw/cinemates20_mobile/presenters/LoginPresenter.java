@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
@@ -31,7 +32,7 @@ public class LoginPresenter extends FragmentPresenter{
     private final EditText emailEditText;
     private final EditText pswEditText;
 
-    public LoginPresenter(LoginFragment loginFragment, View inflate){
+    public LoginPresenter(LoginFragment loginFragment, @NonNull View inflate){
         super(loginFragment);
 
         emailEditText = inflate.findViewById(R.id.eMailEditText);
@@ -71,7 +72,7 @@ public class LoginPresenter extends FragmentPresenter{
         }
 
         @Override
-        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+        public void getAuthenticationDetails(@NonNull AuthenticationContinuation authenticationContinuation, String userId) {
             AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, String.valueOf(pswEditText.getText()), null);
             authenticationContinuation.setAuthenticationDetails(authenticationDetails);
             authenticationContinuation.continueTask();
@@ -88,7 +89,7 @@ public class LoginPresenter extends FragmentPresenter{
         }
 
         @Override
-        public void onFailure(Exception exception) {
+        public void onFailure(@NonNull Exception exception) {
             showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), exception.getLocalizedMessage());
         }
     };
@@ -119,7 +120,7 @@ public class LoginPresenter extends FragmentPresenter{
         }
 
         @Override
-        public void onFailure(Exception exception) {
+        public void onFailure(@NonNull Exception exception) {
             showErrorMessage(getContext().getResources().getString(R.string.recovery_password_error_label), exception.getLocalizedMessage());
         }
     };

@@ -17,7 +17,7 @@ public class RecoveryPasswordPresenter extends FragmentPresenter{
 
     private final ForgotPasswordContinuation forgotPasswordContinuation;
 
-    public RecoveryPasswordPresenter(RecoveryPasswordFragment recoveryPasswordFragment, View inflate, ForgotPasswordContinuation continuation){
+    public RecoveryPasswordPresenter(RecoveryPasswordFragment recoveryPasswordFragment, @NonNull View inflate, ForgotPasswordContinuation continuation){
         super(recoveryPasswordFragment);
 
         verificationCodeEditText = inflate.findViewById(R.id.verificationCodeForgotPasswordEditText);

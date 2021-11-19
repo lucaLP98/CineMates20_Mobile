@@ -11,7 +11,7 @@ public class User {
     private String surname;
     private String nickname;
     private String eMail;
-    private String biography;
+    private String biography = "";
     private Uri profileImage;
     private final CognitoUserSession userSession;
 
@@ -49,20 +49,34 @@ public class User {
 
     public String getSurname(){ return surname; }
 
-    public String getUsername(){ return nickname; }
+    public String getNickname(){ return nickname; }
 
     public String getEmail(){ return eMail; }
+
+    public String getBiography(){ return biography; }
 
     public CognitoUserSession getUserSession(){
         return userSession;
     }
 
-    public void setProfileImage(Uri newImage){
+    public void setName(String newName){
+        this.name = newName;
+    }
 
+    public void setSurname(String newSurname){
+        this.surname = newSurname;
+    }
+
+    public void setNickname(String newNickname){
+        this.nickname = newNickname;
     }
 
     public void setBiography(String text){
         this.biography = text;
+    }
+
+    public void setProfileImage(Uri newImage){
+
     }
 
     public static void setUserAuthenticated(boolean login){

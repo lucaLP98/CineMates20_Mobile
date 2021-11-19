@@ -64,4 +64,12 @@
     <string name="friends_list">Friends List</string>
     <string name="reviews_made">Reviews Made</string>
     <string name="logout">Logout</string>
+    <string name="edit_psw">Edit Password</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="edit_data_label">Edit User Data</string>
+    <string name="edit_nickname">Edit Nickname</string>
+    <string name="edit_name">Edit Name</string>
+    <string name="edit_surname">Edit Surname</string>
+    <string name="edit_bio">Edit Biography</string>
+    <string name="edit_data_error_label">EDIT DATA ERROR</string>
 </resources>

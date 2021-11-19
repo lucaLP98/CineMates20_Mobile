@@ -3,6 +3,8 @@ package it.ingsw.cinemates20_mobile.presenters;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpPasswordFragment;
@@ -14,7 +16,7 @@ public class SingUpPresenter extends FragmentPresenter{
     private final EditText newUsernameEditText;
     private final EditText newEmailEditText;
 
-    public SingUpPresenter(SingUpFragment singUpFragment, View inflate){
+    public SingUpPresenter(SingUpFragment singUpFragment, @NonNull View inflate){
         super(singUpFragment);
 
         newNameEditText = inflate.findViewById(R.id.newNameEditText);
@@ -38,10 +40,10 @@ public class SingUpPresenter extends FragmentPresenter{
     }
 
     private void goToInsertPassword(){
-        String name = String.valueOf(newNameEditText.getText());
-        String surname = String.valueOf(newSurnameEditText.getText());
+        String name = String.valueOf(newNameEditText.getText()).toUpperCase();
+        String surname = String.valueOf(newSurnameEditText.getText()).toUpperCase();
         String nickname = String.valueOf(newUsernameEditText.getText());
-        String eMail = String.valueOf(newEmailEditText.getText());
+        String eMail = String.valueOf(newEmailEditText.getText()).toLowerCase();
 
         SingUpPasswordFragment singUpPasswordFragment = new SingUpPasswordFragment(name, surname, eMail, nickname);
 

@@ -12,10 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.presenters.ProfilePresenter;
-import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 
 public class ProfileFragment extends Fragment {
     private ProfilePresenter profilePresenter;
@@ -29,20 +30,22 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        profilePresenter = new ProfilePresenter(this, inflate);
+        profilePresenter.setCustomizedTextView();
+
         Toolbar toolbar = (Toolbar) inflate.findViewById(R.id.toolbar_profile_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.profile_label);
         setHasOptionsMenu(true);
-
-        profilePresenter = new ProfilePresenter(this, inflate);
 
         return inflate;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.toolbar_menu, menu);
-        //super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.toolbar_profile_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -54,6 +57,13 @@ public class ProfileFragment extends Fragment {
             case R.id.logout_toolbar_menu:
                 profilePresenter.pressLogoutButton();
                 ret = true;
+                break;
+
+            case R.id.edit_data_toolbar_menu:
+                profilePresenter.pressEdituserData();
+                ret = true;
+                break;
+
             default:
                 ret = false;
                 break;

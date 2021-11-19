@@ -22,7 +22,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
 
     private final EditText codeEditText;
 
-    public VerificationCodePresenter(VerificationCodeSingUpFragment verificationCodeFragment, View inflate, String eMail){
+    public VerificationCodePresenter(VerificationCodeSingUpFragment verificationCodeFragment, @NonNull View inflate, String eMail){
         super(verificationCodeFragment);
 
         codeEditText = inflate.findViewById(R.id.verificationCodeEditText);
@@ -69,7 +69,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
         }
 
         @Override
-        protected void onPostExecute (String result){
+        protected void onPostExecute (@NonNull String result){
             if(result.equals(SUCCEDED)){
                 codeVerificationSuccess();
             }else{
@@ -98,7 +98,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
         private final String SUCCEDED = "Succeded";
 
         @Override
-        protected String doInBackground(CognitoUser... cognitoUser){
+        protected String doInBackground(@NonNull CognitoUser... cognitoUser){
             final String[] result = new String[1];
 
             VerificationHandler resendVerificationCodeHandler = new VerificationHandler() {
@@ -108,7 +108,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
                 }
 
                 @Override
-                public void onFailure(Exception exception) {
+                public void onFailure(@NonNull Exception exception) {
                     result[0] = exception.getLocalizedMessage();
                 }
             };
@@ -118,7 +118,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
         }
 
         @Override
-        protected void onPostExecute (String result){
+        protected void onPostExecute (@NonNull String result){
             if(result.equals(SUCCEDED)){
                 showSuccessMessage(getContext().getResources().getString(R.string.resend_verification_code_success_label), getContext().getResources().getString(R.string.resend_verification_code_success_msg));
             }else{

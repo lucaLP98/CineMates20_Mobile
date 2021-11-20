@@ -3,8 +3,6 @@
     <string name="app_name">CineMates20</string>
     <string name="login">Login</string>
     <string name="singup">Sing-Up</string>
-    <string name="google_login">Login with Google</string>
-    <string name="facebook_login">Login with Facebook</string>
     <string name="login_later">Login later</string>
     <string name="eMail">e-Mail</string>
     <string name="password">Password</string>
@@ -75,4 +73,11 @@
     <string name="edit_data_error_msg">The data modification was not successful. The changes made will be canceled.</string>
     <string name="edit_data_success_label">EDIT DATA CHANGES</string>
     <string name="edit_data_success_msg">Your data has been successfully modified.</string>
+    <string name="edit_password_label">Edit Password</string>
+    <string name="old_password">Old password *</string>
+    <string name="new_password_repeat">Repeat New Password *</string>
+    <string name="edit_password_error">Edit Password Error</string>
+    <string name="edit_password_success_label">Password Changed</string>
+    <string name="edit_password_success_msg">Your password has been successfully changed !</string>
+    <string name="double_click_to_exit">Please click BACK again to exit</string>
 </resources>

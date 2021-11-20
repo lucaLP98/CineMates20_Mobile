@@ -7,7 +7,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import it.ingsw.cinemates20_mobile.model.User;
 
 public interface UserDAO {
-    public User getUserdata(CognitoUserSession userSession, Context context);
+    User getUserdata(CognitoUserSession userSession, Context context);
 
-    public Boolean editUserData(String newName, String newSurname, String newNickname, String newBio, Context context);
+    Boolean editUserData(String newName, String newSurname, String newNickname, String newBio, Context context);
 }

@@ -1,7 +1,6 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,10 +40,12 @@ public class ProfilePresenter extends FragmentPresenter{
         String nickname = null;
         String bio= null;
 
-        name = User.getInstance().getName();
-        surname = User.getInstance().getSurname();
-        nickname = User.getInstance().getNickname();
-        bio = User.getInstance().getBiography();
+        if(User.getInstance() != null){
+            name = User.getInstance().getName();
+            surname = User.getInstance().getSurname();
+            nickname = User.getInstance().getNickname();
+            bio = User.getInstance().getBiography();
+        }
 
         if(name != null && surname != null && nickname != null && bio != null){
             String completeName = name + " " + surname;

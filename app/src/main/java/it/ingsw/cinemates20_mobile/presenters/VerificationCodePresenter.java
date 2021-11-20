@@ -1,5 +1,6 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
         new ConfirmCodeTask().execute(code, eMail);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class ConfirmCodeTask extends AsyncTask<String, Void, String> {
         private final String SUCCEDED = "Succeded";
         private final String FAILED = "Failed";
@@ -94,6 +96,7 @@ public class VerificationCodePresenter extends FragmentPresenter {
         new ResendConfirmationCodeAsyncTask().execute(thisUser);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class ResendConfirmationCodeAsyncTask extends AsyncTask<CognitoUser, Void, String>{
         private final String SUCCEDED = "Succeded";
 

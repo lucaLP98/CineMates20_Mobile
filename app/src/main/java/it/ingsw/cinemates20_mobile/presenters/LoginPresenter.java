@@ -1,7 +1,6 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -20,7 +19,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
-import it.ingsw.cinemates20_mobile.DAO.interfaces.UserDAO;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;

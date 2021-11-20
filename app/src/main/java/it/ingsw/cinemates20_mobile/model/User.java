@@ -10,9 +10,9 @@ public class User {
     private String name;
     private String surname;
     private String nickname;
-    private String eMail;
     private String biography = "";
     private Uri profileImage;
+    private final String eMail;
     private final CognitoUserSession userSession;
 
     private static User userInstance;

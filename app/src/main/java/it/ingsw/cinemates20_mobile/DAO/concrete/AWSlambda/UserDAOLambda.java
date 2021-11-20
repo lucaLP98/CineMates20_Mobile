@@ -8,9 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
@@ -25,38 +23,30 @@ public class UserDAOLambda implements UserDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
     @Override
-    public User getUserdata(CognitoUserSession userSession, Context context) {
+    public User getUserdata(@NonNull CognitoUserSession userSession, Context context) {
         String url = APIurl + "/getuserdata?user_id=" + userSession.getUsername();
         final User[] user = new User[1];
 
-        Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    String name = response.getString("name");
-                    String surname = response.getString("surname");
-                    String email = response.getString("email");
-                    String nickname = response.getString("nickname");
-                    String uri_image = response.getString("uri_image");
-                    String biography = response.getString("biography");
+        Response.Listener<JSONObject> listener = response -> {
+            try {
+                String name = response.getString("name");
+                String surname = response.getString("surname");
+                String email = response.getString("email");
+                String nickname = response.getString("nickname");
+                String uri_image = response.getString("uri_image");
+                String biography = response.getString("biography");
 
-                    user[0] = User.createInstance(name, surname, nickname, email, userSession);
-                    user[0].setBiography(biography);
-                    if (!uri_image.equals("null")) {
-                        user[0].setProfileImage(Uri.parse(uri_image));
-                    }
-                } catch (JSONException e) {
-                    Log.d("JSONException", e.getLocalizedMessage());
+                user[0] = User.createInstance(name, surname, nickname, email, userSession);
+                user[0].setBiography(biography);
+                if (!uri_image.equals("null")) {
+                    user[0].setProfileImage(Uri.parse(uri_image));
                 }
+            } catch (JSONException e) {
+                Log.d("JSONException", e.getLocalizedMessage());
             }
         };
 
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(@NonNull VolleyError error) {
-                Log.d("VolleyError", error.getLocalizedMessage());
-            }
-        };
+        Response.ErrorListener errorListener = error -> Log.d("VolleyError", error.getLocalizedMessage());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
@@ -70,20 +60,15 @@ public class UserDAOLambda implements UserDAO {
         String user_id = User.getInstance().getUserSession().getUsername();
         String url = APIurl + "/edituserdata?user_id=" + user_id + "&name=" + newName + "&surname=" + newSurname + "&nickname=" + newNickname + "&biography=" + newBio;
 
-        Response.Listener<String> listener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("VolleyError", "modifica con successo");
-                editUserInstance(newName, newSurname, newNickname, newBio);
-            }
+        Response.Listener<String> listener = response -> {
+            Log.d("VolleyError", "modifica con successo");
+            editUserInstance(newName, newSurname, newNickname, newBio);
+            editCompleted[0] = true;
         };
 
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(@NonNull VolleyError error) {
-                Log.d("VolleyError", error.getLocalizedMessage());
-                editCompleted[0] = false;
-            }
+        Response.ErrorListener errorListener = error -> {
+            Log.d("VolleyError", error.getLocalizedMessage());
+            editCompleted[0] = false;
         };
 
         StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);

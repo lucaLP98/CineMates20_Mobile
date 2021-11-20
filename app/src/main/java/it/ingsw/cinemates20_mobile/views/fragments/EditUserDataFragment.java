@@ -10,10 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.presenters.EditUserDataPresenter;
 
 public class EditUserDataFragment extends Fragment {
@@ -31,7 +29,7 @@ public class EditUserDataFragment extends Fragment {
         editUserDataPresenter = new EditUserDataPresenter(this, inflate);
         editUserDataPresenter.setEditTextValue();
 
-        Toolbar toolbar = (Toolbar) inflate.findViewById(R.id.toolbar_edit_userdata_fragment);
+        Toolbar toolbar = inflate.findViewById(R.id.toolbar_edit_userdata_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.edit_data_label);

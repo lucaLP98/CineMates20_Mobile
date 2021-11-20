@@ -1,7 +1,6 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
-import android.view.View;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;

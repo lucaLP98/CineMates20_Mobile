@@ -2,6 +2,7 @@ package it.ingsw.cinemates20_mobile.views.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -12,13 +13,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.presenters.ProfilePresenter;
 
 public class ProfileFragment extends Fragment {
+    public static final String profileFragmentLabel = "profile_fragment";
+
     private ProfilePresenter profilePresenter;
 
     @Override
@@ -27,13 +28,13 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_profile, container, false);
 
         profilePresenter = new ProfilePresenter(this, inflate);
         profilePresenter.setCustomizedTextView();
 
-        Toolbar toolbar = (Toolbar) inflate.findViewById(R.id.toolbar_profile_fragment);
+        Toolbar toolbar = inflate.findViewById(R.id.toolbar_profile_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.profile_label);
@@ -43,17 +44,16 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_profile_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Boolean ret;
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        boolean ret;
 
         switch (item.getItemId()) {
-
             case R.id.logout_toolbar_menu:
                 profilePresenter.pressLogoutButton();
                 ret = true;

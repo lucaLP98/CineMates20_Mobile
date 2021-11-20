@@ -1,20 +1,20 @@
 package it.ingsw.cinemates20_mobile.views.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.NotificationsFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
@@ -47,33 +47,30 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavView = findViewById(R.id.bottom_navigation_bar_home);
         bottomNavView.setSelectedItemId(R.id.nav_movie);
 
-        bottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()){
-                    case R.id.nav_movie:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, filmFragment, FilmFragment.filmFragmentLabel).commit();
-                        break;
+        bottomNavView.setOnNavigationItemSelectedListener(item -> {
+            switch(item.getItemId()){
+                case R.id.nav_movie:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, filmFragment, FilmFragment.filmFragmentLabel).commit();
+                    break;
 
-                    case R.id.nav_users:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, usersFragment).commit();
-                        break;
+                case R.id.nav_users:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, usersFragment, UsersFragment.usersFragmentLabel).commit();
+                    break;
 
-                    case R.id.nav_notifications:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, notificationsFragment).commit();
-                        break;
+                case R.id.nav_notifications:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, notificationsFragment, NotificationsFragment.notificationsFragmentLabel).commit();
+                    break;
 
-                    case R.id.nav_profile:
-                        if(User.getUserAuthenticated()){
-                            getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, profileFragment).commit();
-                        }else{
-                            accessDeniedForNotAuthentication();
-                        }
-                        break;
-                }
-
-                return true;
+                case R.id.nav_profile:
+                    if(User.getUserAuthenticated()){
+                        getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, profileFragment, ProfileFragment.profileFragmentLabel).commit();
+                    }else{
+                        accessDeniedForNotAuthentication();
+                    }
+                    break;
             }
+
+            return true;
         });
     }
 
@@ -81,10 +78,8 @@ public class HomeActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.denied_access_label)
                 .setMessage(R.string.denied_access)
-                .setNegativeButton(R.string.continue_not_uthenticated, (dialog, which) -> {
-                    bottomNavView.setSelectedItemId(R.id.nav_movie);
-                })
-                .setPositiveButton(R.string.login, (dialog, which) -> { goToAccessActivity(); })
+                .setNegativeButton(R.string.continue_not_uthenticated, (dialog, which) -> bottomNavView.setSelectedItemId(R.id.nav_movie))
+                .setPositiveButton(R.string.login, (dialog, which) -> goToAccessActivity())
                 .show();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, filmFragment, FilmFragment.filmFragmentLabel).commit();
@@ -96,12 +91,24 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(tmp);
     }
 
+    private final boolean[] doubleBackToExitPressedOnce = {false};
+
     @Override
     public void onBackPressed() {
         Fragment film = getSupportFragmentManager().findFragmentByTag(FilmFragment.filmFragmentLabel);
 
         if(film != null && film.isVisible()){
-            finishAffinity();
+            if (doubleBackToExitPressedOnce[0]) {
+                if(User.getUserAuthenticated()){
+                    CognitoSettings.getInstance(this).getUserPool().getUser(User.getInstance().getEmail()).signOut();
+                }
+                finishAffinity();
+            }
+            doubleBackToExitPressedOnce[0] = true;
+            Toast.makeText(this, R.string.double_click_to_exit, Toast.LENGTH_SHORT).show();
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce[0] = false, 2000);
+
         }else{
             bottomNavView.setSelectedItemId(R.id.nav_movie);
             getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, filmFragment, FilmFragment.filmFragmentLabel).commit();

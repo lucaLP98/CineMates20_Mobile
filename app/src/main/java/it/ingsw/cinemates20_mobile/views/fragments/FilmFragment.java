@@ -13,10 +13,6 @@ import it.ingsw.cinemates20_mobile.R;
 public class FilmFragment extends Fragment {
     public static final String filmFragmentLabel = "film_fragment";
 
-    public FilmFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

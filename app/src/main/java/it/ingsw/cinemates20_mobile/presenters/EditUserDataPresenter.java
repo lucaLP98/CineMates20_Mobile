@@ -7,6 +7,8 @@ import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.views.fragments.EditUserDataFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
 
 public class EditUserDataPresenter extends FragmentPresenter{
 
@@ -40,13 +42,17 @@ public class EditUserDataPresenter extends FragmentPresenter{
         String name = String.valueOf(editName.getText()).toUpperCase();
         String surname = String.valueOf(editSruname.getText()).toUpperCase();
         String nickname = String.valueOf(editNickname.getText());
-        String bio;
-        if(isEmptyEditText(editBio))
-            bio = "";
-        else
-            bio = String.valueOf(editBio.getText());
+        String bio = (isEmptyEditText(editBio)) ? "" : String.valueOf(editBio.getText());
 
-        DAOFactory.getUserDao().editUserData(name, surname, nickname, bio);
+        DAOFactory.getUserDao().editUserData(name, surname, nickname, bio, getContext());
+
+        if(DAOFactory.getUserDao().editUserData(name, surname, nickname, bio, getContext())){
+            showSuccessMessage(getContext().getResources().getString(R.string.edit_data_success_label), getContext().getResources().getString(R.string.edit_data_success_msg));
+            getFragmentManager().beginTransaction().replace(R.id.home_page_container, new FilmFragment(), FilmFragment.filmFragmentLabel).commit();
+        }else {
+            showErrorMessage(getContext().getResources().getString(R.string.edit_data_error_label), getContext().getResources().getString(R.string.edit_data_error_msg));
+            getFragmentManager().beginTransaction().replace(R.id.home_page_container , new ProfileFragment()).commit();
+        }
     }
 
     private boolean checkRequiredField(){

@@ -72,4 +72,7 @@
     <string name="edit_surname">Modifica Cognome</string>
     <string name="edit_bio">Modifica Biografia</string>
     <string name="edit_data_error_label">ERRORE MODIFICA DATI</string>
+    <string name="edit_data_error_msg">La modifica dei dati non è andata a buon fine. Le modifiche apportate verranno annulate.</string>
+    <string name="edit_data_success_label">MODIFICA DATI COMPLETATA</string>
+    <string name="edit_data_success_msg">I tuoi dati sono stati modificati con successo.</string>
 </resources>

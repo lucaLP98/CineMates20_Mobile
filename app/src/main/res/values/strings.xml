@@ -72,4 +72,7 @@
     <string name="edit_surname">Edit Surname</string>
     <string name="edit_bio">Edit Biography</string>
     <string name="edit_data_error_label">EDIT DATA ERROR</string>
+    <string name="edit_data_error_msg">The data modification was not successful. The changes made will be canceled.</string>
+    <string name="edit_data_success_label">EDIT DATA CHANGES</string>
+    <string name="edit_data_success_msg">Your data has been successfully modified.</string>
 </resources>

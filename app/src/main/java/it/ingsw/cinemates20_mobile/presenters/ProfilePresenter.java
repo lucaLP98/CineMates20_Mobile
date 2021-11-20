@@ -1,6 +1,7 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,10 +36,15 @@ public class ProfilePresenter extends FragmentPresenter{
     }
 
     public void setCustomizedTextView(){
-        String name = User.getInstance().getName();
-        String surname = User.getInstance().getSurname();
-        String nickname = User.getInstance().getNickname();
-        String bio = User.getInstance().getBiography();
+        String name = null;
+        String surname = null;
+        String nickname = null;
+        String bio= null;
+
+        name = User.getInstance().getName();
+        surname = User.getInstance().getSurname();
+        nickname = User.getInstance().getNickname();
+        bio = User.getInstance().getBiography();
 
         if(name != null && surname != null && nickname != null && bio != null){
             String completeName = name + " " + surname;
@@ -62,7 +68,6 @@ public class ProfilePresenter extends FragmentPresenter{
     }
 
     public void pressEdituserData(){
-        EditUserDataFragment editUserDataFragment = new EditUserDataFragment();
-        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , editUserDataFragment).commit();
+        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new EditUserDataFragment()).commit();
     }
 }

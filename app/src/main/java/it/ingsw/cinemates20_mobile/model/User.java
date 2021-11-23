@@ -59,6 +59,8 @@ public class User {
         return userSession;
     }
 
+    public Uri getUriProfileImage(){ return profileImage; }
+
     public void setName(String newName){
         this.name = newName;
     }
@@ -76,7 +78,7 @@ public class User {
     }
 
     public void setProfileImage(Uri newImage){
-
+        this.profileImage = newImage;
     }
 
     public static void setUserAuthenticated(boolean login){

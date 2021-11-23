@@ -80,4 +80,5 @@
     <string name="edit_password_success_label">Password Modificata</string>
     <string name="edit_password_success_msg">La tua password è stata modificata con successo !</string>
     <string name="double_click_to_exit">Clicca due volte BACK per uscire.</string>
+    <string name="permission_denied">Permesso di accedere alla galleria negato.</string>
 </resources>

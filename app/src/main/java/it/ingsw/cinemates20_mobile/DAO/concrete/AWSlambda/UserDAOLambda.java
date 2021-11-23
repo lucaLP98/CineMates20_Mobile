@@ -11,9 +11,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 import it.ingsw.cinemates20_mobile.DAO.interfaces.UserDAO;
 import it.ingsw.cinemates20_mobile.model.User;
@@ -84,5 +89,57 @@ public class UserDAOLambda implements UserDAO {
         user.setSurname(newSurname);
         user.setNickname(newNickname);
         user.setBiography(newBio);
+    }
+
+    private Boolean setProfileImageIntoDatabase(String imageUrl, Context context){
+        final Boolean[] editCompleted = new Boolean[1];
+        String userId = User.getInstance().getUserSession().getUsername();
+        String url = APIurl + "/setprofileimageuri?user_id=" + userId + "&uri_image=" + imageUrl;
+
+        Response.Listener<String> listener = response -> {
+            Log.d("VolleyError", "immagine caricata con successo");
+            editCompleted[0] = true;
+        };
+
+        Response.ErrorListener errorListener = error -> {
+            Log.d("VolleyError", error.getLocalizedMessage());
+            editCompleted[0] = false;
+        };
+
+        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
+
+        return editCompleted[0];
+    }
+
+    public void setProfileImage(Uri profileImagePath, Context context){
+        MediaManager.get().upload(profileImagePath).callback(new UploadCallback() {
+            @Override
+            public void onStart(String requestId) {
+
+            }
+
+            @Override
+            public void onProgress(String requestId, long bytes, long totalBytes) {
+
+            }
+
+            @Override
+            public void onSuccess(String requestId, Map resultData) {
+                String imageUrlString = (String)resultData.get("url");
+                User.getInstance().setProfileImage(Uri.parse(imageUrlString));
+                setProfileImageIntoDatabase(imageUrlString, context);
+            }
+
+            @Override
+            public void onError(String requestId, ErrorInfo error) {
+
+            }
+
+            @Override
+            public void onReschedule(String requestId, ErrorInfo error) {
+
+            }
+        }).dispatch();
     }
 }

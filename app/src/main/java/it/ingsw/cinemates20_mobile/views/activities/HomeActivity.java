@@ -4,16 +4,23 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.utilities.CloudinarySettings;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.NotificationsFragment;
@@ -21,6 +28,8 @@ import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.UsersFragment;
 
 public class HomeActivity extends AppCompatActivity {
+    public static final int PICTURE_REQUEST = 30001;
+
     private final Fragment filmFragment;
     private final Fragment notificationsFragment;
     private final Fragment usersFragment;
@@ -41,6 +50,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        CloudinarySettings.getInstance(this);
 
         getSupportFragmentManager().beginTransaction().add(R.id.home_page_container, filmFragment, FilmFragment.filmFragmentLabel).commit();
 
@@ -112,6 +123,26 @@ public class HomeActivity extends AppCompatActivity {
         }else{
             bottomNavView.setSelectedItemId(R.id.nav_movie);
             getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, filmFragment, FilmFragment.filmFragmentLabel).commit();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_CANCELED){
+            Toast.makeText(this, "Operazione annulata", Toast.LENGTH_SHORT).show();
+        }else if(requestCode == PICTURE_REQUEST){
+            Uri imagePath = data.getData();
+
+            ImageView profileImageView = findViewById(R.id.profileImageView);
+            Glide
+                    .with(this)
+                    .load(imagePath)
+                    .centerCrop()
+                    .into(profileImageView);
+
+            DAOFactory.getUserDao().setProfileImage(imagePath, this);
         }
     }
 }

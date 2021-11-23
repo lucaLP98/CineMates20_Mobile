@@ -33,12 +33,15 @@ public class ProfileFragment extends Fragment {
 
         profilePresenter = new ProfilePresenter(this, inflate);
         profilePresenter.setCustomizedTextView();
+        profilePresenter.setProfileImageView();
 
         Toolbar toolbar = inflate.findViewById(R.id.toolbar_profile_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.profile_label);
         setHasOptionsMenu(true);
+
+        inflate.findViewById(R.id.addPhotoButton).setOnClickListener( v -> profilePresenter.pressAddPhotoButton());
 
         return inflate;
     }

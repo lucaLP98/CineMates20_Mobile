@@ -40,7 +40,7 @@ public class User {
 
     public static User getInstance(){
         if(userInstance == null)
-            throw new NullPointerException();
+            return null;
 
         return userInstance;
     }

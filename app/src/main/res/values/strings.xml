@@ -81,4 +81,9 @@
     <string name="edit_password_success_msg">Your password has been successfully changed !</string>
     <string name="double_click_to_exit">Please click BACK again to exit</string>
     <string name="permission_denied">Gallery access permision denied.</string>
+    <string name="write_review">Write Review</string>
+    <string name="view_review">View Review List</string>
+    <string name="share_film">Share Movie</string>
+
+    <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

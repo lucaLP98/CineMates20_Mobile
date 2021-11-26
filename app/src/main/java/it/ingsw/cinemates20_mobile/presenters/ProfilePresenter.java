@@ -73,7 +73,7 @@ public class ProfilePresenter extends FragmentPresenter{
     }
 
     public void setProfileImageView(){
-        if(User.getInstance().getUriProfileImage() != null){
+        if(User.getInstance() != null && User.getInstance().getUriProfileImage() != null){
             Glide
                 .with(getContext())
                 .load(User.getInstance().getUriProfileImage())

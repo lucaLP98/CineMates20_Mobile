@@ -13,15 +13,12 @@ import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.VerificationCodePresenter;
 
 public class VerificationCodeSingUpFragment extends Fragment {
-    private View inflate;
     private final String userEmail;
     private VerificationCodePresenter verificationCodePresenter;
 
     public VerificationCodeSingUpFragment(String eMail) {
         userEmail = eMail;
     }
-
-    public View getInflate(){ return inflate; }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +28,7 @@ public class VerificationCodeSingUpFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        inflate = inflater.inflate(R.layout.fragment_verification_code_sing_up, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_verification_code_sing_up, container, false);
 
         verificationCodePresenter = new VerificationCodePresenter(this, inflate, userEmail);
 

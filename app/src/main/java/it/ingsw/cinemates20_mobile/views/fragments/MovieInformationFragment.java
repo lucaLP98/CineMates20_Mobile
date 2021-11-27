@@ -13,16 +13,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Movie;
 import it.ingsw.cinemates20_mobile.presenters.MovieInformationPresenter;
 
 public class MovieInformationFragment extends Fragment {
-    private MovieInformationPresenter movieInformationPresenter;
     private final Movie movie;
 
     public MovieInformationFragment(Movie movie){
@@ -44,14 +40,8 @@ public class MovieInformationFragment extends Fragment {
         toolbar.setTitle(movie.getTitle());
         setHasOptionsMenu(true);
 
-        ImageView posterImage = inflate.findViewById(R.id.moviePosterImageView);
-        Glide
-                .with(this)
-                .load(movie.getPosterUri())
-                .centerCrop()
-                .into(posterImage);
-
-        movieInformationPresenter = new MovieInformationPresenter(this, inflate);
+        MovieInformationPresenter movieInformationPresenter = new MovieInformationPresenter(this, inflate);
+        movieInformationPresenter.showMovieDetails(movie);
 
         return inflate;
     }

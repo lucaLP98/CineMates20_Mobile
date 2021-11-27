@@ -84,6 +84,13 @@
     <string name="write_review">Scrivi Recensione</string>
     <string name="view_review">Vedi Recensioni</string>
     <string name="share_film">Condividi Film</string>
+    <string name="movie_title">Nome</string>
+    <string name="movie_years">Anno</string>
+    <string name="movie_duration">Durata (minuti)</string>
+    <string name="movie_genres">Genere</string>
+    <string name="country_production">Paese</string>
+    <string name="cast">Cast</string>
+    <string name="director">Regista</string>
 
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

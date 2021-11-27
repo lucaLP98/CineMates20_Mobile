@@ -10,19 +10,19 @@ import info.movito.themoviedbapi.model.people.PersonCast;
 import info.movito.themoviedbapi.model.people.PersonCrew;
 
 public class Movie {
-    private int movieID;
+    private final int movieID;
 
-    private String title;
-    private String years;
-    private int duration;
-    private String plot;
-    private List<ProductionCountry> productionCountry;
-    private List<PersonCrew> crew;
-    private List<Genre> genres;
-    private List<PersonCast> cast;
-    private Uri posterUri;
+    private final String title;
+    private final String years;
+    private final Integer duration;
+    private final String plot;
+    private final List<ProductionCountry> productionCountry;
+    private final List<PersonCrew> crew;
+    private final List<Genre> genres;
+    private final List<PersonCast> cast;
+    private final Uri posterUri;
 
-    public Movie(int movieID, String title, List<PersonCrew> crew, String years, int duration, String plot, List<ProductionCountry> productionCountry, List<Genre> genres, List<PersonCast> cast, Uri posterUri){
+    public Movie(int movieID, String title, List<PersonCrew> crew, String years, Integer duration, String plot, List<ProductionCountry> productionCountry, List<Genre> genres, List<PersonCast> cast, Uri posterUri){
         this.movieID = movieID;
         this.title = title;
         this.crew = crew;
@@ -35,11 +35,13 @@ public class Movie {
         this.posterUri = posterUri;
     }
 
+    public int getMovieID(){return movieID;}
+
     public String getTitle(){return title;}
 
     public String getYears(){return years;}
 
-    public int getDuration(){return duration;}
+    public Integer getDuration(){return duration;}
 
     public String getPlot(){return plot;}
 
@@ -52,4 +54,5 @@ public class Movie {
     public List<Genre> getGenres(){ return genres;}
 
     public Uri getPosterUri(){return posterUri;}
+
 }

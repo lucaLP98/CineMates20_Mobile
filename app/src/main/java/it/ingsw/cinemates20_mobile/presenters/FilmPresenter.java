@@ -84,9 +84,9 @@ public class FilmPresenter extends FragmentPresenter{
 
             TmdbApi tmdbApi = new TmdbApi(getContext().getResources().getString(R.string.APIkey_the_movie_database));
             movieResultsPage = tmdbApi.getSearch().searchMovie(filmName[0], null, Locale.getDefault().getLanguage(), false, 0);
-
             if(movieResultsPage != null){ result[0] = SUCCEDED; }
             else{ result[0] = FAIL; }
+
 
             return result[0];
         }
@@ -114,13 +114,6 @@ public class FilmPresenter extends FragmentPresenter{
             movie.add(MovieBuilder.getBuilder(movieDb.getId())
                     .title(movieDb.getTitle())
                     .poster(posterUri)
-                    .cast(movieDb.getCast())
-                    .crew(movieDb.getCrew())
-                    .years(movieDb.getReleaseDate())
-                    .duration(movieDb.getRuntime())
-                    .plot(movieDb.getOverview())
-                    .productionCountru(movieDb.getProductionCountries())
-                    .genres(movieDb.getGenres())
                     .build()
             );
         });

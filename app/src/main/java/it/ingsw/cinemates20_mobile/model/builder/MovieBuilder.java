@@ -2,8 +2,6 @@ package it.ingsw.cinemates20_mobile.model.builder;
 
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
 
 import info.movito.themoviedbapi.model.Genre;
@@ -13,11 +11,11 @@ import info.movito.themoviedbapi.model.people.PersonCrew;
 import it.ingsw.cinemates20_mobile.model.Movie;
 
 public class MovieBuilder {
-    private int movieID;
+    private final int movieID;
 
     private String title;
     private String years;
-    private int duration;
+    private Integer duration;
     private String plot;
     private List<ProductionCountry> productionCountry;
     private List<PersonCrew> crew;
@@ -44,7 +42,7 @@ public class MovieBuilder {
         return this;
     }
 
-    public MovieBuilder duration(int duration){
+    public MovieBuilder duration(Integer duration){
         this.duration = duration;
         return this;
     }

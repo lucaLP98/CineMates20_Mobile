@@ -1,8 +1,8 @@
 package it.ingsw.cinemates20_mobile.DAO;
 
+import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.ReviewDAOlambda;
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.UserDAOLambda;
-import it.ingsw.cinemates20_mobile.DAO.concrete.MovieDAOtmdb;
-import it.ingsw.cinemates20_mobile.DAO.interfaces.MovieDAO;
+import it.ingsw.cinemates20_mobile.DAO.interfaces.ReviewDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.UserDAO;
 
 public abstract class DAOFactory {
@@ -13,14 +13,7 @@ public abstract class DAOFactory {
         MYSQL
     }
 
-    private enum MovieProviderType{
-        THEMOVIEDATABASE,
-        OPENMOVIEDATABASE
-    }
-
     private static final DatabaseType concreteDatabase = DatabaseType.LAMBDA;
-
-    private static final MovieProviderType concreteMovieProvider = MovieProviderType.THEMOVIEDATABASE;
 
     public static UserDAO getUserDao(){
         UserDAO concreteDAO;
@@ -36,12 +29,12 @@ public abstract class DAOFactory {
         return concreteDAO;
     }
 
-    public static MovieDAO getMovieDao(){
-        MovieDAO concreteDAO;
+    public static ReviewDAO getReviewDao(){
+        ReviewDAO concreteDAO;
 
-        switch (concreteMovieProvider){
-            case THEMOVIEDATABASE:
-                concreteDAO = new MovieDAOtmdb();
+        switch (concreteDatabase){
+            case LAMBDA:
+                concreteDAO = new ReviewDAOlambda();
                 break;
 
             default: throw new RuntimeException();

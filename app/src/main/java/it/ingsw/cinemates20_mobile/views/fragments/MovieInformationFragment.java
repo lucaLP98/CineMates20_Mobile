@@ -42,6 +42,7 @@ public class MovieInformationFragment extends Fragment {
 
         MovieInformationPresenter movieInformationPresenter = new MovieInformationPresenter(this, inflate);
         movieInformationPresenter.showMovieDetails(movie);
+        inflate.findViewById(R.id.writeReviewButton).setOnClickListener( v-> movieInformationPresenter.pressWriteReviewButton() );
 
         return inflate;
     }

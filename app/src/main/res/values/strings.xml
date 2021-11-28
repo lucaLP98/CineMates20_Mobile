@@ -91,6 +91,14 @@
     <string name="country_production">Country</string>
     <string name="cast">Cast</string>
     <string name="director">Director</string>
+    <string name="publish_review">Publish Review</string>
+    <string name="review_vote_label">Rating</string>
+    <string name="error_not_authenticated_label">USER NOT AUTHENTICATED</string>
+    <string name="error_not_authenticated_msg">This function is reserved to authenticted user. Pleas, sing-in to continue.</string>
+    <string name="error_review_label">Review Error</string>
+    <string name="error_not_valid_review_vote">Inserted vote is not valid: pleas insert new vote between 0 and 100</string>
+    <string name="success_review_publish_label">Review Posted</string>
+    <string name="success_review_publish">Review published successfully</string>
 
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

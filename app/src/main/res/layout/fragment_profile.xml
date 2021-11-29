@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/toolbar_profile_fragment"
-        layout="@layout/toolbar_fragments"/>
+        layout="@layout/toolbar_fragments" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

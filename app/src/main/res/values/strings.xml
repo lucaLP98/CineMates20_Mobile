@@ -99,6 +99,8 @@
     <string name="error_not_valid_review_vote">Inserted vote is not valid: pleas insert new vote between 0 and 100</string>
     <string name="success_review_publish_label">Review Posted</string>
     <string name="success_review_publish">Review published successfully</string>
+    <string name="error_review_already_posted">You have already posted a review fo this movie.</string>
+    <string name="error_review_publish">Error while posting the review.</string>
 
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

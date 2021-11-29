@@ -66,13 +66,13 @@ public class UserDAOLambda implements UserDAO {
         String url = APIurl + "/edituserdata?user_id=" + user_id + "&name=" + newName + "&surname=" + newSurname + "&nickname=" + newNickname + "&biography=" + newBio;
 
         Response.Listener<String> listener = response -> {
-            Log.d("VolleyError", "modifica con successo");
+            Log.d("VolleySuccessEditUserData", "modifica con successo");
             editUserInstance(newName, newSurname, newNickname, newBio);
             editCompleted[0] = true;
         };
 
         Response.ErrorListener errorListener = error -> {
-            Log.d("VolleyError", error.getLocalizedMessage());
+            Log.d("VolleyErrorEditUserData", error.getLocalizedMessage());
             editCompleted[0] = false;
         };
 
@@ -97,12 +97,12 @@ public class UserDAOLambda implements UserDAO {
         String url = APIurl + "/setprofileimageuri?user_id=" + userId + "&uri_image=" + imageUrl;
 
         Response.Listener<String> listener = response -> {
-            Log.d("VolleyError", "immagine caricata con successo");
+            Log.d("VolleySuccessSetProfileImage", "immagine caricata con successo");
             editCompleted[0] = true;
         };
 
         Response.ErrorListener errorListener = error -> {
-            Log.d("VolleyError", error.getLocalizedMessage());
+            Log.d("VolleyErrorSetProfileImage", error.getLocalizedMessage());
             editCompleted[0] = false;
         };
 

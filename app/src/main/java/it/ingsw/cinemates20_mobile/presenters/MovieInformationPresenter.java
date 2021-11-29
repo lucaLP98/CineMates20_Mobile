@@ -3,7 +3,6 @@ package it.ingsw.cinemates20_mobile.presenters;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

@@ -81,6 +81,8 @@ public class User {
         this.profileImage = newImage;
     }
 
+    public String getUserID(){ return this.userSession.getUsername(); }
+
     public static void setUserAuthenticated(boolean login){
         User.authenticated = login;
     }

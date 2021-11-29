@@ -42,6 +42,7 @@ public class ProfileFragment extends Fragment {
         setHasOptionsMenu(true);
 
         inflate.findViewById(R.id.addPhotoButton).setOnClickListener( v -> profilePresenter.pressAddPhotoButton());
+        inflate.findViewById((R.id.reviewsMadeButton)).setOnClickListener( v->profilePresenter.pressViewReviewsListButton() );
 
         return inflate;
     }

@@ -10,13 +10,13 @@ import androidx.fragment.app.FragmentManager;
 
 import it.ingsw.cinemates20_mobile.R;
 
-public abstract class FragmentPresenter {
-    private final FragmentManager fragmentManager;
+public abstract class FragmentPresenter{
     private final Context context;
+    private final FragmentManager fragmentManager;
 
     public FragmentPresenter(@NonNull Fragment fragment){
-        fragmentManager = fragment.getParentFragmentManager();
-        context = fragment.getContext();
+        this.context = fragment.getContext();
+        this.fragmentManager = fragment.getParentFragmentManager();
     }
 
     public Context getContext(){ return context; }

@@ -24,7 +24,6 @@ public class FilmFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
          View inflate = inflater.inflate(R.layout.fragment_film, container, false);
 
         filmPresenter = new FilmPresenter(this, inflate);

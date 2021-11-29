@@ -1,6 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -53,7 +52,6 @@ public class EditPasswordPresenter extends FragmentPresenter{
 
     private void changePassword(String oldPsw, String newPsw){
         CognitoSettings cognito = CognitoSettings.getInstance(getContext());
-        Log.d("editPSW", "username : " + User.getInstance().getEmail() );
 
         CognitoUser user = cognito.getUserPool().getUser(User.getInstance().getEmail());
         user.changePasswordInBackground(oldPsw, newPsw, new GenericHandler() {

@@ -67,7 +67,8 @@ public class FilmPresenter extends FragmentPresenter{
 
         @Override
         protected void onPostExecute (@NonNull String result){
-            setFilmSearchResutlRecycleView(movieResultsPage);
+            if(result.equals(SUCCEDED))
+                setFilmSearchResutlRecycleView(movieResultsPage);
         }
     }
 

@@ -1,6 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -14,10 +13,9 @@ import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.views.fragments.WriteReviewFragment;
 
 public class WriteReviewPresenter extends FragmentPresenter{
-
-    private EditText voteEditText;
-    private EditText reviewEditText;
-    private Movie movie;
+    private final EditText voteEditText;
+    private final EditText reviewEditText;
+    private final Movie movie;
 
     public WriteReviewPresenter(WriteReviewFragment fragment, @NonNull View inflate, Movie movie){
         super(fragment);
@@ -38,7 +36,7 @@ public class WriteReviewPresenter extends FragmentPresenter{
             return;
         }
 
-        Integer vote = Integer.parseInt(String.valueOf(voteEditText.getText()));
+        int vote = Integer.parseInt(String.valueOf(voteEditText.getText()));
         String text = String.valueOf(reviewEditText.getText());
 
         if(vote < 0 || vote > 100){
@@ -50,8 +48,9 @@ public class WriteReviewPresenter extends FragmentPresenter{
     }
 
     private void publishReview(Integer vote, String text) {
-        Review newReview = new Review(User.getInstance().getUserSession().getUsername(), movie.getMovieID(), text, vote);
+        Review newReview = new Review(0, User.getInstance().getUserID(), movie.getMovieID(), text, vote);
         DAOFactory.getReviewDao().publishNewMovieReview(newReview, getContext());
         showSuccessMessage(getContext().getResources().getString(R.string.success_review_publish_label),getContext().getResources().getString(R.string.success_review_publish));
+        getFragmentManager().popBackStack("MOVIE_CARD", 0);
     }
 }

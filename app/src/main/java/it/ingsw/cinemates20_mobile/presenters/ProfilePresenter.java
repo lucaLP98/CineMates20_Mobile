@@ -4,29 +4,25 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.cloudinary.android.MediaManager;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
-import it.ingsw.cinemates20_mobile.utilities.CloudinarySettings;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.activities.MainActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.EditUserDataFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.UserReviewsFragment;
 
 public class ProfilePresenter extends FragmentPresenter{
     private final TextView nameTextView;
@@ -100,7 +96,6 @@ public class ProfilePresenter extends FragmentPresenter{
     }
 
     public void pressAddPhotoButton(){
-
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, HomeActivity.PICTURE_REQUEST);
         }else{
@@ -115,5 +110,9 @@ public class ProfilePresenter extends FragmentPresenter{
         selectImageIntent.setAction(Intent.ACTION_GET_CONTENT);
 
         parentActivity.startActivityForResult(selectImageIntent, HomeActivity.PICTURE_REQUEST);
+    }
+
+    public void pressViewReviewsListButton(){
+        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new UserReviewsFragment()).commit();
     }
 }

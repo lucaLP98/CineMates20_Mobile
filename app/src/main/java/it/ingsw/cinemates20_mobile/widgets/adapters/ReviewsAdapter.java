@@ -1,6 +1,7 @@
 package it.ingsw.cinemates20_mobile.widgets.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,15 @@ import it.ingsw.cinemates20_mobile.model.User;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsHolder>{
     private final Context context;
     private final List<Review> reviews;
+    private final List<String> userNickname;
+    private final List<Uri> userImages;
 
-    public ReviewsAdapter(Context context, List<Review> reviews) {
+
+    public ReviewsAdapter(Context context, List<Review> reviews, List<String> userNickname, List<Uri> userImages) {
         this.context = context;
         this.reviews = reviews;
+        this.userImages = userImages;
+        this.userNickname = userNickname;
     }
 
     @NonNull
@@ -39,10 +45,16 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsH
 
     @Override
     public void onBindViewHolder(@NonNull ReviewsHolder holder, int position) {
-        setThisUser(holder, position);
+        if(userImages.get(position) != null){
+            Glide
+                    .with(context)
+                    .load(userImages.get(position))
+                    .centerCrop()
+                    .into(holder.userImageProfileImageView);
+        }
         holder.reviewBodyTextView.setText(reviews.get(position).getReviewText());
         holder.reviewVoteTextView.setText(String.valueOf(reviews.get(position).getReviewVote()));
-        //holder.rowLayout.setOnClickListener( v -> );
+        holder.userNicknameTextView.setText(userNickname.get(position));
     }
 
     @Override
@@ -58,23 +70,13 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsH
 
         public ReviewsHolder(@NonNull View itemView) {
             super(itemView);
-            userNicknameTextView = itemView.findViewById(R.id.userReviewNicknameTextView);
-            reviewBodyTextView = itemView.findViewById(R.id.userReviewTextView);
-            userImageProfileImageView = itemView.findViewById(R.id.userReviewPhotoImageView);
-            reviewVoteTextView = itemView.findViewById(R.id.reviewVoteTextView);
+
+            userNicknameTextView = itemView.findViewById(R.id.movieReviewsUserNicknameTextView);
+            reviewBodyTextView = itemView.findViewById(R.id.movieReviewsDescriptionTextView);
+            userImageProfileImageView = itemView.findViewById(R.id.movieReviewsUserPhotoImageView);
+            reviewVoteTextView = itemView.findViewById(R.id.movieReviewsVoteTextView);
 
             rowLayout = itemView.findViewById(R.id.review_row_layout);
-        }
-    }
-
-    private void setThisUser(@NonNull ReviewsHolder holder, int position){
-        holder.userNicknameTextView.setText(User.getInstance().getNickname());
-        if(User.getInstance().getUriProfileImage() != null){
-            Glide
-                    .with(context)
-                    .load(User.getInstance().getUriProfileImage())
-                    .centerCrop()
-                    .into(holder.userImageProfileImageView);
         }
     }
 }

@@ -28,6 +28,7 @@ import it.ingsw.cinemates20_mobile.model.Review;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
 import it.ingsw.cinemates20_mobile.widgets.adapters.ReviewsAdapter;
+import it.ingsw.cinemates20_mobile.widgets.adapters.UserReviewsAdapter;
 
 public class ReviewDAOlambda implements ReviewDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
@@ -56,15 +57,19 @@ public class ReviewDAOlambda implements ReviewDAO {
     }
 
     @Override
-    public List<Review> getUserReviews(Context context, RecyclerView reviewsRecyclerView) {
-        String url = APIurl + "/getreviewbyuser?user_id=" + User.getInstance().getUserID();
-        List<Review> reviews = new ArrayList<>();
+    public void getMovieReviews(Context context, int movieID, RecyclerView reviewsRecyclerView) {
+        String url = APIurl + "/getreviewbyfilm?film_id=" + movieID;
+
 
         Response.Listener<JSONObject> listener = response -> {
+            List<Review> reviews = new ArrayList<>();
+            List<String> usersNickname = new ArrayList<>();
+            List<Uri> userProfileImages = new ArrayList<>();
+
             try {
                 JSONObject jsonObject;
-                String reviewsText, userID;
-                int vote, reviewID, movieID;
+                String reviewsText, userID, userNickname, userImage;
+                int vote, reviewID;
 
                 JSONArray jsonArray = response.getJSONArray("reviews");
 
@@ -72,26 +77,27 @@ public class ReviewDAOlambda implements ReviewDAO {
                     jsonObject = jsonArray.getJSONObject(i);
 
                     reviewID = jsonObject.getInt("id_review");
-                    userID = jsonObject.getString("user_owner");
-                    movieID = jsonObject.getInt("id_film");
-                    reviewsText = jsonObject.getString("description");
                     vote = jsonObject.getInt("vote");
+                    reviewsText = jsonObject.getString("description");
+                    userID = jsonObject.getString("user_owner");
+                    userNickname = jsonObject.getString("user_nickname");
+                    userImage = jsonObject.getString("user_image");
 
                     reviews.add(new Review(reviewID, userID, movieID, reviewsText, vote));
+                    usersNickname.add(userNickname);
+                    userProfileImages.add(Uri.parse(userImage));
                 }
 
-                reviewsRecyclerView.setAdapter(new ReviewsAdapter(context, reviews));
+                reviewsRecyclerView.setAdapter(new ReviewsAdapter(context, reviews, usersNickname, userProfileImages));
                 reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } catch (JSONException e) {
-                Log.d("JSONException", e.getLocalizedMessage());
+                Log.d("JSONException", "errore recupero recensioni");
             }
         };
 
-        Response.ErrorListener errorListener = error -> Log.d("VolleyErrorGetUserReviews", error.getLocalizedMessage());
+        Response.ErrorListener errorListener = error -> Log.d("VolleyErrorGetUserReviews", ""+error.getMessage());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
-
-        return reviews;
     }
 }

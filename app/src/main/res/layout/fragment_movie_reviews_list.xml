@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".views.fragments.MovieReviewsListFragment" >
+
+<include
+    android:id="@+id/toolbar_movie_reviews_fragment"
+    layout="@layout/toolbar_fragments" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/movieReviewsRecyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="430dp"
+    android:layout_marginLeft="10sp"
+    android:layout_marginTop="15sp"
+    android:layout_marginRight="10sp"
+    android:layout_marginBottom="10sp" />
+
+<android.widget.Button
+    android:id="@+id/backMovieReviewsFragmentButton"
+    android:layout_width="180sp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="5sp"
+    android:background="@drawable/button_background"
+    android:text="@string/back"
+    android:textColor="@color/white"
+    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+
+</LinearLayout>

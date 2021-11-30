@@ -12,6 +12,6 @@ public interface ReviewDAO {
 
     public Integer publishNewMovieReview(Review newReview, Context context);
 
-    public List<Review> getUserReviews(Context context, RecyclerView reviewsRecyclerView);
+    public void getMovieReviews(Context context, int movieID, RecyclerView reviewsRecyclerView);
 
 }

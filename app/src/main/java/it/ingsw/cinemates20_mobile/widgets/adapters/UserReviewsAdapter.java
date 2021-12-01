@@ -54,6 +54,20 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
         holder.optionReviewImageButton.setOnClickListener(v->showReviewPopUpMenu(v, reviews.get(position)));
     }
 
+    private void removeReview(Review review){
+        new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.delete_review))
+                .setMessage(context.getResources().getString(R.string.delete_review_msg))
+                .setPositiveButton(context.getResources().getString(R.string.confirm),
+                        (dialog, which) -> {
+                            DAOFactory.getReviewDao().deleteUserReviews(context, review.getReviewID());
+                            reviews.remove(review);
+                            notifyDataSetChanged();
+                        })
+                .setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {})
+                .show();
+    }
+
     private void showReviewPopUpMenu(View trigger, Review review){
         PopupMenu popupMenu = new PopupMenu(context, trigger);
         popupMenu.getMenuInflater().inflate(R.menu.user_review_pop_up_menu, popupMenu.getMenu());
@@ -67,18 +81,7 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
                     break;
 
                 case R.id.delete_review_popup_menu:
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.delete_review))
-                            .setMessage(context.getResources().getString(R.string.delete_review_msg))
-                            .setPositiveButton(context.getResources().getString(R.string.confirm),
-                                    (dialog, which) -> {
-                                        DAOFactory.getReviewDao().deleteUserReviews(context, review.getReviewID());
-                                        reviews.remove(review);
-                                        notifyDataSetChanged();
-                                    })
-                            .setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {})
-                            .show();
-
+                    removeReview(review);
                     ret = true;
                     break;
 

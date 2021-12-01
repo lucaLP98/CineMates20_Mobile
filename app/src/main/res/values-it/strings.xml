@@ -101,6 +101,9 @@
     <string name="success_review_publish">Recensione publicata con successo</string>
     <string name="error_review_already_posted">Hai già scritto in precedenza una recensione per questo film.</string>
     <string name="error_review_publish">Errore durante la publicazione della recensione.</string>
+    <string name="edit_review">Modifica Recensione</string>
+    <string name="delete_review">Elimina Recensione</string>
+    <string name="delete_review_msg">Sei sicuro di voler eliminare questa recensione ?</string>
 
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

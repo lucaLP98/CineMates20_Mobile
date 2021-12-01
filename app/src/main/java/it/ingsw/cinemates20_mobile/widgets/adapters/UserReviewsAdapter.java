@@ -6,15 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Review;
 
@@ -47,6 +50,43 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
                     .centerCrop()
                     .into(holder.moviePoster);
         }
+
+        holder.optionReviewImageButton.setOnClickListener(v->showReviewPopUpMenu(v, reviews.get(position)));
+    }
+
+    private void showReviewPopUpMenu(View trigger, Review review){
+        PopupMenu popupMenu = new PopupMenu(context, trigger);
+        popupMenu.getMenuInflater().inflate(R.menu.user_review_pop_up_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            boolean ret;
+
+            switch (item.getItemId()){
+                case R.id.edit_review_popup_menu:
+
+                    ret = true;
+                    break;
+
+                case R.id.delete_review_popup_menu:
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.delete_review))
+                            .setMessage(context.getResources().getString(R.string.delete_review_msg))
+                            .setPositiveButton(context.getResources().getString(R.string.confirm),
+                                    (dialog, which) -> {
+                                        DAOFactory.getReviewDao().deleteUserReviews(context, review.getReviewID());
+                                        reviews.remove(review);
+                                        notifyDataSetChanged();
+                                    })
+                            .setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {})
+                            .show();
+
+                    ret = true;
+                    break;
+
+                default: ret = false; break;
+            }
+            return ret;
+        });
+        popupMenu.show();
     }
 
     @Override
@@ -54,11 +94,12 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
         return reviews.size();
     }
 
-    protected static  class UserReviewsHolder extends RecyclerView.ViewHolder{
+    protected static class UserReviewsHolder extends RecyclerView.ViewHolder{
         protected final TextView movieNameTextView;
         protected final TextView reviewVoteTextView;
         protected final TextView reviewBodyTextView;
         protected final ImageView moviePoster;
+        protected final ImageView optionReviewImageButton;
 
         public UserReviewsHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +108,7 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
             reviewVoteTextView = itemView.findViewById(R.id.movieRatedUserReviewListTextView);
             reviewBodyTextView = itemView.findViewById(R.id.userReviewDescriptionUserReviewsListTextView);
             moviePoster = itemView.findViewById(R.id.moviePosterUserReviewListImageView);
+            optionReviewImageButton = itemView.findViewById(R.id.user_movie_review_option_row);
         }
     }
 }

@@ -134,4 +134,19 @@ public class ReviewDAOlambda implements ReviewDAO {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
+
+    public void deleteUserReviews(Context context, int reviewID){
+        String url = APIurl + "/deletereview?review_id=" + reviewID;
+
+        Response.Listener<String> listener = response -> {
+            Log.d("VolleySuccessPostReviews", "Recensione eliminata con successo");
+        };
+
+        Response.ErrorListener errorListener = error -> {
+            Log.d("VolleyErrorPostReviews", ""+error.networkResponse.statusCode);
+        };
+
+        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
+    }
 }

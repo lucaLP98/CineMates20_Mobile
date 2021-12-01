@@ -6,7 +6,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/user_review_row">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,13 +25,13 @@
                 android:src="@drawable/ic_baseline_local_movies_24"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="0sp"
                 android:layout_marginRight="0sp"
                 android:layout_marginBottom="0sp"
-                android:layout_marginLeft="10sp"
-                android:layout_marginTop="0sp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -41,38 +42,38 @@
                         android:id="@+id/movieTitleUserReviewListLabelTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20sp"
                         android:text="@string/movie_label"
-                        android:textColor="@color/Cinemates_blue_clear"
-                        android:layout_marginRight="20sp"/>
+                        android:textColor="@color/Cinemates_blue_clear" />
 
                     <TextView
                         android:id="@+id/movieTitleUserReviewListVoteTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10sp">
+                    android:layout_marginTop="10sp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/movieRatedUserReviewListLabelTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20sp"
                         android:text="@string/review_vote_label"
-                        android:textColor="@color/Cinemates_blue_clear"
-                        android:layout_marginRight="20sp"/>
+                        android:textColor="@color/Cinemates_blue_clear" />
 
                     <TextView
                         android:id="@+id/movieRatedUserReviewListTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <TextView
@@ -80,14 +81,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10sp"
+                    android:layout_marginEnd="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:autoSizeTextType="uniform"
                     android:background="@drawable/review_background"
                     android:text="TextView"
-                    android:textColor="@color/black"
-                    android:layout_marginEnd="10sp"
-                    android:autoSizeTextType="uniform"
-                    android:layout_marginBottom="10sp"/>
+                    android:textColor="@color/black" />
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/user_movie_review_option_row"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:src="@drawable/ic_baseline_more_vert_24"/>
 
         </LinearLayout>
 

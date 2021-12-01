@@ -13,4 +13,6 @@ public interface ReviewDAO {
     void getMovieReviews(Context context, int movieID, RecyclerView reviewsRecyclerView);
 
     void getUserReviews(Context context, String userID, RecyclerView reviewsRecyclerView);
+
+    void deleteUserReviews(Context context, int reviewID);
 }

@@ -6,13 +6,17 @@ public class Review {
     private final String reviewText;
     private final int reviewVote;
     private final int movieID;
+    private final String filmTitle;
+    private final String filmPosterUri;
 
-    public Review(int reviewID, String userID, int movieID, String reviewText, int reviewVote){
+    public Review(int reviewID, String userID, int movieID, String reviewText, int reviewVote, String filmTitle, String filmPosterUri){
         this.reviewID = reviewID;
         this.reviewText = reviewText;
         this.reviewVote = reviewVote;
         this.userID = userID;
         this.movieID = movieID;
+        this.filmTitle = filmTitle;
+        this.filmPosterUri = filmPosterUri;
     }
 
     public String getUserOwner(){
@@ -32,4 +36,10 @@ public class Review {
     }
 
     public int getReviewID(){ return reviewID; }
+
+    public String getFilmPosterUri(){
+        return filmPosterUri;
+    }
+
+    public String getFilmTitle(){ return filmTitle;}
 }

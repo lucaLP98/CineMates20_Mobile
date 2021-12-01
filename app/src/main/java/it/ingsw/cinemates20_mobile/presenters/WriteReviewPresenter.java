@@ -48,7 +48,7 @@ public class WriteReviewPresenter extends FragmentPresenter{
     }
 
     private void publishReview(Integer vote, String text) {
-        Review newReview = new Review(0, User.getInstance().getUserID(), movie.getMovieID(), text, vote);
+        Review newReview = new Review(0, User.getInstance().getUserID(), movie.getMovieID(), text, vote, movie.getTitle(), movie.getPosterUri().toString());
         DAOFactory.getReviewDao().publishNewMovieReview(newReview, getContext());
         showSuccessMessage(getContext().getResources().getString(R.string.success_review_publish_label),getContext().getResources().getString(R.string.success_review_publish));
         getFragmentManager().popBackStack("MOVIE_CARD", 0);

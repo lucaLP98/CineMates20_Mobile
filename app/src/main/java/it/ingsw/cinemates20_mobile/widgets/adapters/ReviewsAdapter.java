@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,7 +18,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Review;
-import it.ingsw.cinemates20_mobile.model.User;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsHolder>{
     private final Context context;

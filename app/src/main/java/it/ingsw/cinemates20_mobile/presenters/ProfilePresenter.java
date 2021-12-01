@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,8 +27,6 @@ public class ProfilePresenter extends FragmentPresenter{
     private final TextView nameTextView;
     private final TextView nicknameTextView;
     private final TextView biographyTextView;
-    private final Button reviewsListButton;
-    private final Button friendsListButton;
     private final ImageView profileImageView;
 
     private final Activity parentActivity;
@@ -39,8 +36,6 @@ public class ProfilePresenter extends FragmentPresenter{
 
         nameTextView = inflate.findViewById(R.id.nameProfileTextView);
         nicknameTextView = inflate.findViewById(R.id.nicknameProfileTextView);
-        reviewsListButton = inflate.findViewById(R.id.reviewsMadeButton);
-        friendsListButton = inflate.findViewById(R.id.friendsListButton);
         biographyTextView = inflate.findViewById(R.id.biographyTextView);
         profileImageView = inflate.findViewById(R.id.profileImageView);
 

@@ -20,9 +20,11 @@ import it.ingsw.cinemates20_mobile.model.Review;
 
 public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.UserReviewsHolder>{
     private final Context context;
+    private final List<Review> reviews;
 
-    public UserReviewsAdapter(Context context) {
+    public UserReviewsAdapter(Context context, List<Review> reviews) {
         this.context = context;
+        this.reviews = reviews;
     }
 
     @NonNull
@@ -35,12 +37,21 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull UserReviewsHolder holder, int position) {
-
+        holder.movieNameTextView.setText(reviews.get(position).getFilmTitle());
+        holder.reviewBodyTextView.setText(reviews.get(position).getReviewText());
+        holder.reviewVoteTextView.setText(String.valueOf(reviews.get(position).getReviewVote()));
+        if(reviews.get(position).getFilmPosterUri() != null){
+            Glide
+                    .with(context)
+                    .load(Uri.parse(reviews.get(position).getFilmPosterUri()))
+                    .centerCrop()
+                    .into(holder.moviePoster);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return reviews.size();
     }
 
     protected static  class UserReviewsHolder extends RecyclerView.ViewHolder{

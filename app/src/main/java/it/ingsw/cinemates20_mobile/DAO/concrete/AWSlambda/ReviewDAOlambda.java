@@ -8,11 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
@@ -25,7 +22,6 @@ import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ReviewDAO;
 import it.ingsw.cinemates20_mobile.model.Review;
-import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
 import it.ingsw.cinemates20_mobile.widgets.adapters.ReviewsAdapter;
 import it.ingsw.cinemates20_mobile.widgets.adapters.UserReviewsAdapter;
@@ -36,13 +32,12 @@ public class ReviewDAOlambda implements ReviewDAO {
     @Override
     public Integer publishNewMovieReview(@NonNull Review newReview, Context context){
         Integer[] responseCode = new Integer[1];
-        String url = APIurl + "/insertnewreview?user_id=" + newReview.getUserOwner() + "&vote=" + newReview.getReviewVote() + "&id_film=" + newReview.getMovieID() + "&description=" + newReview.getReviewText();
+        String url = APIurl + "/insertnewreview?user_id=" + newReview.getUserOwner() + "&vote=" + newReview.getReviewVote() + "&id_film=" + newReview.getMovieID()
+                + "&film_poster=" + newReview.getFilmPosterUri() + "&film_title=" + newReview.getFilmTitle() + "&description=" + newReview.getReviewText();
 
         Response.Listener<String> listener = response -> {
             Log.d("VolleySuccessPostReviews", responseCode[0]+": Recensione publicata con successo");
             responseCode[0] = 200;
-
-
         };
 
         Response.ErrorListener errorListener = error -> {
@@ -83,12 +78,51 @@ public class ReviewDAOlambda implements ReviewDAO {
                     userNickname = jsonObject.getString("user_nickname");
                     userImage = jsonObject.getString("user_image");
 
-                    reviews.add(new Review(reviewID, userID, movieID, reviewsText, vote));
+                    reviews.add(new Review(reviewID, userID, movieID, reviewsText, vote, null, null));
                     usersNickname.add(userNickname);
                     userProfileImages.add(Uri.parse(userImage));
                 }
 
                 reviewsRecyclerView.setAdapter(new ReviewsAdapter(context, reviews, usersNickname, userProfileImages));
+                reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } catch (JSONException e) {
+                Log.d("JSONException", "errore recupero recensioni");
+            }
+        };
+
+        Response.ErrorListener errorListener = error -> Log.d("VolleyErrorGetUserReviews", ""+error.getMessage());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void getUserReviews(Context context, String userID, RecyclerView reviewsRecyclerView) {
+        String url = APIurl + "/getreviewbyuser?user_id=" + userID;
+
+        Response.Listener<JSONObject> listener = response -> {
+            List<Review> reviews = new ArrayList<>();
+
+            try {
+                JSONObject jsonObject;
+                String reviewsText, movieTitle, moviePoster;
+                int vote, reviewID, movieID;
+
+                JSONArray jsonArray = response.getJSONArray("reviews");
+
+                for(int i=0;i<jsonArray.length();i++){
+                    jsonObject = jsonArray.getJSONObject(i);
+
+                    reviewID = jsonObject.getInt("id_review");
+                    vote = jsonObject.getInt("vote");
+                    reviewsText = jsonObject.getString("description");
+                    movieID = jsonObject.getInt("id_film");
+                    movieTitle = jsonObject.getString("film_title");
+                    moviePoster = jsonObject.getString("film_poster");
+
+                    reviews.add(new Review(reviewID, userID, movieID, reviewsText, vote, movieTitle, moviePoster));
+                }
+
+                reviewsRecyclerView.setAdapter(new UserReviewsAdapter(context, reviews));
                 reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } catch (JSONException e) {
                 Log.d("JSONException", "errore recupero recensioni");

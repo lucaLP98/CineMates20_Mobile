@@ -3,8 +3,8 @@ package it.ingsw.cinemates20_mobile.model;
 public class Review {
     private final int reviewID;
     private final String userID;
-    private final String reviewText;
-    private final int reviewVote;
+    private String reviewText;
+    private int reviewVote;
     private final int movieID;
     private final String filmTitle;
     private final String filmPosterUri;
@@ -42,4 +42,12 @@ public class Review {
     }
 
     public String getFilmTitle(){ return filmTitle;}
+
+    public void setReviewVote(int vote){
+        reviewVote = vote;
+    }
+
+    public void setReviewText(String text){
+        reviewText = text;
+    }
 }

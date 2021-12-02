@@ -20,6 +20,7 @@ import java.util.List;
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Review;
+import it.ingsw.cinemates20_mobile.presenters.EditReviewPresenter;
 
 public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.UserReviewsHolder>{
     private final Context context;
@@ -51,10 +52,10 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
                     .into(holder.moviePoster);
         }
 
-        holder.optionReviewImageButton.setOnClickListener(v->showReviewPopUpMenu(v, reviews.get(position)));
+        holder.optionReviewImageButton.setOnClickListener(v->showReviewPopUpMenu(v, reviews.get(position), position));
     }
 
-    private void removeReview(Review review){
+    private void removeReview(Review review, int position){
         new AlertDialog.Builder(context)
                 .setTitle(context.getResources().getString(R.string.delete_review))
                 .setMessage(context.getResources().getString(R.string.delete_review_msg))
@@ -62,13 +63,27 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
                         (dialog, which) -> {
                             DAOFactory.getReviewDao().deleteUserReviews(context, review.getReviewID());
                             reviews.remove(review);
-                            notifyDataSetChanged();
+                            notifyItemRemoved(position);
                         })
                 .setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {})
                 .show();
     }
 
-    private void showReviewPopUpMenu(View trigger, Review review){
+    private void editReview(@NonNull Review review, int position){
+        EditReviewPresenter editReviewPresenter = new EditReviewPresenter(review, context);
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.edit_review))
+                .setView(editReviewPresenter.getEditReviewsDialogLayout())
+                .setPositiveButton(context.getResources().getString(R.string.confirm),
+                        (dialog, which) -> {
+                            if(editReviewPresenter.pressSaveChangesReviewbutton()) notifyItemChanged(position);
+                        })
+                .setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {})
+                .show();
+    }
+
+    private void showReviewPopUpMenu(View trigger, Review review, int position){
         PopupMenu popupMenu = new PopupMenu(context, trigger);
         popupMenu.getMenuInflater().inflate(R.menu.user_review_pop_up_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
@@ -76,12 +91,12 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
 
             switch (item.getItemId()){
                 case R.id.edit_review_popup_menu:
-
+                    editReview(review, position);
                     ret = true;
                     break;
 
                 case R.id.delete_review_popup_menu:
-                    removeReview(review);
+                    removeReview(review, position);
                     ret = true;
                     break;
 

@@ -12,18 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Movie;
 import it.ingsw.cinemates20_mobile.presenters.WriteReviewPresenter;
 
 public class WriteReviewFragment extends Fragment {
-    private Movie movie;
+    private final Movie movie;
 
     private WriteReviewPresenter writeReviewPresenter;
 
-    public WriteReviewFragment(Movie movie){
+    public WriteReviewFragment(@NonNull Movie movie){
         this.movie = movie;
     }
 
@@ -36,26 +34,18 @@ public class WriteReviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_write_review, container, false);
 
+        writeReviewPresenter = new WriteReviewPresenter(this, inflate, movie);
+
         Toolbar toolbar = inflate.findViewById(R.id.toolbar_write_review_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(movie.getTitle());
 
         ImageView poster = inflate.findViewById(R.id.moviePosterWriteReviewImageView);
-        setImageViewPoster(poster);
-
-        writeReviewPresenter = new WriteReviewPresenter(this, inflate, movie);
+        writeReviewPresenter.setImageViewPoster(poster);
         inflate.findViewById(R.id.cancellPublishReviewButton).setOnClickListener( v -> writeReviewPresenter.pressCancellButton() );
         inflate.findViewById(R.id.publishReviewButton).setOnClickListener( v -> writeReviewPresenter.pressPublishReviewButton() );
 
         return inflate;
-    }
-
-    private void setImageViewPoster(ImageView poster){
-        Glide
-                .with(getContext())
-                .load(movie.getPosterUri())
-                .centerCrop()
-                .into(poster);
     }
 }

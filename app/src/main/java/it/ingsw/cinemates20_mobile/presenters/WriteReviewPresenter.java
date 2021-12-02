@@ -2,8 +2,11 @@ package it.ingsw.cinemates20_mobile.presenters;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
@@ -17,7 +20,7 @@ public class WriteReviewPresenter extends FragmentPresenter{
     private final EditText reviewEditText;
     private final Movie movie;
 
-    public WriteReviewPresenter(WriteReviewFragment fragment, @NonNull View inflate, Movie movie){
+    public WriteReviewPresenter(WriteReviewFragment fragment, @NonNull View inflate, @NonNull Movie movie){
         super(fragment);
 
         this.movie = movie;
@@ -52,5 +55,13 @@ public class WriteReviewPresenter extends FragmentPresenter{
         DAOFactory.getReviewDao().publishNewMovieReview(newReview, getContext());
         showSuccessMessage(getContext().getResources().getString(R.string.success_review_publish_label),getContext().getResources().getString(R.string.success_review_publish));
         getFragmentManager().popBackStack("MOVIE_CARD", 0);
+    }
+
+    public void setImageViewPoster(ImageView poster){
+        Glide
+                .with(getContext())
+                .load(movie.getPosterUri())
+                .centerCrop()
+                .into(poster);
     }
 }

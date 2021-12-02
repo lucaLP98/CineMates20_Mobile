@@ -96,6 +96,7 @@ public class ReviewDAOlambda implements ReviewDAO {
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
+    @Override
     public void getUserReviews(Context context, String userID, RecyclerView reviewsRecyclerView) {
         String url = APIurl + "/getreviewbyuser?user_id=" + userID;
 
@@ -135,16 +136,25 @@ public class ReviewDAOlambda implements ReviewDAO {
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
+    @Override
     public void deleteUserReviews(Context context, int reviewID){
         String url = APIurl + "/deletereview?review_id=" + reviewID;
 
-        Response.Listener<String> listener = response -> {
-            Log.d("VolleySuccessPostReviews", "Recensione eliminata con successo");
-        };
+        Response.Listener<String> listener = response -> Log.d("VolleySuccessDeleteReviews", "Recensione eliminata con successo");
 
-        Response.ErrorListener errorListener = error -> {
-            Log.d("VolleyErrorPostReviews", ""+error.networkResponse.statusCode);
-        };
+        Response.ErrorListener errorListener = error -> Log.d("VolleyErrorDeleteReviews", ""+error.networkResponse.statusCode);
+
+        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
+    }
+
+    @Override
+    public void editUserReviews(Context context, int reviewID, int vote, String body){
+        String url = APIurl + "/editreview?review_id=" + reviewID +"&vote=" + vote + "&description=" + body;
+
+        Response.Listener<String> listener = response -> Log.d("VolleySuccessEditReviews", "Recensione eliminata con successo");
+
+        Response.ErrorListener errorListener = error -> Log.d("VolleyErrorEditReviews", ""+error.networkResponse.statusCode);
 
         StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/toolbar_notifications_fragment"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:id="@+id/frameLayout3"
@@ -27,16 +27,23 @@
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="45sp"
-            android:layout_gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="center"/>
+
+        <android.widget.Button
+            android:id="@+id/goToConnectionRequestsButton"
+            android:layout_width="225sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:background="@drawable/button_background"
+            android:text="@string/connection_requests"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notifications_Recycle_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15sp"
+            android:layout_margin="10sp"
             tools:layout_editor_absoluteX="0dp"/>
 
     </LinearLayout>

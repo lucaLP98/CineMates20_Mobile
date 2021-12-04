@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "960389608094",
+    "project_id": "cinemates20-android-notify",
+    "storage_bucket": "cinemates20-android-notify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960389608094:android:dd96d0953e40434c16818f",
+        "android_client_info": {
+          "package_name": "it.ingsw.cinemates20_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960389608094-d0gdoab5u6m1irs1o61ar5hlgatj6p4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwqm1rjW6aDSvjnoXZ4KuPwe_s2RveW-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960389608094-d0gdoab5u6m1irs1o61ar5hlgatj6p4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

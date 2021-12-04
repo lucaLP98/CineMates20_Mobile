@@ -33,7 +33,7 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersHolder
     public UsersHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.users_row, parent, false);
 
-        return new UsersAdapter.UsersHolder(view);
+        return new UsersHolder(view);
     }
 
     @Override
@@ -49,6 +49,12 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersHolder
 
         holder.userNameTextView.setText(user.getName() + " " + user.getSurname());
         holder.userNicknameTextView.setText(user.getNickname());
+
+        if(!ThisUser.getUserAuthenticated() || ThisUser.getInstance().getUserID().equals(user.getUserID())){
+            holder.addUserButton.setVisibility(View.GONE);
+        }else{
+            //aggiuingi logica invia richiesta
+        }
     }
 
     @Override
@@ -56,7 +62,7 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersHolder
         return users.size();
     }
 
-    protected class UsersHolder extends RecyclerView.ViewHolder {
+    protected static class UsersHolder extends RecyclerView.ViewHolder {
         private final TextView userNameTextView;
         private final TextView userNicknameTextView;
         private final CircleImageView userImageImageView;

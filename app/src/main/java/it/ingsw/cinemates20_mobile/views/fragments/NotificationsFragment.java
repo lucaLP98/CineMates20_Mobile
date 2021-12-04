@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.presenters.NotificationsPresenter;
 
 public class NotificationsFragment extends Fragment {
     public static final String notificationsFragmentLabel = "notifications_fragment";
+
+    private NotificationsPresenter notificationsPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,12 @@ public class NotificationsFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_notifications, container, false);
+
+        notificationsPresenter = new NotificationsPresenter(this, inflate);
+
+        inflate.findViewById(R.id.goToConnectionRequestsButton).setOnClickListener(v->notificationsPresenter.goToConnectionRequests());
+
+        return inflate;
     }
 }

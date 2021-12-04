@@ -149,8 +149,6 @@ public class UserDAOLambda implements UserDAO {
             url = url + "name="+userName+"&surname="+userSurname;
         }
 
-        Log.d("URL", url);
-
         List<User> users = new ArrayList<>();
 
         Response.Listener<JSONObject>
@@ -165,14 +163,12 @@ public class UserDAOLambda implements UserDAO {
                     jsonObject = jsonArray.getJSONObject(i);
 
                     userID = jsonObject.getString("user_id");
-                    if(!userID.equals(ThisUser.getInstance().getUserID())){
-                        name = jsonObject.getString("name");
-                        surname = jsonObject.getString("surname");
-                        nickname = jsonObject.getString("nickname");
-                        uriImage = jsonObject.getString("uri_image");
+                    name = jsonObject.getString("name");
+                    surname = jsonObject.getString("surname");
+                    nickname = jsonObject.getString("nickname");
+                    uriImage = jsonObject.getString("uri_image");
 
-                        users.add(new User(name, surname, nickname, Uri.parse(uriImage), userID));
-                    }
+                    users.add(new User(name, surname, nickname, Uri.parse(uriImage), userID));
                 }
 
                 recyclerView.setAdapter(new UsersAdapter(context, users));

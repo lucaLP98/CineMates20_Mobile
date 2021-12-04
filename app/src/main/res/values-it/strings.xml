@@ -108,6 +108,7 @@
     <string name="edit_review_success_label">Successo modifica</string>
     <string name="avarge_rating_movie">Voto Medio</string>
     <string name="whithespace_error">I campi nome e nickname non possono contenere il carattere spazio: devono essere un\'unica parola</string>
+    <string name="connection_requests">Richieste di collegamento</string>
 
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

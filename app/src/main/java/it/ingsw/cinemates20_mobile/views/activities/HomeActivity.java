@@ -68,7 +68,11 @@ public class HomeActivity extends AppCompatActivity {
                     break;
 
                 case R.id.nav_notifications:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, notificationsFragment, NotificationsFragment.notificationsFragmentLabel).commit();
+                    if(ThisUser.getUserAuthenticated()){
+                        getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, notificationsFragment, NotificationsFragment.notificationsFragmentLabel).commit();
+                    }else{
+                        accessDeniedForNotAuthentication();
+                    }
                     break;
 
                 case R.id.nav_profile:

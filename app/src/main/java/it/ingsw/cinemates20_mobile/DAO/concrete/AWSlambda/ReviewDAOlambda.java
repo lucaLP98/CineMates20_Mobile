@@ -22,6 +22,7 @@ import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ReviewDAO;
 import it.ingsw.cinemates20_mobile.model.Review;
+import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
 import it.ingsw.cinemates20_mobile.widgets.adapters.ReviewsAdapter;
 import it.ingsw.cinemates20_mobile.widgets.adapters.UserReviewsAdapter;
@@ -30,25 +31,22 @@ public class ReviewDAOlambda implements ReviewDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
     @Override
-    public Integer publishNewMovieReview(@NonNull Review newReview, Context context){
-        Integer[] responseCode = new Integer[1];
+    public void publishNewMovieReview(@NonNull Review newReview, Context context, RequestCallback requestCallback){
         String url = APIurl + "/insertnewreview?user_id=" + newReview.getUserOwner() + "&vote=" + newReview.getReviewVote() + "&id_film=" + newReview.getMovieID()
                 + "&film_poster=" + newReview.getFilmPosterUri() + "&film_title=" + newReview.getFilmTitle() + "&description=" + newReview.getReviewText();
 
         Response.Listener<String> listener = response -> {
-            Log.d("VolleySuccessPostReviews", responseCode[0]+": Recensione publicata con successo");
-            responseCode[0] = 200;
+            Log.d("VolleySuccessPostReviews", "Recensione publicata con successo");
+            requestCallback.onSuccess(response);
         };
 
         Response.ErrorListener errorListener = error -> {
             Log.d("VolleyErrorPostReviews", ""+error.networkResponse.statusCode);
-            responseCode[0] = error.networkResponse.statusCode;
+            requestCallback.onError(error);
         };
 
         StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
-
-        return responseCode[0];
     }
 
     @Override
@@ -94,6 +92,7 @@ public class ReviewDAOlambda implements ReviewDAO {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+
     }
 
     @Override

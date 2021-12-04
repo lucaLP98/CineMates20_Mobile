@@ -88,7 +88,7 @@ public class SingUpPasswordPresenter extends FragmentPresenter{
         }
 
         @Override
-        public void onFailure(Exception exception) {
+        public void onFailure(@NonNull Exception exception) {
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), exception.getLocalizedMessage());
         }
     };

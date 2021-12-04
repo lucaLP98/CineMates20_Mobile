@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.presenters.UserPresenter;
 
 public class UsersFragment extends Fragment {
     public static final String usersFragmentLabel = "users_fragment";
+
+    private UserPresenter userPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,11 @@ public class UsersFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_users, container, false);
+
+        userPresenter = new UserPresenter(this, inflate);
+        inflate.findViewById(R.id.search_users_button).setOnClickListener( v -> userPresenter.pressSerachUsersButton() );
+
+        return inflate;
     }
 }

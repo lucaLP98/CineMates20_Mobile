@@ -26,13 +26,15 @@ public class UserReviewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_user_reviews, container, false);
 
+        userReviewsPresenter = new UserReviewsPresenter(this, inflate);
+
         Toolbar toolbar = inflate.findViewById(R.id.toolbar_user_reviews_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.reviews_made);
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        toolbar.setNavigationOnClickListener( v -> userReviewsPresenter.pressBackButton() );
 
-        userReviewsPresenter = new UserReviewsPresenter(this, inflate);
-        inflate.findViewById(R.id.backUserReviewsFragmentButton).setOnClickListener( v -> userReviewsPresenter.pressBackButton() );
         userReviewsPresenter.setReviewsRecyclerView();
 
         return inflate;

@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.views.fragments.EditPasswordFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.EditUserDataFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
@@ -30,10 +30,22 @@ public class EditUserDataPresenter extends FragmentPresenter{
     }
 
     public void setEditTextValue(){
-        editName.setText(User.getInstance().getName());
-        editSruname.setText(User.getInstance().getSurname());
-        editNickname.setText(User.getInstance().getNickname());
-        editBio.setText(User.getInstance().getBiography());
+        if(ThisUser.getInstance() != null){
+            editName.setText(ThisUser.getInstance().getName());
+            editSruname.setText(ThisUser.getInstance().getSurname());
+            editNickname.setText(ThisUser.getInstance().getNickname());
+            editBio.setText(ThisUser.getInstance().getBiography());
+        }
+    }
+
+    private boolean containsWhiteSpace(@NonNull String str){
+        for (int i = 0; i < str.length(); i++){
+            if (Character.isWhitespace(str.charAt(i))){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void pressSaveChanges(){
@@ -46,6 +58,11 @@ public class EditUserDataPresenter extends FragmentPresenter{
         String surname = String.valueOf(editSruname.getText()).toUpperCase();
         String nickname = String.valueOf(editNickname.getText());
         String bio = (isEmptyEditText(editBio)) ? "" : String.valueOf(editBio.getText());
+
+        if(!containsWhiteSpace(name) && !containsWhiteSpace(nickname)){
+            showErrorMessage(getContext().getResources().getString(R.string.edit_data_error_label), getContext().getResources().getString(R.string.whithespace_error));
+            return;
+        }
 
         if(DAOFactory.getUserDao().editUserData(name, surname, nickname, bio, getContext())){
             showSuccessMessage(getContext().getResources().getString(R.string.edit_data_success_label), getContext().getResources().getString(R.string.edit_data_success_msg));

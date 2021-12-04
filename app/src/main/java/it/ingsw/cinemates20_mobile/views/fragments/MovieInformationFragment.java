@@ -34,13 +34,16 @@ public class MovieInformationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate =  inflater.inflate(R.layout.fragment_movie_information, container, false);
 
+        MovieInformationPresenter movieInformationPresenter = new MovieInformationPresenter(this, inflate);
+
         Toolbar toolbar = inflate.findViewById(R.id.toolbar_movie_information_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(movie.getTitle());
         setHasOptionsMenu(true);
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        toolbar.setNavigationOnClickListener( v -> movieInformationPresenter.pressBackButton() );
 
-        MovieInformationPresenter movieInformationPresenter = new MovieInformationPresenter(this, inflate);
         movieInformationPresenter.showMovieDetails(movie);
         inflate.findViewById(R.id.writeReviewButton).setOnClickListener( v-> movieInformationPresenter.pressWriteReviewButton() );
         inflate.findViewById(R.id.viewReviewButton).setOnClickListener( v-> movieInformationPresenter.pressViewReviewsList() );
@@ -58,15 +61,12 @@ public class MovieInformationFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         boolean ret;
 
-        switch (item.getItemId()) {
-            case R.id.share_movie_toolbar_menu:
-                ret = true;
+        if (item.getItemId() == R.id.share_movie_toolbar_menu) {
+            /* condividi film */
 
-                break;
-
-            default:
-                ret = false;
-                break;
+            ret = true;
+        } else {
+            ret = false;
         }
 
         return ret;

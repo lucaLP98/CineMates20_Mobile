@@ -20,7 +20,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPas
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
@@ -61,7 +61,7 @@ public class LoginPresenter extends FragmentPresenter{
     private final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            User.setUserAuthenticated(true);
+            ThisUser.setUserAuthenticated(true);
 
             DAOFactory.getUserDao().getUserdata(userSession, getContext());
 

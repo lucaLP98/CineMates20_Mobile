@@ -11,7 +11,6 @@ public class CognitoSettings {
     private final String clientSecret = "ubpprb28bm8la2l607dk1b41hd39ndd757he2nt18l5i33jdbk5";
     private final Regions cognitoRegion = Regions.US_EAST_2;
 
-
     private final CognitoUserPool cognitoUserPool;
     private  static CognitoSettings cognitoSettingsInstance;
 

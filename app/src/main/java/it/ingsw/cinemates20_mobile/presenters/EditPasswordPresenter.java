@@ -9,7 +9,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.fragments.EditPasswordFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
@@ -53,7 +53,7 @@ public class EditPasswordPresenter extends FragmentPresenter{
     private void changePassword(String oldPsw, String newPsw){
         CognitoSettings cognito = CognitoSettings.getInstance(getContext());
 
-        CognitoUser user = cognito.getUserPool().getUser(User.getInstance().getEmail());
+        CognitoUser user = cognito.getUserPool().getUser(ThisUser.getInstance().getEmail());
         user.changePasswordInBackground(oldPsw, newPsw, new GenericHandler() {
             @Override
             public void onSuccess() {

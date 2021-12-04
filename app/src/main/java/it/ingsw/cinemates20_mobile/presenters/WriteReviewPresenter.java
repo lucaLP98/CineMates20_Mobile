@@ -6,13 +6,15 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Movie;
 import it.ingsw.cinemates20_mobile.model.Review;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
+import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.views.fragments.WriteReviewFragment;
 
 public class WriteReviewPresenter extends FragmentPresenter{
@@ -51,10 +53,22 @@ public class WriteReviewPresenter extends FragmentPresenter{
     }
 
     private void publishReview(Integer vote, String text) {
-        Review newReview = new Review(0, User.getInstance().getUserID(), movie.getMovieID(), text, vote, movie.getTitle(), movie.getPosterUri().toString());
-        DAOFactory.getReviewDao().publishNewMovieReview(newReview, getContext());
-        showSuccessMessage(getContext().getResources().getString(R.string.success_review_publish_label),getContext().getResources().getString(R.string.success_review_publish));
-        getFragmentManager().popBackStack("MOVIE_CARD", 0);
+        Review newReview = new Review(0, ThisUser.getInstance().getUserID(), movie.getMovieID(), text, vote, movie.getTitle(), movie.getPosterUri().toString());
+
+        RequestCallback<String> requestCallback = new RequestCallback<String>() {
+            @Override
+            public void onSuccess(@NonNull String result) {
+                showSuccessMessage(getContext().getResources().getString(R.string.success_review_publish_label),getContext().getResources().getString(R.string.success_review_publish));
+                getFragmentManager().popBackStack("MOVIE_CARD", 0);
+            }
+
+            @Override
+            public void onError(@NonNull VolleyError error) {
+                showErrorMessage(getContext().getResources().getString(R.string.error_review_publish), getContext().getResources().getString(R.string.error_review_already_posted));
+            }
+        };
+
+        DAOFactory.getReviewDao().publishNewMovieReview(newReview, getContext(), requestCallback);
     }
 
     public void setImageViewPoster(ImageView poster){

@@ -3,7 +3,7 @@ package it.ingsw.cinemates20_mobile.presenters;
 import android.content.Intent;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.AccessFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
@@ -24,7 +24,7 @@ public class AccessPresenter extends FragmentPresenter{
     }
 
     public void pressSingInLater(){
-        User.setUserAuthenticated(false);
+        ThisUser.setUserAuthenticated(false);
         Intent goToHomePageIntent = new Intent(getContext(), HomeActivity.class);
         getContext().startActivity(goToHomePageIntent);
     }

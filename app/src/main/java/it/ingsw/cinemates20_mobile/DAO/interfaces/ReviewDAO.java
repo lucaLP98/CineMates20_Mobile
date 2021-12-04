@@ -4,13 +4,12 @@ import android.content.Context;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import it.ingsw.cinemates20_mobile.model.Review;
+import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 
 public interface ReviewDAO {
 
-    Integer publishNewMovieReview(Review newReview, Context context);
+    void publishNewMovieReview(Review newReview, Context context, RequestCallback<?> requestCallback);
 
     void getMovieReviews(Context context, int movieID, RecyclerView reviewsRecyclerView);
 

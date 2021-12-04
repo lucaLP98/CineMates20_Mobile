@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.utilities.CloudinarySettings;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
@@ -73,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
                     break;
 
                 case R.id.nav_profile:
-                    if(User.getUserAuthenticated()){
+                    if(ThisUser.getUserAuthenticated()){
                         getSupportFragmentManager().beginTransaction().replace(R.id.home_page_container, profileFragment, ProfileFragment.profileFragmentLabel).commit();
                     }else{
                         accessDeniedForNotAuthentication();
@@ -110,8 +109,8 @@ public class HomeActivity extends AppCompatActivity {
 
         if(film != null && film.isVisible()){
             if (doubleBackToExitPressedOnce[0]) {
-                if(User.getUserAuthenticated()){
-                    CognitoSettings.getInstance(this).getUserPool().getUser(User.getInstance().getEmail()).signOut();
+                if(ThisUser.getUserAuthenticated()){
+                    CognitoSettings.getInstance(this).getUserPool().getUser(ThisUser.getInstance().getEmail()).signOut();
                 }
                 finishAffinity();
             }

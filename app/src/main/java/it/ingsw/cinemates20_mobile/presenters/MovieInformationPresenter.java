@@ -23,7 +23,7 @@ import info.movito.themoviedbapi.model.people.PersonCast;
 import info.movito.themoviedbapi.model.people.PersonCrew;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Movie;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.model.builder.MovieBuilder;
 import it.ingsw.cinemates20_mobile.views.fragments.MovieInformationFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.MovieReviewsListFragment;
@@ -61,7 +61,7 @@ public class MovieInformationPresenter extends FragmentPresenter{
     }
 
     public void pressWriteReviewButton(){
-        if(User.getUserAuthenticated()){
+        if(ThisUser.getUserAuthenticated()){
             getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container, new WriteReviewFragment(movie)).commit();
         }else{
             showErrorMessage(getContext().getResources().getString(R.string.error_not_authenticated_label), getContext().getResources().getString(R.string.error_not_authenticated_msg));
@@ -70,6 +70,10 @@ public class MovieInformationPresenter extends FragmentPresenter{
 
     public void pressViewReviewsList(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container, new MovieReviewsListFragment(movie)).commit();
+    }
+
+    public void pressBackButton(){
+        getFragmentManager().popBackStack();
     }
 
     private void setDataField(){

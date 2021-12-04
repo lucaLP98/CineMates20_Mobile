@@ -7,10 +7,7 @@ import it.ingsw.cinemates20_mobile.DAO.interfaces.UserDAO;
 
 public abstract class DAOFactory {
     private enum DatabaseType{
-        LAMBDA,
-        POSTGRES,
-        ORACLE,
-        MYSQL
+        LAMBDA
     }
 
     private static final DatabaseType concreteDatabase = DatabaseType.LAMBDA;

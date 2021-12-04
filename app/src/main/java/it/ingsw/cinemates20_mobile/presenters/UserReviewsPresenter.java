@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.views.fragments.UserReviewsFragment;
 
 public class UserReviewsPresenter extends FragmentPresenter{
@@ -20,7 +20,7 @@ public class UserReviewsPresenter extends FragmentPresenter{
     }
 
     public void setReviewsRecyclerView(){
-        DAOFactory.getReviewDao().getUserReviews(getContext(), User.getInstance().getUserID(), reviewsRecyclerView);
+        DAOFactory.getReviewDao().getUserReviews(getContext(), ThisUser.getInstance().getUserID(), reviewsRecyclerView);
     }
 
     public void pressBackButton(){

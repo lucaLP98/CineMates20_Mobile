@@ -10,7 +10,7 @@
     <string name="forgotPassword">Password dimenticata ?</string>
     <string name="loginLabel">LOGIN</string>
     <string name="insert_email">e-Mail *</string>
-    <string name="insert_username">Username *</string>
+    <string name="insert_username">Nickname *</string>
     <string name="insert_birthdate">Data di nascita *</string>
     <string name="insert_password">Password *</string>
     <string name="repeat_password">Ripeti password *</string>
@@ -106,6 +106,8 @@
     <string name="delete_review_msg">Sei sicuro di voler eliminare questa recensione ?</string>
     <string name="edit_review_success">Recensione modificata con successo</string>
     <string name="edit_review_success_label">Successo modifica</string>
+    <string name="avarge_rating_movie">Voto Medio</string>
+    <string name="whithespace_error">I campi nome e nickname non possono contenere il carattere spazio: devono essere un\'unica parola</string>
 
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

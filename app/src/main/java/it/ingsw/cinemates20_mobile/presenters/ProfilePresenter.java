@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.activities.MainActivity;
@@ -48,11 +48,11 @@ public class ProfilePresenter extends FragmentPresenter{
         String nickname = null;
         String bio= null;
 
-        if(User.getInstance() != null){
-            name = User.getInstance().getName();
-            surname = User.getInstance().getSurname();
-            nickname = User.getInstance().getNickname();
-            bio = User.getInstance().getBiography();
+        if(ThisUser.getInstance() != null){
+            name = ThisUser.getInstance().getName();
+            surname = ThisUser.getInstance().getSurname();
+            nickname = ThisUser.getInstance().getNickname();
+            bio = ThisUser.getInstance().getBiography();
         }
 
         if(name != null && surname != null && nickname != null && bio != null){
@@ -64,17 +64,17 @@ public class ProfilePresenter extends FragmentPresenter{
     }
 
     public void setProfileImageView(){
-        if(User.getInstance() != null && User.getInstance().getUriProfileImage() != null){
+        if(ThisUser.getInstance() != null && ThisUser.getInstance().getUriProfileImage() != null){
             Glide
                 .with(getContext())
-                .load(User.getInstance().getUriProfileImage())
+                .load(ThisUser.getInstance().getUriProfileImage())
                 .centerCrop()
                 .into(profileImageView);
         }
     }
 
     private void logout(){
-        User user = User.getInstance();
+        ThisUser user = ThisUser.getInstance();
         CognitoSettings.getInstance(getContext()).getUserPool().getUser(user.getEmail()).signOut();
         user.logout();
     }

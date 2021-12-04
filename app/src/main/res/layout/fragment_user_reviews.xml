@@ -13,22 +13,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userReviewsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="430dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10sp"
         android:layout_marginTop="15sp"
         android:layout_marginRight="10sp"
         android:layout_marginBottom="10sp" />
-
-    <android.widget.Button
-        android:id="@+id/backUserReviewsFragmentButton"
-        android:layout_width="180sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5sp"
-        android:background="@drawable/button_background"
-        android:text="@string/back"
-        android:textColor="@color/white"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
 
 </LinearLayout>

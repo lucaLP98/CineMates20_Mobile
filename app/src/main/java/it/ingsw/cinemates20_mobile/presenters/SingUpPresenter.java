@@ -27,12 +27,27 @@ public class SingUpPresenter extends FragmentPresenter{
 
     public void pressCancelButton(){ getFragmentManager().popBackStack(); }
 
+    private boolean containsWhiteSpace(@NonNull String str){
+        for (int i = 0; i < str.length(); i++){
+            if (Character.isWhitespace(str.charAt(i))){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void pressNextButton(){
         //required fields check
         if( isEmptyEditText(newNameEditText) || isEmptyEditText(newSurnameEditText) ||
             isEmptyEditText(newEmailEditText)  || isEmptyEditText(newUsernameEditText)
         ){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_empty_field));
+            return;
+        }
+
+        if(containsWhiteSpace(String.valueOf(newNameEditText.getText())) || containsWhiteSpace(String.valueOf(newUsernameEditText.getText()))){
+            showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.whithespace_error));
             return;
         }
 

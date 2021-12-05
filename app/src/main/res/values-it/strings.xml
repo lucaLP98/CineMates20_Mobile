@@ -98,7 +98,7 @@
     <string name="error_review_label">Errore Recensione</string>
     <string name="error_not_valid_review_vote">Il voto inserito non è valido: Inserire un voto compreso tra 0 e 100</string>
     <string name="success_review_publish_label">Recensione Publicata</string>
-    <string name="success_review_publish">Recensione publicata con successo</string>
+    <string name="success_review_publish">Recensione pubblicata con successo</string>
     <string name="error_review_already_posted">Hai già scritto in precedenza una recensione per questo film.</string>
     <string name="error_review_publish">Errore durante la publicazione della recensione.</string>
     <string name="edit_review">Modifica Recensione</string>
@@ -110,5 +110,9 @@
     <string name="whithespace_error">I campi nome e nickname non possono contenere il carattere spazio: devono essere un\'unica parola</string>
     <string name="connection_requests">Richieste di collegamento</string>
 
+    <!-- messaggi di notifica -->
+    <string name="connection_request_sended_notify_msg">ti ha inviato una richiesta di collegamento.</string>
+
+    <!-- key -->
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
 </resources>

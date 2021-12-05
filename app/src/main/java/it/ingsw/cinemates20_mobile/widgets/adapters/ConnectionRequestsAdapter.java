@@ -18,14 +18,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.ConnectionRequest;
 import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.presenters.ConnectionRequestsPresenter;
 
 public class ConnectionRequestsAdapter extends RecyclerView.Adapter<ConnectionRequestsAdapter.ConnectionRequestsHolder>{
     private final List<ConnectionRequest> connectionRequestList;
     private final Context context;
+    private final ConnectionRequestsPresenter connectionRequestsPresenter;
 
-    public ConnectionRequestsAdapter(List<ConnectionRequest> connectionRequestList, Context context) {
+    public ConnectionRequestsAdapter(List<ConnectionRequest> connectionRequestList, Context context, ConnectionRequestsPresenter connectionRequestsPresenter) {
         this.connectionRequestList = connectionRequestList;
         this.context = context;
+        this.connectionRequestsPresenter = connectionRequestsPresenter;
     }
 
     @NonNull

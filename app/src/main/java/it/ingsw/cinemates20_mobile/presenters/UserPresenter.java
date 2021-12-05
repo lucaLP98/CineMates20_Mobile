@@ -5,11 +5,19 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.VolleyError;
+
+import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.views.fragments.UsersFragment;
+import it.ingsw.cinemates20_mobile.widgets.adapters.UsersAdapter;
 
 public class UserPresenter extends FragmentPresenter{
     private final EditText searcUsersEditText;
@@ -50,6 +58,19 @@ public class UserPresenter extends FragmentPresenter{
             surname = null;
         }
 
-        DAOFactory.getUserDao().searchUsers(getContext(), name, surname, resultRecyclerView);
+        RequestCallback<List<User>> callback = new RequestCallback<List<User>>() {
+            @Override
+            public void onSuccess(@NonNull List<User> result) {
+                resultRecyclerView.setAdapter(new UsersAdapter(getContext(), result));
+                resultRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+
+            @Override
+            public void onError(@NonNull VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+
+        DAOFactory.getUserDao().searchUsers(getContext(), name, surname, callback);
     }
 }

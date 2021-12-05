@@ -4,16 +4,17 @@ import android.content.Context;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import it.ingsw.cinemates20_mobile.model.Review;
 import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 
 public interface ReviewDAO {
-
-    void publishNewMovieReview(Review newReview, Context context, RequestCallback<?> requestCallback);
+    void publishNewMovieReview(Review newReview, Context context, RequestCallback<String>  requestCallback);
 
     void getMovieReviews(Context context, int movieID, RecyclerView reviewsRecyclerView);
 
-    void getUserReviews(Context context, String userID, RecyclerView reviewsRecyclerView);
+    void getUserReviews(Context context, String userID, RequestCallback<List<Review>> callback);
 
     void deleteUserReviews(Context context, int reviewID);
 

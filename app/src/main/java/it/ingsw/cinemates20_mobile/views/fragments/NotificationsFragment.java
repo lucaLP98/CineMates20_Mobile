@@ -3,6 +3,7 @@ package it.ingsw.cinemates20_mobile.views.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -28,7 +29,17 @@ public class NotificationsFragment extends Fragment {
 
         notificationsPresenter = new NotificationsPresenter(this, inflate);
 
+        notificationsPresenter.showNotidficationsList();
+
         inflate.findViewById(R.id.goToConnectionRequestsButton).setOnClickListener(v->notificationsPresenter.goToConnectionRequests());
+        inflate.findViewById(R.id.refreshNotificationsListFloatingActionButton).setOnClickListener(v->{
+            notificationsPresenter.showNotidficationsList();
+            ViewCompat.animate(v)
+                    .rotation(360f)
+                    .withLayer()
+                    .setDuration(300)
+                    .start();
+        });
 
         return inflate;
     }

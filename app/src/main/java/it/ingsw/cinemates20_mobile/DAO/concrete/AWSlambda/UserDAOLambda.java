@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.android.volley.Request;
@@ -28,8 +26,8 @@ import java.util.Map;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.UserDAO;
 import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.model.User;
+import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
-import it.ingsw.cinemates20_mobile.widgets.adapters.UsersAdapter;
 
 public class UserDAOLambda implements UserDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
@@ -58,33 +56,22 @@ public class UserDAOLambda implements UserDAO {
             }
         };
 
-        Response.ErrorListener errorListener = error -> Log.d("VolleyError", error.getLocalizedMessage());
+        Response.ErrorListener errorListener = error -> error.printStackTrace();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
-    public Boolean editUserData(String newName, String newSurname, String newNickname, String newBio, Context context) {
-        final Boolean[] editCompleted = new Boolean[1];
-        editCompleted[0] = true;
+    public void editUserData(String newName, String newSurname, String newNickname, String newBio, Context context) {
         String user_id = ThisUser.getInstance().getUserSession().getUsername();
         String url = APIurl + "/edituserdata?user_id=" + user_id + "&name=" + newName + "&surname=" + newSurname + "&nickname=" + newNickname + "&biography=" + newBio;
 
-        Response.Listener<String> listener = response -> {
-            Log.d("VolleySuccessEditUserData", "modifica con successo");
-            editUserInstance(newName, newSurname, newNickname, newBio);
-            editCompleted[0] = true;
-        };
+        Response.Listener<String> listener = response -> editUserInstance(newName, newSurname, newNickname, newBio);
 
-        Response.ErrorListener errorListener = error -> {
-            Log.d("VolleyErrorEditUserData", error.getLocalizedMessage());
-            editCompleted[0] = false;
-        };
+        Response.ErrorListener errorListener = error -> error.printStackTrace();
 
         StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
-
-        return editCompleted[0];
     }
 
     private void editUserInstance(String newName, String newSurname, String newNickname, String newBio) {
@@ -140,7 +127,7 @@ public class UserDAOLambda implements UserDAO {
     }
 
     @Override
-    public void searchUsers(Context context, String userName, String userSurname, RecyclerView recyclerView){
+    public void searchUsers(Context context, String userName, String userSurname, RequestCallback<List<User>> callback){
         String url = APIurl + "/searchusers?";
 
         if(userSurname == null){
@@ -171,14 +158,13 @@ public class UserDAOLambda implements UserDAO {
                     users.add(new User(name, surname, nickname, Uri.parse(uriImage), userID));
                 }
 
-                recyclerView.setAdapter(new UsersAdapter(context, users));
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                callback.onSuccess(users);
             } catch (JSONException e) {
                 Log.d("JSONException", e.getLocalizedMessage());
             }
         };
 
-        Response.ErrorListener errorListener = error -> error.printStackTrace();
+        Response.ErrorListener errorListener = error -> callback.onError(error);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);

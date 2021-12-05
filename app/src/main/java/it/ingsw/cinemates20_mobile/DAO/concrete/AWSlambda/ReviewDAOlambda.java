@@ -25,25 +25,18 @@ import it.ingsw.cinemates20_mobile.model.Review;
 import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
 import it.ingsw.cinemates20_mobile.widgets.adapters.ReviewsAdapter;
-import it.ingsw.cinemates20_mobile.widgets.adapters.UserReviewsAdapter;
 
 public class ReviewDAOlambda implements ReviewDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
     @Override
-    public void publishNewMovieReview(@NonNull Review newReview, Context context, RequestCallback requestCallback){
+    public void publishNewMovieReview(@NonNull Review newReview, Context context, RequestCallback<String> requestCallback){
         String url = APIurl + "/insertnewreview?user_id=" + newReview.getUserOwner() + "&vote=" + newReview.getReviewVote() + "&id_film=" + newReview.getMovieID()
                 + "&film_poster=" + newReview.getFilmPosterUri() + "&film_title=" + newReview.getFilmTitle() + "&description=" + newReview.getReviewText();
 
-        Response.Listener<String> listener = response -> {
-            Log.d("VolleySuccessPostReviews", "Recensione publicata con successo");
-            requestCallback.onSuccess(response);
-        };
+        Response.Listener<String> listener = response -> requestCallback.onSuccess(response);
 
-        Response.ErrorListener errorListener = error -> {
-            Log.d("VolleyErrorPostReviews", ""+error.networkResponse.statusCode);
-            requestCallback.onError(error);
-        };
+        Response.ErrorListener errorListener = error -> requestCallback.onError(error);
 
         StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
@@ -52,7 +45,6 @@ public class ReviewDAOlambda implements ReviewDAO {
     @Override
     public void getMovieReviews(Context context, int movieID, RecyclerView reviewsRecyclerView) {
         String url = APIurl + "/getreviewbyfilm?film_id=" + movieID;
-
 
         Response.Listener<JSONObject> listener = response -> {
             List<Review> reviews = new ArrayList<>();
@@ -92,11 +84,10 @@ public class ReviewDAOlambda implements ReviewDAO {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
-
     }
 
     @Override
-    public void getUserReviews(Context context, String userID, RecyclerView reviewsRecyclerView) {
+    public void getUserReviews(Context context, String userID, RequestCallback<List<Review>> callback){
         String url = APIurl + "/getreviewbyuser?user_id=" + userID;
 
         Response.Listener<JSONObject> listener = response -> {
@@ -122,14 +113,13 @@ public class ReviewDAOlambda implements ReviewDAO {
                     reviews.add(new Review(reviewID, userID, movieID, reviewsText, vote, movieTitle, moviePoster));
                 }
 
-                reviewsRecyclerView.setAdapter(new UserReviewsAdapter(context, reviews));
-                reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                callback.onSuccess(reviews);
             } catch (JSONException e) {
                 Log.d("JSONException", "errore recupero recensioni");
             }
         };
 
-        Response.ErrorListener errorListener = error -> Log.d("VolleyErrorGetUserReviews", ""+error.getMessage());
+        Response.ErrorListener errorListener = error -> callback.onError(error);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);

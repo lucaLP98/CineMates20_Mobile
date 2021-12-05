@@ -11,7 +11,6 @@ import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.views.fragments.EditPasswordFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.EditUserDataFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
-import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
 
 public class EditUserDataPresenter extends FragmentPresenter{
 
@@ -59,18 +58,14 @@ public class EditUserDataPresenter extends FragmentPresenter{
         String nickname = String.valueOf(editNickname.getText());
         String bio = (isEmptyEditText(editBio)) ? "" : String.valueOf(editBio.getText());
 
-        if(!containsWhiteSpace(name) && !containsWhiteSpace(nickname)){
+        if(containsWhiteSpace(name) || containsWhiteSpace(nickname)){
             showErrorMessage(getContext().getResources().getString(R.string.edit_data_error_label), getContext().getResources().getString(R.string.whithespace_error));
             return;
         }
 
-        if(DAOFactory.getUserDao().editUserData(name, surname, nickname, bio, getContext())){
-            showSuccessMessage(getContext().getResources().getString(R.string.edit_data_success_label), getContext().getResources().getString(R.string.edit_data_success_msg));
-            getFragmentManager().beginTransaction().replace(R.id.home_page_container, new FilmFragment(), FilmFragment.filmFragmentLabel).commit();
-        }else {
-            showErrorMessage(getContext().getResources().getString(R.string.edit_data_error_label), getContext().getResources().getString(R.string.edit_data_error_msg));
-            getFragmentManager().beginTransaction().replace(R.id.home_page_container , new ProfileFragment()).commit();
-        }
+        DAOFactory.getUserDao().editUserData(name, surname, nickname, bio, getContext());
+        showSuccessMessage(getContext().getResources().getString(R.string.edit_data_success_label), getContext().getResources().getString(R.string.edit_data_success_msg));
+        getFragmentManager().beginTransaction().replace(R.id.home_page_container, new FilmFragment(), FilmFragment.filmFragmentLabel).commit();
     }
 
     private boolean checkRequiredField(){

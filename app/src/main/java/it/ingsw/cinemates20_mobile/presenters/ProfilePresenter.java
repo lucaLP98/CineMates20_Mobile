@@ -20,6 +20,7 @@ import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.activities.MainActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.EditUserDataFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.FriendsFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.UserReviewsFragment;
 
@@ -88,6 +89,10 @@ public class ProfilePresenter extends FragmentPresenter{
 
     public void pressEdituserData(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new EditUserDataFragment()).commit();
+    }
+
+    public void pressViewFriendsListButton(){
+        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new FriendsFragment()).commit();
     }
 
     public void pressAddPhotoButton(){

@@ -43,6 +43,7 @@ public class ProfileFragment extends Fragment {
 
         inflate.findViewById(R.id.addPhotoButton).setOnClickListener( v -> profilePresenter.pressAddPhotoButton());
         inflate.findViewById((R.id.reviewsMadeButton)).setOnClickListener( v->profilePresenter.pressViewReviewsListButton() );
+        inflate.findViewById((R.id.friendsListButton)).setOnClickListener( v->profilePresenter.pressViewFriendsListButton() );
 
         return inflate;
     }

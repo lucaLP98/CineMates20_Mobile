@@ -19,7 +19,7 @@ import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.model.User;
 
-public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersHolder>{
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>{
     private final List<User> users;
     private final Context context;
 
@@ -53,7 +53,7 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersHolder
         if(!ThisUser.getUserAuthenticated() || ThisUser.getInstance().getUserID().equals(user.getUserID())){
             holder.addUserButton.setVisibility(View.GONE);
         }else{
-            //aggiuingi logica invia richiesta
+            holder.addUserButton.setOnClickListener( v -> {} );
         }
     }
 

@@ -115,4 +115,6 @@
 
     <!-- key -->
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

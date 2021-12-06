@@ -109,6 +109,8 @@
     <string name="avarge_rating_movie">Voto Medio</string>
     <string name="whithespace_error">I campi nome e nickname non possono contenere il carattere spazio: devono essere un\'unica parola</string>
     <string name="connection_requests">Richieste di collegamento</string>
+    <string name="remove_friend_label">Rimuovi amico</string>
+    <string name="remove_friend_msg">Sei sicuro che vuoi rimuovere questo utente dalla tua lista amici? Non invieremo nessuna notifica all\'utente rimosso.</string>
 
     <!-- messaggi di notifica -->
     <string name="connection_request_sended_notify_msg">ti ha inviato una richiesta di collegamento.</string>

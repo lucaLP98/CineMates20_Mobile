@@ -9,4 +9,6 @@ import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 
 public interface FriendsDAO {
     void getFriendsList(Context context, RequestCallback<List<Friend>> callback);
+
+    void deleteFriend(Context context, int friendshipID);
 }

@@ -57,15 +57,15 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
 
     private void removeReview(Review review, int position){
         new AlertDialog.Builder(context)
-                .setTitle(context.getResources().getString(R.string.delete_review))
-                .setMessage(context.getResources().getString(R.string.delete_review_msg))
-                .setPositiveButton(context.getResources().getString(R.string.confirm),
+                .setTitle(R.string.delete_review)
+                .setMessage(R.string.delete_review_msg)
+                .setPositiveButton(R.string.confirm,
                         (dialog, which) -> {
                             DAOFactory.getReviewDao().deleteUserReviews(context, review.getReviewID());
                             reviews.remove(review);
                             notifyItemRemoved(position);
                         })
-                .setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {})
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {})
                 .show();
     }
 
@@ -73,13 +73,13 @@ public class UserReviewsAdapter extends RecyclerView.Adapter<UserReviewsAdapter.
         EditReviewPresenter editReviewPresenter = new EditReviewPresenter(review, context);
 
         new AlertDialog.Builder(context)
-                .setTitle(context.getResources().getString(R.string.edit_review))
+                .setTitle(R.string.edit_review)
                 .setView(editReviewPresenter.getEditReviewsDialogLayout())
-                .setPositiveButton(context.getResources().getString(R.string.confirm),
+                .setPositiveButton(R.string.confirm,
                         (dialog, which) -> {
                             if(editReviewPresenter.pressSaveChangesReviewbutton()) notifyItemChanged(position);
                         })
-                .setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {})
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {})
                 .show();
     }
 

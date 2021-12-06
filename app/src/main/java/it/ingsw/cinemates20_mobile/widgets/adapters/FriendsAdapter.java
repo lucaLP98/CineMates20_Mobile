@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,9 +16,9 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Friend;
-import it.ingsw.cinemates20_mobile.model.User;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsHolder>{
     private final List<Friend> friends;
@@ -38,7 +39,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsH
 
     @Override
     public void onBindViewHolder(@NonNull FriendsAdapter.FriendsHolder holder, int position) {
-        User friend = friends.get(position);
+        Friend friend = friends.get(position);
 
         if(friend.getProfileImage() != null){
             Glide
@@ -51,7 +52,21 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsH
         holder.friendNameTextView.setText(friend.getName() + " " + friend.getSurname());
         holder.friendNicknameTextView.setText(friend.getNickname());
 
-        holder.removeFriendButton.setOnClickListener( v -> {});
+        holder.removeFriendButton.setOnClickListener( v -> deleteFriend(friend, position));
+    }
+
+    private void deleteFriend(Friend friend, int position){
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.remove_friend_label)
+                .setMessage(R.string.remove_friend_msg)
+                .setPositiveButton(R.string.confirm,
+                        (dialog, which) -> {
+                            DAOFactory.getFriendsDAO().deleteFriend(context, friend.getFriendshipID());
+                            friends.remove(friend);
+                            notifyItemRemoved(position);
+                        })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {})
+                .show();
     }
 
     @Override

@@ -109,6 +109,8 @@
     <string name="avarge_rating_movie">Avarge Rating</string>
     <string name="whithespace_error">The name and nickname fields cannot contain the space character: they must be a single word</string>
     <string name="connection_requests">Connection Requests</string>
+    <string name="remove_friend_label">Remove Friend</string>
+    <string name="remove_friend_msg">Are you sure you want to remove this user from your friends list? We will not notify the removed user.</string>
 
     <!-- notifications message -->
     <string name="connection_request_sended_notify_msg">sent you a connection request.</string>

@@ -22,6 +22,7 @@ import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ReviewDAO;
 import it.ingsw.cinemates20_mobile.model.Review;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
 import it.ingsw.cinemates20_mobile.widgets.adapters.ReviewsAdapter;
@@ -87,7 +88,8 @@ public class ReviewDAOlambda implements ReviewDAO {
     }
 
     @Override
-    public void getUserReviews(Context context, String userID, RequestCallback<List<Review>> callback){
+    public void getUserReviews(Context context, RequestCallback<List<Review>> callback){
+        String userID = ThisUser.getInstance().getUserID();
         String url = APIurl + "/getreviewbyuser?user_id=" + userID;
 
         Response.Listener<JSONObject> listener = response -> {

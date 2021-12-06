@@ -13,7 +13,6 @@ import java.util.List;
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Review;
-import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.views.fragments.UserReviewsFragment;
 import it.ingsw.cinemates20_mobile.widgets.adapters.UserReviewsAdapter;
@@ -41,7 +40,7 @@ public class UserReviewsPresenter extends FragmentPresenter{
             }
         };
 
-        DAOFactory.getReviewDao().getUserReviews(getContext(), ThisUser.getInstance().getUserID(), callback);
+        DAOFactory.getReviewDao().getUserReviews(getContext(), callback);
     }
 
     public void pressBackButton(){

@@ -35,7 +35,6 @@ public class UserDAOLambda implements UserDAO {
     @Override
     public void getUserdata(@NonNull CognitoUserSession userSession, Context context) {
         String url = APIurl + "/getuserdata?user_id=" + userSession.getUsername();
-        final ThisUser[] user = new ThisUser[1];
 
         Response.Listener<JSONObject> listener = response -> {
             try {
@@ -46,10 +45,10 @@ public class UserDAOLambda implements UserDAO {
                 String uri_image = response.getString("uri_image");
                 String biography = response.getString("biography");
 
-                user[0] = ThisUser.createInstance(name, surname, nickname, email, userSession);
-                user[0].setBiography(biography);
+                ThisUser user = ThisUser.createInstance(name, surname, nickname, email, userSession);
+                user.setBiography(biography);
                 if (!uri_image.equals("null")) {
-                    user[0].setProfileImage(Uri.parse(uri_image));
+                    user.setProfileImage(Uri.parse(uri_image));
                 }
             } catch (JSONException e) {
                 Log.d("JSONException", e.getLocalizedMessage());

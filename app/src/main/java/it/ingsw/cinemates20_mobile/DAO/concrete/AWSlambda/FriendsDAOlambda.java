@@ -7,6 +7,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
 public class FriendsDAOlambda implements FriendsDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
+    @Override
     public void getFriendsList(Context context, RequestCallback<List<Friend>> callback) {
         String url = APIurl + "/getfriendslist?user_id=" + ThisUser.getInstance().getUserID();
 
@@ -61,5 +63,21 @@ public class FriendsDAOlambda implements FriendsDAO {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    @Override
+    public void deleteFriend(Context context, int friendshipID){
+        String url = APIurl + "/deletefriend?friendship_id=" + friendshipID;
+
+        Response.Listener<String> listner = response -> {
+            Log.d("VolleyRequestDeleteFriend", response);
+        };
+
+        Response.ErrorListener errorListener = error -> {
+            error.printStackTrace();
+        };
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, listner, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }

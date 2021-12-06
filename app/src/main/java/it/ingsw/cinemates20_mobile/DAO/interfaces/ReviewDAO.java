@@ -14,7 +14,7 @@ public interface ReviewDAO {
 
     void getMovieReviews(Context context, int movieID, RecyclerView reviewsRecyclerView);
 
-    void getUserReviews(Context context, String userID, RequestCallback<List<Review>> callback);
+    void getUserReviews(Context context, RequestCallback<List<Review>> callback);
 
     void deleteUserReviews(Context context, int reviewID);
 

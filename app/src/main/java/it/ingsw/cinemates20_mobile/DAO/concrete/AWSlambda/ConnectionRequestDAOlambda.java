@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -29,7 +31,7 @@ public class ConnectionRequestDAOlambda implements ConnectionRequestDAO {
     private final String apiUrl = " https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
     @Override
-    public void getConnectionRequests(Context context, RequestCallback<List<ConnectionRequest>>  callback){
+    public void getConnectionRequests(@NonNull Context context,@NonNull RequestCallback<List<ConnectionRequest>>  callback){
         String url = apiUrl + "/getconnectionrequests?user_id="+ ThisUser.getInstance().getUserID();
 
         Response.Listener<JSONObject> listener = response -> {
@@ -61,7 +63,7 @@ public class ConnectionRequestDAOlambda implements ConnectionRequestDAO {
             }
         };
 
-        Response.ErrorListener errorListener = error -> error.printStackTrace();
+        Response.ErrorListener errorListener = Throwable::printStackTrace;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
@@ -80,7 +82,7 @@ public class ConnectionRequestDAOlambda implements ConnectionRequestDAO {
     }
 
     @Override
-    public void respondToConnectionRequest(Context context, int requestID, String sender, boolean respond){
+    public void respondToConnectionRequest(@NonNull Context context, int requestID,@NonNull String sender, boolean respond){
         String url = apiUrl + "/respondtoconnectionrequest?request_id="+requestID+"&sender="+sender+"&receiver="+ThisUser.getInstance().getUserID()
                 +"&requestResponse="+respond+"&notifyText=";
 

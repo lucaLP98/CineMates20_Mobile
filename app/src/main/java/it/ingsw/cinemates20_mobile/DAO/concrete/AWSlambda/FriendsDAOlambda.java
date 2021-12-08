@@ -69,13 +69,9 @@ public class FriendsDAOlambda implements FriendsDAO {
     public void deleteFriend(Context context, int friendshipID){
         String url = APIurl + "/deletefriend?friendship_id=" + friendshipID;
 
-        Response.Listener<String> listner = response -> {
-            Log.d("VolleyRequestDeleteFriend", response);
-        };
+        Response.Listener<String> listner = response -> Log.d("VolleyRequestDeleteFriend", response);
 
-        Response.ErrorListener errorListener = error -> {
-            error.printStackTrace();
-        };
+        Response.ErrorListener errorListener = error -> error.printStackTrace();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, listner, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);

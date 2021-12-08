@@ -6,12 +6,13 @@ import android.net.Uri;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 
 import java.util.List;
+import java.util.Map;
 
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 
 public interface UserDAO {
-    void getUserdata(CognitoUserSession userSession, Context context);
+    void getUserdata(CognitoUserSession userSession, Context context, RequestCallback<Map<String, String>> callback);
 
     void editUserData(String newName, String newSurname, String newNickname, String newBio, Context context);
 

@@ -1,6 +1,7 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.EditText;
 
@@ -17,11 +18,15 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Forg
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
+import com.android.volley.VolleyError;
+
+import java.util.Map;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.utilities.CognitoSettings;
+import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.views.activities.HomeActivity;
 import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.RecoveryPasswordFragment;
@@ -63,7 +68,30 @@ public class LoginPresenter extends FragmentPresenter{
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
             ThisUser.setUserAuthenticated(true);
 
-            DAOFactory.getUserDao().getUserdata(userSession, getContext());
+            RequestCallback<Map<String, String>> callback = new RequestCallback<Map<String, String>>() {
+                @Override
+                public void onSuccess(@NonNull Map<String, String> result) {
+                    String name = result.get("name");
+                    String surname = result.get("surname");
+                    String nickname = result.get("nickname");
+                    String email = result.get("email");
+                    String uri_image = result.get("uri_image");
+                    String biography = result.get("biography");
+
+                    ThisUser user = ThisUser.createInstance(name, surname, nickname, email, userSession);
+                    user.setBiography(biography);
+                    if (!uri_image.equals("null")) {
+                        user.setProfileImage(Uri.parse(uri_image));
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull VolleyError error) {
+                    error.printStackTrace();
+                }
+            };
+
+            DAOFactory.getUserDao().getUserdata(userSession, getContext(), callback);
 
             Intent loginIntent = new Intent(getContext(), HomeActivity.class);
             getContext().startActivity(loginIntent);

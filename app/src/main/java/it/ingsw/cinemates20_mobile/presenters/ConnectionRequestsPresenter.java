@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.VolleyError;
 
-import java.util.Date;
 import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
@@ -36,7 +35,7 @@ public class ConnectionRequestsPresenter extends FragmentPresenter{
         RequestCallback<List<ConnectionRequest>> requestCallback = new RequestCallback<List<ConnectionRequest>>() {
             @Override
             public void onSuccess(@NonNull List<ConnectionRequest> result) {
-                connectionRequestsRicyclerView.setAdapter(new ConnectionRequestsAdapter(result, getContext(), ConnectionRequestsPresenter.this));
+                connectionRequestsRicyclerView.setAdapter(new ConnectionRequestsAdapter(result, getContext()));
                 connectionRequestsRicyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
 

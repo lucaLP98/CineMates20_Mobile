@@ -18,13 +18,17 @@ import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Movie;
+import it.ingsw.cinemates20_mobile.model.MovieFilter;
 import it.ingsw.cinemates20_mobile.model.builder.MovieBuilder;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
+import it.ingsw.cinemates20_mobile.views.fragments.MovieFilterFragment;
 import it.ingsw.cinemates20_mobile.widgets.adapters.MovieAdapter;
 
 public class FilmPresenter extends FragmentPresenter{
     private final RecyclerView filmSearchResutlRecycleView;
     private final EditText filmSearchEditText;
+
+    private MovieFilter filter;
 
     public FilmPresenter(@NonNull FilmFragment fragment, @NonNull View inflate) {
         super(fragment);
@@ -40,12 +44,16 @@ public class FilmPresenter extends FragmentPresenter{
         }
     }
 
+    public void pressSetFilterButton(){
+        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new MovieFilterFragment(filter)).commit();
+    }
+
     public void getPopularMovies(){
         new PopularFilmSearchTask().execute();
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class PopularFilmSearchTask extends AsyncTask<String, Void, String> {
+    private class PopularFilmSearchTask extends AsyncTask<Void, Void, String> {
         private final String SUCCEDED = "Succeded";
         private final String FAIL = "Fail";
 
@@ -53,11 +61,11 @@ public class FilmPresenter extends FragmentPresenter{
         private final int numberOfResult = 20;
 
         @Override
-        protected String doInBackground(@NonNull String... param){
+        protected String doInBackground(Void... param){
             final String[] result = new String[1];
 
             TmdbApi tmdbApi = new TmdbApi(getContext().getResources().getString(R.string.APIkey_the_movie_database));
-            movieResultsPage = tmdbApi.getMovies().getPopularMovies(Locale.getDefault().getLanguage() , numberOfResult);
+            movieResultsPage = tmdbApi.getMovies().getPopularMovies(Locale.getDefault().getLanguage(), numberOfResult);
 
             if(movieResultsPage != null){ result[0] = SUCCEDED; }
             else{ result[0] = FAIL; }
@@ -87,7 +95,6 @@ public class FilmPresenter extends FragmentPresenter{
             movieResultsPage = tmdbApi.getSearch().searchMovie(filmName[0], null, Locale.getDefault().getLanguage(), false, 0);
             if(movieResultsPage != null){ result[0] = SUCCEDED; }
             else{ result[0] = FAIL; }
-
 
             return result[0];
         }

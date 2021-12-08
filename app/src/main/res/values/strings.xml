@@ -111,9 +111,14 @@
     <string name="connection_requests">Connection Requests</string>
     <string name="remove_friend_label">Remove Friend</string>
     <string name="remove_friend_msg">Are you sure you want to remove this user from your friends list? We will not notify the removed user.</string>
+    <string name="set_movie_filter">Set Search Filter</string>
+    <string name="set_filter">Imposta Filtri</string>
+    <string name="actor">Actor / Actress</string>
 
     <!-- notifications message -->
     <string name="connection_request_sended_notify_msg">sent you a connection request.</string>
+    <string name="connection_request_accepted">accepted your connection request</string>
+    <string name="connection_request_refused">refused your connection request</string>
 
     <!-- key -->
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>

@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,36 +34,33 @@ public class UserDAOLambda implements UserDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
     @Override
-    public void getUserdata(@NonNull CognitoUserSession userSession, Context context) {
+    public void getUserdata(@NonNull CognitoUserSession userSession, Context context, RequestCallback<Map<String, String>> callback) {
         String url = APIurl + "/getuserdata?user_id=" + userSession.getUsername();
+        Map<String, String> userAttributes = new HashMap<>();
 
         Response.Listener<JSONObject> listener = response -> {
             try {
-                String name = response.getString("name");
-                String surname = response.getString("surname");
-                String email = response.getString("email");
-                String nickname = response.getString("nickname");
-                String uri_image = response.getString("uri_image");
-                String biography = response.getString("biography");
+                userAttributes.put("name", response.getString("name"));
+                userAttributes.put("surname", response.getString("surname"));
+                userAttributes.put("email", response.getString("email"));
+                userAttributes.put("nickname", response.getString("nickname"));
+                userAttributes.put("uri_image", response.getString("uri_image"));
+                userAttributes.put("biography", response.getString("biography"));
 
-                ThisUser user = ThisUser.createInstance(name, surname, nickname, email, userSession);
-                user.setBiography(biography);
-                if (!uri_image.equals("null")) {
-                    user.setProfileImage(Uri.parse(uri_image));
-                }
+                callback.onSuccess(userAttributes);
             } catch (JSONException e) {
                 Log.d("JSONException", e.getLocalizedMessage());
             }
         };
 
-        Response.ErrorListener errorListener = error -> error.printStackTrace();
+        Response.ErrorListener errorListener = error -> callback.onError(error);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     public void editUserData(String newName, String newSurname, String newNickname, String newBio, Context context) {
-        String user_id = ThisUser.getInstance().getUserSession().getUsername();
+        String user_id = ThisUser.getInstance().getUserID();
         String url = APIurl + "/edituserdata?user_id=" + user_id + "&name=" + newName + "&surname=" + newSurname + "&nickname=" + newNickname + "&biography=" + newBio;
 
         Response.Listener<String> listener = response -> editUserInstance(newName, newSurname, newNickname, newBio);

@@ -15,20 +15,18 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.ConnectionRequest;
 import it.ingsw.cinemates20_mobile.model.User;
-import it.ingsw.cinemates20_mobile.presenters.ConnectionRequestsPresenter;
 
 public class ConnectionRequestsAdapter extends RecyclerView.Adapter<ConnectionRequestsAdapter.ConnectionRequestsHolder>{
     private final List<ConnectionRequest> connectionRequestList;
     private final Context context;
-    private final ConnectionRequestsPresenter connectionRequestsPresenter;
 
-    public ConnectionRequestsAdapter(List<ConnectionRequest> connectionRequestList, Context context, ConnectionRequestsPresenter connectionRequestsPresenter) {
+    public ConnectionRequestsAdapter(List<ConnectionRequest> connectionRequestList, Context context) {
         this.connectionRequestList = connectionRequestList;
         this.context = context;
-        this.connectionRequestsPresenter = connectionRequestsPresenter;
     }
 
     @NonNull
@@ -53,6 +51,15 @@ public class ConnectionRequestsAdapter extends RecyclerView.Adapter<ConnectionRe
 
         holder.nameTextView.setText(userSender.getName() + " " + userSender.getSurname());
         holder.nicknameTextView.setText(userSender.getNickname());
+
+        holder.acceptButton.setOnClickListener( v -> respondToRequest(connectionRequestList.get(position).getConnectionRequestID(), userSender.getUserID(), true, position) );
+        holder.declineButton.setOnClickListener( v -> respondToRequest(connectionRequestList.get(position).getConnectionRequestID(), userSender.getUserID(), false, position) );
+    }
+
+    private void respondToRequest(int requestID, String senderID, boolean response, int position){
+        DAOFactory.getConnectionRequestDAO().respondToConnectionRequest(context, requestID, senderID, response);
+        connectionRequestList.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
@@ -60,7 +67,7 @@ public class ConnectionRequestsAdapter extends RecyclerView.Adapter<ConnectionRe
         return connectionRequestList.size();
     }
 
-    public class ConnectionRequestsHolder extends RecyclerView.ViewHolder{
+    public static class ConnectionRequestsHolder extends RecyclerView.ViewHolder{
         private final TextView nameTextView;
         private final TextView nicknameTextView;
         private final CircleImageView profileImageImageView;

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
+import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.presenters.MovieInformationPresenter;
 
 public class MovieInformationFragment extends Fragment {
@@ -37,7 +38,9 @@ public class MovieInformationFragment extends Fragment {
         Toolbar toolbar = inflate.findViewById(R.id.toolbar_movie_information_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-        setHasOptionsMenu(true);
+        if(ThisUser.getUserAuthenticated()){
+            setHasOptionsMenu(true);
+        }
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener( v -> movieInformationPresenter.pressBackButton() );
 

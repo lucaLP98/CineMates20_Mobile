@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 
@@ -39,6 +40,7 @@ public class MovieInformationPresenter extends FragmentPresenter{
     private final TextView productionCountryTextView;
     private final TextView castTextView;
     private final TextView directorTextView;
+    private final Toolbar toolbar;
 
     private Movie movie;
 
@@ -54,10 +56,12 @@ public class MovieInformationPresenter extends FragmentPresenter{
         productionCountryTextView = inflate.findViewById(R.id.countryMovieTextView);
         castTextView = inflate.findViewById(R.id.castTextView);
         directorTextView = inflate.findViewById(R.id.directorMovieTextView);
+
+        toolbar = inflate.findViewById(R.id.toolbar_movie_information_fragment);
     }
 
-    public void showMovieDetails(@NonNull Movie movie){
-        new getMovieByIDTask().execute(movie.getMovieID());
+    public void showMovieDetails(int movieID){
+        new getMovieByIDTask().execute(movieID);
     }
 
     public void pressWriteReviewButton(){
@@ -78,6 +82,8 @@ public class MovieInformationPresenter extends FragmentPresenter{
 
     private void setDataField(){
         if(movie != null){
+            toolbar.setTitle(movie.getTitle());
+
             String genres = "";
             for(Genre g : movie.getGenres()){
                 genres += g.getName() + " ";
@@ -167,6 +173,12 @@ public class MovieInformationPresenter extends FragmentPresenter{
 
                 setDataField();
             }
+        }
+    }
+
+    public void pressShareMovieWithFriendButton(){
+        if(movie != null){
+            new ShareMoviePresenter(getContext(), movie).shareMovie();
         }
     }
 }

@@ -12,6 +12,7 @@ public class MovieFilterBuilder {
     private int actorID;
     private int year;
     private int runtime;
+    private String title;
 
     public MovieFilterBuilder genreID(int genreID){
         this.genreID = genreID;
@@ -38,8 +39,13 @@ public class MovieFilterBuilder {
         return this;
     }
 
+    public MovieFilterBuilder title(String title){
+        this.title = title;
+        return this;
+    }
+
     public MovieFilter build(){
-        return new MovieFilter(genreID, directorID, actorID, year, runtime);
+        return new MovieFilter(title, genreID, directorID, actorID, year, runtime);
     }
 
     @NonNull

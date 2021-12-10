@@ -4,11 +4,13 @@ import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.ConnectionRequestDAOla
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.FriendsDAOlambda;
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.NotificationDAOlambda;
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.ReviewDAOlambda;
+import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.SharingMovieDAOlamda;
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.UserDAOLambda;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ConnectionRequestDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.FriendsDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.NotificationDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ReviewDAO;
+import it.ingsw.cinemates20_mobile.DAO.interfaces.SharingMovieDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.UserDAO;
 
 public abstract class DAOFactory {
@@ -80,6 +82,20 @@ public abstract class DAOFactory {
         switch (concreteDatabase){
             case LAMBDA:
                 concreteDAO = new NotificationDAOlambda();
+                break;
+
+            default: throw new RuntimeException();
+        }
+
+        return concreteDAO;
+    }
+
+    public static SharingMovieDAO getSharingMovieDAO(){
+        SharingMovieDAO concreteDAO;
+
+        switch (concreteDatabase){
+            case LAMBDA:
+                concreteDAO = new SharingMovieDAOlamda();
                 break;
 
             default: throw new RuntimeException();

@@ -32,8 +32,8 @@ public class NotificationDAOlambda implements NotificationDAO {
 
             try {
                 JSONObject jsonObject;
-                String notificationText;
-                int notificationID;
+                String notificationText, type;
+                int notificationID, movieID;
 
                 JSONArray jsonArray = response.getJSONArray("notifications");
 
@@ -42,8 +42,14 @@ public class NotificationDAOlambda implements NotificationDAO {
 
                     notificationID = jsonObject.getInt("id_notification");
                     notificationText = jsonObject.getString("text");
+                    type = jsonObject.getString("notification_type");
 
-                    notifications.add(new Notification(notificationID, notificationText));
+                    if(type.equals(Notification.notificationTypeEnum.SHARING.toString())){
+                        movieID = jsonObject.getInt("id_film");
+                        notifications.add(new Notification(notificationID, notificationText, Notification.notificationTypeEnum.valueOf(type), movieID));
+                    }else{
+                        notifications.add(new Notification(notificationID, notificationText, Notification.notificationTypeEnum.valueOf(type)));
+                    }
                 }
 
                 callback.onSuccess(notifications);

@@ -12,7 +12,7 @@ import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 public interface ConnectionRequestDAO {
     void getConnectionRequests(@NonNull Context context, @NonNull RequestCallback<List<ConnectionRequest>> callback);
 
-    void sendConnecctionRequests(Context context, String userReceiverID, RequestCallback<String> callback);
+    void sendConnecctionRequests(@NonNull Context context, @NonNull String userReceiverID);
 
-    void respondToConnectionRequest(@NonNull Context context, int requestID,@NonNull String sender, boolean respond);
+    void respondToConnectionRequest(@NonNull Context context, int requestID, @NonNull String sender, boolean respond);
 }

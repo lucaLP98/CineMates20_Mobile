@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.VolleyError;
 
+import java.util.Comparator;
 import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
@@ -35,7 +36,21 @@ public class NotificationsPresenter extends FragmentPresenter{
         DAOFactory.getNotificationDAO().getNotificationsList(getContext(), new RequestCallback<List<Notification>>() {
             @Override
             public void onSuccess(@NonNull List<Notification> result) {
-                notificationsRecycleView.setAdapter(new NotificationAdapter(getContext(), result));
+
+                result.sort(new Comparator<Notification>() {
+                    @Override
+                    public int compare(Notification o1, Notification o2) {
+                        int result;
+
+                        if (o1.getNotificationID() < o2.getNotificationID()) result = 1;
+                        else if (o1.getNotificationID() == o2.getNotificationID()) result = 0;
+                        else result = -1;
+
+                        return result;
+                    }
+                });
+
+                notificationsRecycleView.setAdapter(new NotificationAdapter(getContext(), result, getFragmentManager()));
                 notificationsRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
 

@@ -64,7 +64,10 @@ public class WriteReviewPresenter extends FragmentPresenter{
 
             @Override
             public void onError(@NonNull VolleyError error) {
-                showErrorMessage(getContext().getResources().getString(R.string.error_review_publish), getContext().getResources().getString(R.string.error_review_already_posted));
+                if(error.networkResponse.statusCode == 461)
+                    showErrorMessage(getContext().getResources().getString(R.string.error_review_publish), getContext().getResources().getString(R.string.error_review_already_posted));
+
+                error.printStackTrace();
             }
         };
 

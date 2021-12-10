@@ -54,7 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
                 holder.moviePosterImageView.setImageResource(R.drawable.ic_baseline_local_movies_24);
             }
 
-            holder.rowLayout.setOnClickListener( v -> fragmentManager.beginTransaction().addToBackStack("MOVIE_CARD").replace(R.id.home_page_container, new MovieInformationFragment(movies.get(position))).commit());
+            holder.rowLayout.setOnClickListener( v -> fragmentManager.beginTransaction().addToBackStack("MOVIE_CARD").replace(R.id.home_page_container, new MovieInformationFragment(movies.get(position).getMovieID())).commit());
         }
     }
 

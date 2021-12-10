@@ -1,18 +1,24 @@
 package it.ingsw.cinemates20_mobile.model;
 
 public class MovieFilter {
-    private int genreID;
-    private int directorID;
-    private int actorID;
-    private int year;
-    private int runtime;
+    private final int genreID;
+    private final int directorID;
+    private final int actorID;
+    private final int year;
+    private final int runtime;
+    private final String movieTitle;
 
-    public MovieFilter(int genreID, int directorID, int actorID, int year, int runtime){
+    public MovieFilter(String movieTitle, int genreID, int directorID, int actorID, int year, int runtime){
         this.actorID = actorID;
         this.directorID = directorID;
         this.genreID = genreID;
         this.runtime = runtime;
         this.year = year;
+        this.movieTitle = movieTitle;
+    }
+
+    public String getTitle(){
+        return movieTitle;
     }
 
     public int getGenreID(){

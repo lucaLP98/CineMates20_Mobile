@@ -15,14 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.Movie;
 import it.ingsw.cinemates20_mobile.presenters.MovieInformationPresenter;
 
 public class MovieInformationFragment extends Fragment {
-    private final Movie movie;
+    private final int movieID;
+    private MovieInformationPresenter movieInformationPresenter;
 
-    public MovieInformationFragment(Movie movie){
-        this.movie = movie;
+    public MovieInformationFragment(int movieID){
+        this.movieID = movieID;
     }
 
     @Override
@@ -34,17 +34,15 @@ public class MovieInformationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate =  inflater.inflate(R.layout.fragment_movie_information, container, false);
 
-        MovieInformationPresenter movieInformationPresenter = new MovieInformationPresenter(this, inflate);
-
         Toolbar toolbar = inflate.findViewById(R.id.toolbar_movie_information_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-        toolbar.setTitle(movie.getTitle());
         setHasOptionsMenu(true);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener( v -> movieInformationPresenter.pressBackButton() );
 
-        movieInformationPresenter.showMovieDetails(movie);
+        movieInformationPresenter = new MovieInformationPresenter(this, inflate);
+        movieInformationPresenter.showMovieDetails(movieID);
         inflate.findViewById(R.id.writeReviewButton).setOnClickListener( v-> movieInformationPresenter.pressWriteReviewButton() );
         inflate.findViewById(R.id.viewReviewButton).setOnClickListener( v-> movieInformationPresenter.pressViewReviewsList() );
 
@@ -62,8 +60,7 @@ public class MovieInformationFragment extends Fragment {
         boolean ret;
 
         if (item.getItemId() == R.id.share_movie_toolbar_menu) {
-            /* condividi film */
-
+            movieInformationPresenter.pressShareMovieWithFriendButton();
             ret = true;
         } else {
             ret = false;

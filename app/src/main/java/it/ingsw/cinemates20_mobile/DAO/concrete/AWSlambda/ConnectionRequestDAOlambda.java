@@ -21,6 +21,7 @@ import java.util.List;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ConnectionRequestDAO;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.ConnectionRequest;
+import it.ingsw.cinemates20_mobile.model.Notification;
 import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.CurrentDate;
@@ -28,7 +29,7 @@ import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.utilities.RequestQueueSingleton;
 
 public class ConnectionRequestDAOlambda implements ConnectionRequestDAO {
-    private final String apiUrl = " https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
+    private final String apiUrl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
     @Override
     public void getConnectionRequests(@NonNull Context context,@NonNull RequestCallback<List<ConnectionRequest>>  callback){
@@ -70,12 +71,15 @@ public class ConnectionRequestDAOlambda implements ConnectionRequestDAO {
     }
 
     @Override
-    public void sendConnecctionRequests(Context context, String userReceiverID, RequestCallback<String> callback){
-        String url = apiUrl + "/sendconnectionrequest?";
+    public void sendConnecctionRequests(@NonNull Context context, @NonNull String userReceiverID){
+        String userSenderID = ThisUser.getInstance().getUserID();
+        String notifyType = Notification.notificationTypeEnum.REQUEST.toString();
+        String messageNotification = ThisUser.getInstance().getNickname() + " " + context.getResources().getString(R.string.connection_request_sended_notify_msg) + "  " + CurrentDate.getInstance().getCurrentDate();
+        String url = apiUrl + "/sendrequest?userSender="+userSenderID+"&userReceiver="+userReceiverID+"&notifyType="+notifyType+"&notifyMsg="+messageNotification;
 
-        Response.Listener<String> listener = response -> callback.onSuccess(response);
+        Response.Listener<String> listener = response -> { };
 
-        Response.ErrorListener errorListener = error -> callback.onError(error);
+        Response.ErrorListener errorListener = error -> { };
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
@@ -84,15 +88,18 @@ public class ConnectionRequestDAOlambda implements ConnectionRequestDAO {
     @Override
     public void respondToConnectionRequest(@NonNull Context context, int requestID,@NonNull String sender, boolean respond){
         String url = apiUrl + "/respondtoconnectionrequest?request_id="+requestID+"&sender="+sender+"&receiver="+ThisUser.getInstance().getUserID()
-                +"&requestResponse="+respond+"&notifyText=";
+                +"&requestResponse="+respond;
 
-        String notifyText = ThisUser.getInstance().getNickname();
+        String notifyType="&notifyType=";
+        String notifyText = "&notifyText=" + ThisUser.getInstance().getNickname();
         if(respond){
+            notifyType = notifyType + Notification.notificationTypeEnum.ACCEPT.toString();
             notifyText = notifyText + " " + context.getResources().getString(R.string.connection_request_accepted);
         }else{
+            notifyType = notifyType + Notification.notificationTypeEnum.DECLINE.toString();
             notifyText = notifyText + " " + context.getResources().getString(R.string.connection_request_refused);
         }
-        url = url + notifyText + "  " + CurrentDate.getInstance().getCurrentDate();
+        url = url + notifyType + notifyText + "  " + CurrentDate.getInstance().getCurrentDate();
 
         Response.Listener<String> listener = response -> Log.d("VoleyRequestRespondoToConnectionRequest", "Request response success");
 

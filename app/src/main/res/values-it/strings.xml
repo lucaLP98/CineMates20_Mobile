@@ -114,12 +114,16 @@
     <string name="set_movie_filter">Imposta Filtri Ricerca</string>
     <string name="set_filter">Imposta Filtri</string>
     <string name="actor">Attore / Attrice</string>
+    <string name="share_label">Condividi Film</string>
+    <string name="share">Condividi</string>
+    <string name="error_share_label">Errore Condivisione Film</string>
+    <string name="error_share">Impossibile effettuare la condivisione: questo film è già stato condiviso con questo utente.</string>
 
     <!-- messaggi di notifica -->
     <string name="connection_request_sended_notify_msg">ti ha inviato una richiesta di collegamento.</string>
     <string name="connection_request_accepted">ha accettato la tua richiesta di collegamento</string>
     <string name="connection_request_refused">ha rifiutato la tua richiesta di collegamento</string>
-    <string name="movie_shared">ti consiglia il seguente film</string>
+    <string name="movie_shared">ti consiglia il seguente film:</string>
 
     <!-- key -->
     <string name="APIkey_the_movie_database">62e0498d993a417c6db9e59ecf5862b3</string>

@@ -3,6 +3,7 @@ package it.ingsw.cinemates20_mobile.presenters;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -41,6 +42,11 @@ public class FilmPresenter extends FragmentPresenter{
         if(!isEmptyEditText(filmSearchEditText)){
             String movieName = String.valueOf(filmSearchEditText.getText());
             new SearchFilmTask().execute(movieName);
+        }else if(filter != null){
+
+            Log.d("filterTest", "filtri non nulli");
+
+            //fai ricerca per filtri
         }
     }
 

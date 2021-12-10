@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.ThisUser;
 import it.ingsw.cinemates20_mobile.model.User;
@@ -53,8 +54,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
         if(!ThisUser.getUserAuthenticated() || ThisUser.getInstance().getUserID().equals(user.getUserID())){
             holder.addUserButton.setVisibility(View.GONE);
         }else{
-            holder.addUserButton.setOnClickListener( v -> {} );
+            holder.addUserButton.setOnClickListener( v -> sendConnectionRequest(user.getUserID(), holder) );
         }
+    }
+
+    private void sendConnectionRequest(@NonNull String userReceiverID, @NonNull UsersHolder holder){
+        DAOFactory.getConnectionRequestDAO().sendConnecctionRequests(context, userReceiverID);
+        holder.addUserButton.setColorFilter(R.color.grey);
+        holder.addUserButton.setEnabled(false);
     }
 
     @Override

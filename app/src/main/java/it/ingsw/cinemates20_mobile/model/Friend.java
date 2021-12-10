@@ -2,6 +2,8 @@ package it.ingsw.cinemates20_mobile.model;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 public class Friend extends User{
     private final int friendshipID;
 
@@ -12,5 +14,15 @@ public class Friend extends User{
 
     public int getFriendshipID(){
         return friendshipID;
+    }
+
+    @NonNull
+    @Override
+    public String toString(){
+        String ret;
+
+        ret = this.getNickname();
+
+        return ret;
     }
 }

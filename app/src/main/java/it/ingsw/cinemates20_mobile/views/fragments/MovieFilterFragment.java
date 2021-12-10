@@ -12,16 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.ingsw.cinemates20_mobile.R;
-import it.ingsw.cinemates20_mobile.model.MovieFilter;
+import it.ingsw.cinemates20_mobile.presenters.FilmPresenter;
 import it.ingsw.cinemates20_mobile.presenters.MovieFilterPresenter;
 
 public class MovieFilterFragment extends Fragment {
-    private MovieFilter filter;
     private MovieFilterPresenter movieFilterPresenter;
-
-    public MovieFilterFragment(MovieFilter filter){
-        this.filter = filter;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +37,7 @@ public class MovieFilterFragment extends Fragment {
         toolbar.setNavigationOnClickListener( v -> movieFilterPresenter.pressBackButton() );
 
         inflate.findViewById(R.id.set_filter_button).setOnClickListener( v -> {
-            filter = movieFilterPresenter.pressSetFilter();
+            FilmPresenter.filter = movieFilterPresenter.pressSetFilter();
             getActivity().getSupportFragmentManager().popBackStack();
         });
 

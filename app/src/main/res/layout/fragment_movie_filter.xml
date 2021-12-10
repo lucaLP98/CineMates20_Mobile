@@ -30,21 +30,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:text="@string/movie_title" />
-
-                <EditText
-                    android:id="@+id/movie_name_filterFragment_EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10sp"
-                    android:inputType="text"
-                    android:background="@drawable/textfield_rounded_corner"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="20sp"
                     android:text="@string/director" />
 
                 <EditText

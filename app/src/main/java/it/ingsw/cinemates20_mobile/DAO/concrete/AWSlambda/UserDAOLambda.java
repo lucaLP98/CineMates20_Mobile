@@ -135,8 +135,7 @@ public class UserDAOLambda implements UserDAO {
 
         List<User> users = new ArrayList<>();
 
-        Response.Listener<JSONObject>
-                listener = response -> {
+        Response.Listener<JSONObject> listener = response -> {
             try {
                 String name, surname, nickname, uriImage, userID;
                 JSONObject jsonObject;

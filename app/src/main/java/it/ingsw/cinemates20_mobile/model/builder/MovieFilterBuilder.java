@@ -7,45 +7,39 @@ import org.jetbrains.annotations.Contract;
 import it.ingsw.cinemates20_mobile.model.MovieFilter;
 
 public class MovieFilterBuilder {
-    private int genreID;
-    private int directorID;
-    private int actorID;
-    private int year;
-    private int runtime;
-    private String title;
+    private Integer genreID;
+    private Integer directorID;
+    private Integer actorID;
+    private Integer year;
+    private Integer runtime;
 
-    public MovieFilterBuilder genreID(int genreID){
+    public MovieFilterBuilder genreID(Integer genreID){
         this.genreID = genreID;
         return this;
     }
 
-    public MovieFilterBuilder directorID(int directorID){
+    public MovieFilterBuilder directorID(Integer directorID){
         this.directorID = directorID;
         return this;
     }
 
-    public MovieFilterBuilder actorID(int actorID){
+    public MovieFilterBuilder actorID(Integer actorID){
         this.actorID = actorID;
         return this;
     }
 
-    public MovieFilterBuilder year(int year){
+    public MovieFilterBuilder year(Integer year){
         this.year = year;
         return this;
     }
 
-    public MovieFilterBuilder runtime(int runtime){
+    public MovieFilterBuilder runtime(Integer runtime){
         this.runtime = runtime;
         return this;
     }
 
-    public MovieFilterBuilder title(String title){
-        this.title = title;
-        return this;
-    }
-
     public MovieFilter build(){
-        return new MovieFilter(title, genreID, directorID, actorID, year, runtime);
+        return new MovieFilter(genreID, directorID, actorID, year, runtime);
     }
 
     @NonNull

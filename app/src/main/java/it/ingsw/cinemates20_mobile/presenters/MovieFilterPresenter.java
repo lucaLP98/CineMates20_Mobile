@@ -11,14 +11,12 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbGenre;
 import info.movito.themoviedbapi.TmdbPeople;
-import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.model.Genre;
 import info.movito.themoviedbapi.model.core.NamedIdElement;
-import info.movito.themoviedbapi.model.people.Person;
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.MovieFilter;
 import it.ingsw.cinemates20_mobile.model.builder.MovieFilterBuilder;
@@ -30,13 +28,6 @@ public class MovieFilterPresenter extends FragmentPresenter{
     private final EditText actorEditText;
     private final EditText durationEditText;
     private final EditText yearEditText;
-    private final EditText movieNameEditTExt;
-
-    private final String SUCCEDED = "Succeded";
-    private final String FAIL = "Fail";
-
-    private Integer actorID;
-    private Integer directorID;
 
     public MovieFilterPresenter(MovieFilterFragment fragment, @NonNull View inflate){
         super(fragment);
@@ -46,7 +37,6 @@ public class MovieFilterPresenter extends FragmentPresenter{
         yearEditText = inflate.findViewById(R.id.year_EditText);
         durationEditText = inflate.findViewById(R.id.duration_EditText);
         actorEditText = inflate.findViewById(R.id.actor_EditText);
-        movieNameEditTExt = inflate.findViewById(R.id.movie_name_filterFragment_EditText);
 
         new getGenresListTask().execute();
     }
@@ -55,47 +45,46 @@ public class MovieFilterPresenter extends FragmentPresenter{
         getFragmentManager().popBackStack();
     }
 
-    public MovieFilter pressSetFilter(){
+    public MovieFilter pressSetFilter() {
         Integer duration = null;
-        String actor = null;
-        String director = null;
+        Integer actorID = null;
+        Integer directorID = null;
         Integer year = null;
-        Integer genre;
-        String movieName = null;
 
         Genre selectedGenre = (Genre)genreSpinner.getSelectedItem();
-        genre = selectedGenre.getId();
+        Integer genre = selectedGenre.getId();
 
         if(!isEmptyEditText(durationEditText))
             duration = Integer.parseInt(String.valueOf(durationEditText.getText()));
 
         if(!isEmptyEditText(actorEditText)){
-            actor =  String.valueOf(actorEditText.getText()).toLowerCase();
-            new getPeopleListTask().execute(actor, "ACTOR");
+            String actor =  String.valueOf(actorEditText.getText()).toLowerCase();
+            try {
+                actorID = new getPeopleListTask().execute(actor).get();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         if(!isEmptyEditText(directorEditText)){
-            director =  String.valueOf(directorEditText.getText()).toLowerCase();
-            new getPeopleListTask().execute(director, "DIRECTOR");
-        }
-
-        if(!isEmptyEditText(movieNameEditTExt)){
-            movieName =  String.valueOf(movieNameEditTExt.getText()).toLowerCase();
+            String director =  String.valueOf(directorEditText.getText()).toLowerCase();
+            try {
+                directorID = new getPeopleListTask().execute(director).get();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         if(!isEmptyEditText(yearEditText))
             year =  Integer.parseInt(String.valueOf(yearEditText.getText()));
 
-        MovieFilter movieFilter = MovieFilterBuilder.getBuilder()
-                .title(movieName)
+        return MovieFilterBuilder.getBuilder()
                 .actorID(actorID)
                 .directorID(directorID)
                 .year(year)
                 .runtime(duration)
                 .genreID(genre)
                 .build();
-
-        return movieFilter;
     }
 
     private <T extends NamedIdElement> void setSpinnerResult(@NonNull Spinner spinner, @NonNull List<T> items){
@@ -106,60 +95,37 @@ public class MovieFilterPresenter extends FragmentPresenter{
 
     @SuppressLint("StaticFieldLeak")
     private class getGenresListTask extends AsyncTask<Void, Void, String> {
-        private List<Genre> genres = null;
+        private List<Genre> genres;
 
         @Override
         protected String doInBackground(@NonNull Void... param){
-            final String[] result = new String[1];
+            genres = new TmdbApi(getContext()
+                    .getResources()
+                    .getString(R.string.APIkey_the_movie_database))
+                    .getGenre()
+                    .getGenreList(Locale.getDefault().getLanguage());
 
-            TmdbGenre tmdbGenre = new TmdbApi(getContext().getResources().getString(R.string.APIkey_the_movie_database)).getGenre();
-            genres = tmdbGenre.getGenreList(Locale.getDefault().getLanguage());
-
-            if(genres != null){ result[0] = SUCCEDED; }
-            else{ result[0] = FAIL; }
-
-            return result[0];
+            if(genres != null) return "success";
+            return "fail";
         }
 
         @Override
         protected void onPostExecute (@NonNull String result){
-            if(result.equals(SUCCEDED)){
-                setSpinnerResult(genreSpinner, genres);
-            }
+            if(result.equals("success")) setSpinnerResult(genreSpinner, genres);
         }
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class getPeopleListTask extends AsyncTask<String, Void, String> {
-        private TmdbPeople.PersonResultsPage search;
-        private String searchType;
-
+    private class getPeopleListTask extends AsyncTask<String, Void, Integer> {
         @Override
-        protected String doInBackground(@NonNull String... param){
-            final String[] result = new String[1];
+        protected Integer doInBackground(@NonNull String... param){
+            TmdbPeople.PersonResultsPage search = new TmdbApi(getContext()
+                    .getResources()
+                    .getString(R.string.APIkey_the_movie_database))
+                    .getSearch()
+                    .searchPerson(param[0], false, 1);
 
-            TmdbSearch tmdbSearch = new TmdbApi(getContext().getResources().getString(R.string.APIkey_the_movie_database)).getSearch();
-            search = tmdbSearch.searchPerson(param[0], false, 1);
-
-            if(search != null){
-                result[0] = SUCCEDED;
-                searchType = param[1];
-            }
-            else{ result[0] = FAIL; }
-
-            return result[0];
-        }
-
-        @Override
-        protected void onPostExecute (@NonNull String result){
-            if(result.equals(SUCCEDED)){
-
-                List<Person> list = search.getResults();
-                if(searchType.equals("ACTOR"))
-                    actorID = list.get(0).getId();
-                else
-                    directorID = list.get(0).getId();
-            }
+            return (search != null) ? search.getResults().get(0).getId() : -1;
         }
     }
 }

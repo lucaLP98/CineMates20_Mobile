@@ -6,8 +6,10 @@ import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.NotificationDAOlambda;
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.ReviewDAOlambda;
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.SharingMovieDAOlamda;
 import it.ingsw.cinemates20_mobile.DAO.concrete.AWSlambda.UserDAOLambda;
+import it.ingsw.cinemates20_mobile.DAO.concrete.movieProvider.MovieDAO_TMDB;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ConnectionRequestDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.FriendsDAO;
+import it.ingsw.cinemates20_mobile.DAO.interfaces.MovieDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.NotificationDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.ReviewDAO;
 import it.ingsw.cinemates20_mobile.DAO.interfaces.SharingMovieDAO;
@@ -18,7 +20,13 @@ public abstract class DAOFactory {
         LAMBDA
     }
 
+    private enum MovieDatabaseType{
+        TMDB
+    }
+
     private static final DatabaseType concreteDatabase = DatabaseType.LAMBDA;
+
+    private static final MovieDatabaseType concreteMovieDatabase = MovieDatabaseType.TMDB;
 
     public static UserDAO getUserDao(){
         UserDAO concreteDAO;
@@ -96,6 +104,20 @@ public abstract class DAOFactory {
         switch (concreteDatabase){
             case LAMBDA:
                 concreteDAO = new SharingMovieDAOlamda();
+                break;
+
+            default: throw new RuntimeException();
+        }
+
+        return concreteDAO;
+    }
+
+    public static MovieDAO getMovieDAO(){
+        MovieDAO concreteDAO;
+
+        switch (concreteMovieDatabase){
+            case TMDB:
+                concreteDAO = new MovieDAO_TMDB();
                 break;
 
             default: throw new RuntimeException();

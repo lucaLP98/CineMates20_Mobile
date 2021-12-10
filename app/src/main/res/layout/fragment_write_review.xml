@@ -58,9 +58,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150sp"
+        android:layout_height="160sp"
         android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/wrute_yout_review"/>
 
         <EditText
             android:id="@+id/reviewTextEditTextTextMultiLine"

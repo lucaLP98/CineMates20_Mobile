@@ -118,6 +118,7 @@
     <string name="share">Share</string>
     <string name="error_share_label">Movie Sharing Error</string>
     <string name="error_share">Unable to Share: This movie has already been shared with this user.</string>
+    <string name="wrute_yout_review">Write your review here</string>
 
     <!-- notifications message -->
     <string name="connection_request_sended_notify_msg">sent you a connection request.</string>

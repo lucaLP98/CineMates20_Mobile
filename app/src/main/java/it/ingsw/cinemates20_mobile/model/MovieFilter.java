@@ -15,7 +15,6 @@ public class MovieFilter{
         this.year = year;
     }
 
-
     public Integer getGenreID(){
         return genreID;
     }

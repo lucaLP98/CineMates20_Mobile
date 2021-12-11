@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 
-public class ThisUser {
+public class ThisUser{
     private static boolean authenticated;
 
     private String name;

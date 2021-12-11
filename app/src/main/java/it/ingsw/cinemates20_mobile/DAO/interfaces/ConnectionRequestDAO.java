@@ -14,5 +14,5 @@ public interface ConnectionRequestDAO {
 
     void sendConnecctionRequests(@NonNull Context context, @NonNull String userReceiverID);
 
-    void respondToConnectionRequest(@NonNull Context context, int requestID, @NonNull String sender, boolean respond);
+    void respondToConnectionRequest(@NonNull Context context, int requestID, @NonNull String sender, int respond);
 }

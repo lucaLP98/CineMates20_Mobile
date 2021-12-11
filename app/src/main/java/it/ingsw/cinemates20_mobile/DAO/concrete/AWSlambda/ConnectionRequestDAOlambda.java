@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,40 +71,54 @@ public class ConnectionRequestDAOlambda implements ConnectionRequestDAO {
 
     @Override
     public void sendConnecctionRequests(@NonNull Context context, @NonNull String userReceiverID){
-        String userSenderID = ThisUser.getInstance().getUserID();
-        String notifyType = Notification.notificationTypeEnum.REQUEST.toString();
+        String url = apiUrl + "/sendrequest";
+
         String messageNotification = ThisUser.getInstance().getNickname() + " " + context.getResources().getString(R.string.connection_request_sended_notify_msg) + "  " + CurrentDate.getInstance().getCurrentDate();
-        String url = apiUrl + "/sendrequest?userSender="+userSenderID+"&userReceiver="+userReceiverID+"&notifyType="+notifyType+"&notifyMsg="+messageNotification;
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("userSender", ThisUser.getInstance().getUserID());
+            requestBody.put("userReceiver", userReceiverID);
+            requestBody.put("notifyType", Notification.notificationTypeEnum.REQUEST.toString());
+            requestBody.put("notifyMsg", messageNotification);
+        }catch (JSONException e){e.printStackTrace();}
 
-        Response.Listener<String> listener = response -> { };
+        Response.Listener<JSONObject> listener = response -> {};
 
-        Response.ErrorListener errorListener = error -> { };
+        Response.ErrorListener errorListener = error -> {};
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     @Override
-    public void respondToConnectionRequest(@NonNull Context context, int requestID,@NonNull String sender, boolean respond){
-        String url = apiUrl + "/respondtoconnectionrequest?request_id="+requestID+"&sender="+sender+"&receiver="+ThisUser.getInstance().getUserID()
-                +"&requestResponse="+respond;
+    public void respondToConnectionRequest(@NonNull Context context, int requestID,@NonNull String sender, int respond){
+        String url = apiUrl + "/respondtoconnectionrequest";
+        String notifyType;
+        String notifyText = ThisUser.getInstance().getNickname();
 
-        String notifyType="&notifyType=";
-        String notifyText = "&notifyText=" + ThisUser.getInstance().getNickname();
-        if(respond){
-            notifyType = notifyType + Notification.notificationTypeEnum.ACCEPT.toString();
-            notifyText = notifyText + " " + context.getResources().getString(R.string.connection_request_accepted);
+        if(respond == 1){
+            notifyType = Notification.notificationTypeEnum.ACCEPT.toString();
+            notifyText = notifyText + " " + context.getResources().getString(R.string.connection_request_accepted) + "  " + CurrentDate.getInstance().getCurrentDate();
         }else{
-            notifyType = notifyType + Notification.notificationTypeEnum.DECLINE.toString();
-            notifyText = notifyText + " " + context.getResources().getString(R.string.connection_request_refused);
+            notifyType = Notification.notificationTypeEnum.DECLINE.toString();
+            notifyText = notifyText + " " + context.getResources().getString(R.string.connection_request_refused) + "  " + CurrentDate.getInstance().getCurrentDate();
         }
-        url = url + notifyType + notifyText + "  " + CurrentDate.getInstance().getCurrentDate();
 
-        Response.Listener<String> listener = response -> Log.d("VoleyRequestRespondoToConnectionRequest", "Request response success");
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("request_id", requestID);
+            requestBody.put("sender", sender);
+            requestBody.put("receiver",ThisUser.getInstance().getUserID());
+            requestBody.put("requestResponse", String.valueOf(respond));
+            requestBody.put("notifyType", notifyType);
+            requestBody.put("notifyText", notifyText);
+        }catch (JSONException e){ e.printStackTrace();}
+
+        Response.Listener<JSONObject> listener = response -> Log.d("VoleyRequestRespondoToConnectionRequest", "Request response success");
 
         Response.ErrorListener errorListener = error -> Log.d("VoleyRequestRespondoToConnectionRequest", "Request response error");
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

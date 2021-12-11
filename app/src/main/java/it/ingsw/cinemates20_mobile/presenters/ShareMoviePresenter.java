@@ -12,6 +12,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.android.volley.VolleyError;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
@@ -79,11 +81,10 @@ public class ShareMoviePresenter {
                 .setNegativeButton("OK", (dialog, which) -> {})
                 .show();
     }
-
     private void showDialogShareMovie(){
-        RequestCallback<String> callback = new RequestCallback<String>() {
+        RequestCallback<JSONObject> callback = new RequestCallback<JSONObject>() {
             @Override
-            public void onSuccess(@NonNull String result) {
+            public void onSuccess(@NonNull JSONObject result) {
                 Log.d("ShareMovie", "Shareing Movie success");
             }
 

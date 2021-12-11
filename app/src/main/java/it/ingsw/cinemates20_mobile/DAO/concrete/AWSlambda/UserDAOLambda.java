@@ -10,7 +10,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -59,16 +58,25 @@ public class UserDAOLambda implements UserDAO {
         RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
+    @Override
     public void editUserData(String newName, String newSurname, String newNickname, String newBio, Context context) {
-        String user_id = ThisUser.getInstance().getUserID();
-        String url = APIurl + "/edituserdata?user_id=" + user_id + "&name=" + newName + "&surname=" + newSurname + "&nickname=" + newNickname + "&biography=" + newBio;
+        String url = APIurl + "/edituserdata";
 
-        Response.Listener<String> listener = response -> editUserInstance(newName, newSurname, newNickname, newBio);
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("user_id", ThisUser.getInstance().getUserID());
+            requestBody.put("name", newName);
+            requestBody.put("surname", newSurname);
+            requestBody.put("nickname", newNickname);
+            requestBody.put("biography", newBio);
+        }catch (JSONException e){ e.printStackTrace(); }
+
+        Response.Listener<JSONObject> listener = response -> editUserInstance(newName, newSurname, newNickname, newBio);
 
         Response.ErrorListener errorListener = error -> error.printStackTrace();
 
-        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     private void editUserInstance(String newName, String newSurname, String newNickname, String newBio) {
@@ -82,16 +90,23 @@ public class UserDAOLambda implements UserDAO {
 
     private void setProfileImageIntoDatabase(String imageUrl, Context context){
         String userId = ThisUser.getInstance().getUserSession().getUsername();
-        String url = APIurl + "/setprofileimageuri?user_id=" + userId + "&uri_image=" + imageUrl;
+        String url = APIurl + "/setprofileimageuri";
 
-        Response.Listener<String> listener = response -> Log.d("VolleySuccessSetProfileImage", "immagine caricata con successo");
+        JSONObject requestBody = new JSONObject();
+        try{
+            requestBody.put("user_id", userId);
+            requestBody.put("uri_image", imageUrl);
+        }catch (JSONException e){e.printStackTrace();}
+
+        Response.Listener<JSONObject> listener = response -> Log.d("VolleySuccessSetProfileImage", "immagine caricata con successo");
 
         Response.ErrorListener errorListener = error -> error.printStackTrace();
 
-        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
+    @Override
     public void setProfileImage(Uri profileImagePath, Context context){
         MediaManager.get().upload(profileImagePath).callback(new UploadCallback() {
             @Override

@@ -31,16 +31,25 @@ public class ReviewDAOlambda implements ReviewDAO {
     private final String APIurl = "https://g66whp96o7.execute-api.us-east-2.amazonaws.com/cinemates20_API";
 
     @Override
-    public void publishNewMovieReview(@NonNull Review newReview, Context context, RequestCallback<String> requestCallback){
-        String url = APIurl + "/insertnewreview?user_id=" + newReview.getUserOwner() + "&vote=" + newReview.getReviewVote() + "&id_film=" + newReview.getMovieID()
-                + "&film_poster=" + newReview.getFilmPosterUri() + "&film_title=" + newReview.getFilmTitle() + "&description=" + newReview.getReviewText();
+    public void publishNewMovieReview(@NonNull Review newReview, Context context, RequestCallback<JSONObject> requestCallback){
+        String url = APIurl + "/insertnewreview";
 
-        Response.Listener<String> listener = response -> requestCallback.onSuccess(response);
+        JSONObject bodyRequest = new JSONObject();
+        try {
+            bodyRequest.put("user_id", newReview.getUserOwner());
+            bodyRequest.put("vote", newReview.getReviewVote());
+            bodyRequest.put("id_film", newReview.getMovieID());
+            bodyRequest.put("film_poster", newReview.getFilmPosterUri());
+            bodyRequest.put("film_title", newReview.getFilmTitle());
+            bodyRequest.put("description", newReview.getReviewText());
+        } catch (JSONException e) { e.printStackTrace(); }
+
+        Response.Listener<JSONObject> listener = response -> requestCallback.onSuccess(response);
 
         Response.ErrorListener errorListener = error -> requestCallback.onError(error);
 
-        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, bodyRequest, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     @Override
@@ -135,19 +144,26 @@ public class ReviewDAOlambda implements ReviewDAO {
 
         Response.ErrorListener errorListener = error -> Log.d("VolleyErrorDeleteReviews", ""+error.networkResponse.statusCode);
 
-        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
+        StringRequest stringtRequest = new StringRequest(Request.Method.DELETE, url, listener, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
     }
 
     @Override
     public void editUserReviews(Context context, int reviewID, int vote, String body){
-        String url = APIurl + "/editreview?review_id=" + reviewID +"&vote=" + vote + "&description=" + body;
+        String url = APIurl + "/editreview";
 
-        Response.Listener<String> listener = response -> Log.d("VolleySuccessEditReviews", "Recensione eliminata con successo");
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("review_id", String.valueOf(reviewID));
+            requestBody.put("vote", String.valueOf(vote));
+            requestBody.put("description", body);
+        }catch (JSONException e){ e.printStackTrace(); }
 
-        Response.ErrorListener errorListener = error -> Log.d("VolleyErrorEditReviews", ""+error.networkResponse.statusCode);
+        Response.Listener<JSONObject> listener = response -> Log.d("VolleyEditReviews", "Recensione modificata con successo");
 
-        StringRequest stringtRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
-        RequestQueueSingleton.getInstance(context).addToRequestQueue(stringtRequest);
+        Response.ErrorListener errorListener = error -> Log.d("VolleyEditReviews", "errore modifica recensione: "+error.networkResponse.statusCode);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody, listener, errorListener);
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

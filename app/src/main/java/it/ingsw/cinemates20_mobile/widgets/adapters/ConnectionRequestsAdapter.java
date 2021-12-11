@@ -52,11 +52,11 @@ public class ConnectionRequestsAdapter extends RecyclerView.Adapter<ConnectionRe
         holder.nameTextView.setText(userSender.getName() + " " + userSender.getSurname());
         holder.nicknameTextView.setText(userSender.getNickname());
 
-        holder.acceptButton.setOnClickListener( v -> respondToRequest(connectionRequestList.get(position).getConnectionRequestID(), userSender.getUserID(), true, position) );
-        holder.declineButton.setOnClickListener( v -> respondToRequest(connectionRequestList.get(position).getConnectionRequestID(), userSender.getUserID(), false, position) );
+        holder.acceptButton.setOnClickListener( v -> respondToRequest(connectionRequestList.get(position).getConnectionRequestID(), userSender.getUserID(), 1, position) );
+        holder.declineButton.setOnClickListener( v -> respondToRequest(connectionRequestList.get(position).getConnectionRequestID(), userSender.getUserID(), 0, position) );
     }
 
-    private void respondToRequest(int requestID, String senderID, boolean response, int position){
+    private void respondToRequest(int requestID, String senderID, int response, int position){
         DAOFactory.getConnectionRequestDAO().respondToConnectionRequest(context, requestID, senderID, response);
         connectionRequestList.remove(position);
         notifyItemRemoved(position);

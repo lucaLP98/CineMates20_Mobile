@@ -73,7 +73,7 @@ public class FriendsDAOlambda implements FriendsDAO {
 
         Response.ErrorListener errorListener = error -> error.printStackTrace();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, listner, errorListener);
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, listner, errorListener);
         RequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }

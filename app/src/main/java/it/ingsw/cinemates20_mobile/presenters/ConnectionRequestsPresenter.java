@@ -17,7 +17,7 @@ import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.views.fragments.ConnectionRequestsFragment;
 import it.ingsw.cinemates20_mobile.widgets.adapters.ConnectionRequestsAdapter;
 
-public class ConnectionRequestsPresenter extends FragmentPresenter{
+public class  ConnectionRequestsPresenter extends FragmentPresenter{
     private final RecyclerView connectionRequestsRicyclerView;
 
     public ConnectionRequestsPresenter(@NonNull ConnectionRequestsFragment fragment, @NonNull View inflate) {

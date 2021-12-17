@@ -147,7 +147,11 @@ public class LoginPresenter extends FragmentPresenter{
 
         @Override
         public void onFailure(@NonNull Exception exception) {
-            showErrorMessage(getContext().getResources().getString(R.string.recovery_password_error_label), exception.getLocalizedMessage());
+            if(exception.getLocalizedMessage().contains("UserLambdaValidationException")){
+                onSuccess();
+            }else{
+                showErrorMessage(getContext().getResources().getString(R.string.recovery_password_error_label), exception.getLocalizedMessage());
+            }
         }
     };
 }

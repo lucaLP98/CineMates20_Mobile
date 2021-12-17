@@ -91,7 +91,7 @@
     <string name="country_production">Paese</string>
     <string name="cast">Cast</string>
     <string name="director">Regista</string>
-    <string name="publish_review">Publica Recensione</string>
+    <string name="publish_review">Pubblica Recensione</string>
     <string name="review_vote_label">Voto</string>
     <string name="error_not_authenticated_label">UTENTE NON AUTENTICATO</string>
     <string name="error_not_authenticated_msg">Questa funzione è riservata agli utenti autenticati. Effettua il login per poterci accedere.</string>

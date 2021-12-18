@@ -69,7 +69,7 @@ public class MovieDAO_TMDB implements MovieDAO {
         }
     }
 
-    private String buildFilterSearchUrl(@NonNull MovieFilter filter, @NonNull String url){
+    public String buildFilterSearchUrl(@NonNull MovieFilter filter, @NonNull String url){
         if(filter.getActorID() != null){
             url = url + "&with_cast=" + filter.getActorID();
         }

@@ -24,14 +24,26 @@ public class EditReviewPresenter{
         setUpEditText();
     }
 
-    public boolean pressSaveChangesReviewbutton(){
-        if(String.valueOf(voteEditText.getText()).equals("") || String.valueOf(bodyEditText.getText()).equals("")){
-            return false;
+    public static boolean checkReviewParameter(@NonNull String vote, @NonNull String body){
+        boolean ret;
+
+        if(vote.equals("") || body.equals("")){
+            ret = false;
+        }else{
+            int v = Integer.parseInt(vote);
+
+            if(v < 0 || v > 100){
+                ret = false;
+            }else{
+                ret = true;
+            }
         }
 
-        int vote = Integer.parseInt(String.valueOf(voteEditText.getText()));
+        return ret;
+    }
 
-        if(vote < 0 || vote > 100){
+    public boolean pressSaveChangesReviewbutton(){
+        if(!checkReviewParameter(String.valueOf(voteEditText.getText()), String.valueOf(bodyEditText.getText()))){
             return false;
         }
 

@@ -5,6 +5,9 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.SingUpPasswordFragment;
@@ -19,6 +22,7 @@ public class SingUpPresenter extends FragmentPresenter{
     public SingUpPresenter(SingUpFragment singUpFragment, @NonNull View inflate){
         super(singUpFragment);
 
+
         newNameEditText = inflate.findViewById(R.id.newNameEditText);
         newSurnameEditText = inflate.findViewById(R.id.newSurnameEditText);
         newUsernameEditText = inflate.findViewById(R.id.newUsernameEditText);
@@ -27,7 +31,10 @@ public class SingUpPresenter extends FragmentPresenter{
 
     public void pressCancelButton(){ getFragmentManager().popBackStack(); }
 
-    private boolean containsWhiteSpace(@NonNull String str){
+    private boolean containsWhiteSpace(String str){
+        if(str == null)
+            return true;
+
         for (int i = 0; i < str.length(); i++){
             if (Character.isWhitespace(str.charAt(i))){
                 return true;
@@ -37,12 +44,32 @@ public class SingUpPresenter extends FragmentPresenter{
         return false;
     }
 
+    public static boolean checkEmailCorrectFormat(String eMail){
+        boolean ret;
+
+        if(eMail == null){
+            ret = false;
+        }else{
+            Pattern validEmailAddressRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+            Matcher matcher = validEmailAddressRegex.matcher(eMail);
+            ret = matcher.find();
+        }
+
+        return ret;
+    };
+
     public void pressNextButton(){
         //required fields check
         if( isEmptyEditText(newNameEditText) || isEmptyEditText(newSurnameEditText) ||
             isEmptyEditText(newEmailEditText)  || isEmptyEditText(newUsernameEditText)
         ){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_empty_field));
+            return;
+        }
+
+        if(checkEmailCorrectFormat(String.valueOf(newEmailEditText))){
+            showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_email_format));
             return;
         }
 

@@ -21,6 +21,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPas
 import com.android.volley.VolleyError;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
 import it.ingsw.cinemates20_mobile.R;
@@ -46,10 +48,25 @@ public class LoginPresenter extends FragmentPresenter{
         getFragmentManager().popBackStack();
     }
 
+    private boolean checkEmailCorrectFormat(String eMail){
+        boolean ret;
+
+        Pattern validEmailAddressRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+        Matcher matcher = validEmailAddressRegex.matcher(eMail);
+        ret = matcher.find();
+
+        return ret;
+    };
+
     public void pressLoginButton(){
-        //required fields check
-        if(isEmptyEditText(emailEditText) || isEmptyEditText(pswEditText)){
+        if(isEmptyEditText(pswEditText) || isEmptyEditText(emailEditText)){
             showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), getContext().getResources().getString(R.string.error_empty_field));
+            return;
+        }
+
+        if(!checkEmailCorrectFormat(String.valueOf(emailEditText.getText()))){
+            showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), getContext().getResources().getString(R.string.error_email_format));
             return;
         }
 

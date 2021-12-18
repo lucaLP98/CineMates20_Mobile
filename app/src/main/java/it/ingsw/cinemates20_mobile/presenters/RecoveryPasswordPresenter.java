@@ -1,6 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 

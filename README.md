@@ -1,6 +1,6 @@
 CineMates20 è un sistema complesso e distribuito finalizzato ad offrire un moderno social network multi-piattaforma per appassionati di cinema. Il sistema consiste in un back-end sicuro, performante e scalabile, e in client su piattaforma mobile attraverso cui gli utenti possono fruire delle funzionalità del sistema in modo intuitivo, rapido
 e piacevole.
-<br><br>
+<br>
 <h1>SPECIFICHE</H1><BR>
   CineMates20 permette agli utenti di scoprire nuovi film, e condividere con gli amici i propri interessi cinematografici.<br>
   Un utente può effettuare delle ricerche di film. È assolutamente indispensabile la possibilità di effettuare ricerche per titolo. La possibilità di effettuare ricerche avanzate per anno di rilascio \ genere \ attori \ registi è gradita. Una volta trovato un film, l’utente può recensirlo.<br>
@@ -18,6 +18,6 @@ la stessa cosa allo stesso amico.<br><br>
     <li>Inviare\Ricevere richieste di collegamento a\da altri utenti.</li>
     <li>Possibilità di raccomandare un film preferito ai propri amici (i quali riceveranno una notifica della segnalazione).</li>
   </ol>
-  <br><br>
+  <br>
   <h1>DOCUMENTAZIONE</h1><br>
   

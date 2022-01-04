@@ -6,9 +6,9 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.regions.Regions;
 
 public class CognitoSettings {
-    private final String userPoolID = " us-east-2_XmVrbqS7s";
-    private final String clientID = "36lg0jvgdnr95a32gepj5s712f";
-    private final String clientSecret = "ubpprb28bm8la2l607dk1b41hd39ndd757he2nt18l5i33jdbk5";
+    private final String userPoolID = " USER_POOL_ID";
+    private final String clientID = "CLIENT_ID";
+    private final String clientSecret = "CLIENT_SECRET";
     private final Regions cognitoRegion = Regions.US_EAST_2;
 
     private final CognitoUserPool cognitoUserPool;

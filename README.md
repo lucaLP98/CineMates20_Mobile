@@ -19,4 +19,15 @@ la stessa cosa allo stesso amico.<br><br>
     <li>Possibilità di raccomandare un film preferito ai propri amici (i quali riceveranno una notifica della segnalazione).</li>
   </ol>
   <h1>DOCUMENTAZIONE</h1>
-  La documentazione completa del software è disponibile a questo <a href="https://drive.google.com/file/d/1AdllchpxpanpdAm9v9IZ40E-qSiUZ8L_/view?usp=sharing">link</a>
+  La documentazione completa del software è disponibile a questo <a href="https://drive.google.com/file/d/1AdllchpxpanpdAm9v9IZ40E-qSiUZ8L_/view?usp=sharing">link</a><br>
+  In tale documentazione è presente:
+  <ul>
+  <li>Documento dei Requisiti Software
+    <ul>
+      <li>Modello Funzionale.</li>
+      <li>Modelli di Dominio.</li>
+    </ul>
+  </li>
+  <li>Documento di Design del sistema.</li>
+  <li>Documento di Testing del sistema.</li>
+  </ul>

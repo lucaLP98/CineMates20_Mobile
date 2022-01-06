@@ -33,3 +33,6 @@ la stessa cosa allo stesso amico.<br><br>
   </ul>
   <h1>BACK - END</H1>
   Il codice relativo al back-end del sistema CineMates20 è presente al seguente <a href="https://github.com/lucaLP98/Cinemates20_BackEnd">link</a>
+  <h1>SCREENSHOT</h1>
+  Gli screenshot delle schermate dell'applicazione sono presenti nella cartella al seguente <a href="https://drive.google.com/drive/folders/1kH-Fs81-Xk4JisjBUmWxJdwMGoEK0HA4?usp=sharing">link</a>
+  

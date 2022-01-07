@@ -6,7 +6,7 @@ e piacevole.
   Un utente può effettuare delle ricerche di film. È assolutamente indispensabile la possibilità di effettuare ricerche per titolo. La possibilità di effettuare ricerche avanzate per anno di rilascio \ genere \ attori \ registi è gradita. Una volta trovato un film, l’utente può recensirlo.<br>
   Un utente potrà visualizzare l’elenco delle proprie recensioni.<br>
   Un utente può ricercare tra gli utenti i propri amici, ed inviare una richiesta di collegamento, che sarà notificata all’amico e potrà essere accettata o respinta da quest’ultimo.<br>
-  Un utente può anche suggerire una propria a uno o più amici, i quali
+  Un utente può anche suggerire un film a uno o più amici, i quali
 riceveranno una notifica. Per limitare notifiche indesiderate, non deve essere possibile consigliare più volte
 la stessa cosa allo stesso amico.<br><br>
   

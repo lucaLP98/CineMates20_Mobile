@@ -13,17 +13,20 @@ public class AccessPresenter extends FragmentPresenter{
 
     public AccessPresenter(AccessFragment accessFragment){
         super(accessFragment);
+        accessFragment.getGoToLoginButton().setOnClickListener( v -> pressLoginButton());
+        accessFragment.getGoToSingUpButton().setOnClickListener( v -> pressSingUpButton());
+        accessFragment.getLoginLaterTextView().setOnClickListener( v -> pressSingInLater());
     }
 
-    public void pressLoginButton(){
+    private void pressLoginButton(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new LoginFragment()).commit();
     }
 
-    public void pressSingUpButton(){
+    private void pressSingUpButton(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new SingUpFragment()).commit();
     }
 
-    public void pressSingInLater(){
+    private void pressSingInLater(){
         ThisUser.setUserAuthenticated(false);
         Intent goToHomePageIntent = new Intent(getContext(), HomeActivity.class);
         getContext().startActivity(goToHomePageIntent);

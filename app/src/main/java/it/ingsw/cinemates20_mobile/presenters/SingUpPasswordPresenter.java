@@ -1,8 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
-import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
@@ -17,41 +14,39 @@ import it.ingsw.cinemates20_mobile.views.fragments.SingUpPasswordFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.VerificationCodeSingUpFragment;
 
 public class SingUpPasswordPresenter extends FragmentPresenter{
-    private final EditText newPasswordEditText;
-    private final EditText repeatPasswordEditText;
-
+    private final SingUpPasswordFragment fragment;
     private final String name;
     private final String surname;
     private final String eMail;
     private final String nickname;
-
     private final CognitoUserAttributes userAttributes;
 
-    public SingUpPasswordPresenter(SingUpPasswordFragment fragment, @NonNull View inflate, String name, String surname, String nickname, String eMail){
+    public SingUpPasswordPresenter(SingUpPasswordFragment fragment, String name, String surname, String nickname, String eMail){
         super(fragment);
 
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
         this.eMail = eMail;
+        this.fragment = fragment;
 
-        newPasswordEditText = inflate.findViewById(R.id.newPasswordEditText);
-        repeatPasswordEditText = inflate.findViewById(R.id.repeatNewPasswordEditText);
+        fragment.getBackSingUpPasswordButton().setOnClickListener( v -> pressCancelButton());
+        fragment.getConfirmButton().setOnClickListener( v -> pressConfirmButton());
 
         userAttributes = new CognitoUserAttributes();
     }
 
-    public void pressCancelButton(){ getFragmentManager().popBackStack(); }
+    private void pressCancelButton(){ getFragmentManager().popBackStack(); }
 
-    public void pressConfirmButton(){
+    private void pressConfirmButton(){
         //required fields check
-        if(isEmptyEditText(newPasswordEditText) ||isEmptyEditText(repeatPasswordEditText)){
+        if(isEmptyEditText(fragment.getNewPasswordEditText()) ||isEmptyEditText(fragment.getRepeatPasswordEditText())){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_empty_field));
             return;
         }
 
         //matching password check
-        if(!matchingPassword(newPasswordEditText.getText().toString(), repeatPasswordEditText.getText().toString())){
+        if(!matchingPassword(fragment.getNewPasswordEditText().getText().toString(), fragment.getRepeatPasswordEditText().getText().toString())){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_not_matched_password));
             return;
         }
@@ -69,7 +64,7 @@ public class SingUpPasswordPresenter extends FragmentPresenter{
     }
 
     private void singUpUser(){
-        String psw = String.valueOf(newPasswordEditText.getText());
+        String psw = String.valueOf(fragment.getNewPasswordEditText().getText());
 
         userAttributes.addAttribute("given_name", name);
         userAttributes.addAttribute("family_name", surname);

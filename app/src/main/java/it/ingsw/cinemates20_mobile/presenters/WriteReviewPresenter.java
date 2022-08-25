@@ -1,7 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -20,31 +18,32 @@ import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.views.fragments.WriteReviewFragment;
 
 public class WriteReviewPresenter extends FragmentPresenter{
-    private final EditText voteEditText;
-    private final EditText reviewEditText;
     private final Movie movie;
+    private final WriteReviewFragment fragment;
 
-    public WriteReviewPresenter(WriteReviewFragment fragment, @NonNull View inflate, @NonNull Movie movie){
+    public WriteReviewPresenter(@NonNull WriteReviewFragment fragment, @NonNull Movie movie){
         super(fragment);
 
         this.movie = movie;
+        this.fragment = fragment;
 
-        voteEditText = inflate.findViewById(R.id.reviewVoteEditTextNumber);
-        reviewEditText = inflate.findViewById(R.id.reviewTextEditTextTextMultiLine);
+        fragment.getCancellPublishReviewButton().setOnClickListener( v -> pressCancellButton() );
+        fragment.getPublishReviewButton().setOnClickListener( v -> pressPublishReviewButton() );
+        setImageViewPoster(fragment.getPoster());
     }
 
-    public void pressCancellButton(){
+    private void pressCancellButton(){
         getFragmentManager().popBackStack();
     }
 
-    public void pressPublishReviewButton(){
-        if(isEmptyEditText(voteEditText) || isEmptyEditText(reviewEditText)){
+    private void pressPublishReviewButton(){
+        if(isEmptyEditText(fragment.getVoteEditText()) || isEmptyEditText(fragment.getReviewEditText())){
             showErrorMessage(getContext().getResources().getString(R.string.error_review_label),getContext().getResources().getString(R.string.error_empty_field));
             return;
         }
 
-        int vote = Integer.parseInt(String.valueOf(voteEditText.getText()));
-        String text = String.valueOf(reviewEditText.getText());
+        int vote = Integer.parseInt(String.valueOf(fragment.getVoteEditText().getText()));
+        String text = String.valueOf(fragment.getReviewEditText().getText());
 
         if(vote < 0 || vote > 100){
             showErrorMessage(getContext().getResources().getString(R.string.error_review_label),getContext().getResources().getString(R.string.error_not_valid_review_vote));
@@ -74,7 +73,7 @@ public class WriteReviewPresenter extends FragmentPresenter{
         DAOFactory.getReviewDao().publishNewMovieReview(newReview, getContext(), requestCallback);
     }
 
-    public void setImageViewPoster(ImageView poster){
+    private void setImageViewPoster(ImageView poster){
         Glide
                 .with(getContext())
                 .load(movie.getPosterUri())

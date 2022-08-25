@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.ConnectionRequestsPresenter;
 
 public class ConnectionRequestsFragment extends Fragment {
-    private ConnectionRequestsPresenter connectionRequestsPresenter;
+    private RecyclerView connectionRequestsRicyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class ConnectionRequestsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_connection_requests, container, false);
 
-        connectionRequestsPresenter = new ConnectionRequestsPresenter(this, inflate);
+        connectionRequestsRicyclerView = inflate.findViewById(R.id.connectionRequestsRicyclerView);
 
         Toolbar toolbar = inflate.findViewById(R.id.connection_request_fragment_toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -34,10 +35,14 @@ public class ConnectionRequestsFragment extends Fragment {
         toolbar.setTitle(R.string.connection_requests);
         setHasOptionsMenu(true);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+
+        ConnectionRequestsPresenter connectionRequestsPresenter = new ConnectionRequestsPresenter(this);
         toolbar.setNavigationOnClickListener( v -> connectionRequestsPresenter.pressBackButton() );
 
-        connectionRequestsPresenter.showConnectionRequetst();
-
         return inflate;
+    }
+
+    public RecyclerView getConnectionRequestsRicyclerView() {
+        return connectionRequestsRicyclerView;
     }
 }

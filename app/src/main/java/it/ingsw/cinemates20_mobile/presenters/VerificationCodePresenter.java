@@ -1,9 +1,6 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -20,32 +17,39 @@ import it.ingsw.cinemates20_mobile.views.fragments.VerificationCodeSingUpFragmen
 
 public class VerificationCodePresenter extends FragmentPresenter {
     private final String eMail;
+    private final VerificationCodeSingUpFragment verificationCodeFragment;
 
-    private final EditText codeEditText;
+    private static final String SUCCEDED = "Succeded";
+    private static final String FAILED = "Failed";
 
-    public VerificationCodePresenter(VerificationCodeSingUpFragment verificationCodeFragment, @NonNull View inflate, String eMail){
+    public VerificationCodePresenter(VerificationCodeSingUpFragment verificationCodeFragment, String eMail){
         super(verificationCodeFragment);
 
-        codeEditText = inflate.findViewById(R.id.verificationCodeEditText);
-
+        this.verificationCodeFragment = verificationCodeFragment;
         this.eMail = eMail;
+
+        verificationCodeFragment.getSingupVerificationCodeButton().setOnClickListener( v -> pressConfirmRegistrazion());
+        verificationCodeFragment.getResendVerificationCodeButton().setOnClickListener( v -> pressResendVerificationCodeButton());
     }
 
     public void pressConfirmRegistrazion(){
 
-        if(isEmptyEditText(codeEditText)){
+        if(isEmptyEditText(verificationCodeFragment.getCodeEditText())){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_verification_code_null));
             return;
         }
 
-        String code = String.valueOf(codeEditText.getText());
-        new ConfirmCodeTask().execute(code, eMail);
+        String code = String.valueOf(verificationCodeFragment.getCodeEditText().getText());
+        new ConfirmCodeTask(this).execute(code, eMail);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class ConfirmCodeTask extends AsyncTask<String, Void, String> {
-        private final String SUCCEDED = "Succeded";
-        private final String FAILED = "Failed";
+    private static class ConfirmCodeTask extends AsyncTask<String, Void, String> {
+        private final FragmentPresenter presenter;
+
+        public ConfirmCodeTask(FragmentPresenter presenter){
+            super();
+            this.presenter = presenter;
+        }
 
         @Override
         protected String doInBackground(@NonNull String... strings){
@@ -63,11 +67,20 @@ public class VerificationCodePresenter extends FragmentPresenter {
                 }
             };
 
-            CognitoSettings cognitoSettings = CognitoSettings.getInstance(getContext());
+            CognitoSettings cognitoSettings = CognitoSettings.getInstance(presenter.getContext());
             CognitoUser thisUser = cognitoSettings.getUserPool().getUser(strings[1]);
             thisUser.confirmSignUp(strings[0], false, confirmationCallback);
 
             return result[0];
+        }
+
+        private void codeVerificationSuccess(){
+            new AlertDialog.Builder(presenter.getContext())
+                    .setTitle(R.string.success_singup_label)
+                    .setIcon(R.drawable.ic_baseline_done_outline_24)
+                    .setMessage(R.string.success_singup_msg)
+                    .setPositiveButton("OK", (dialog, which) -> presenter.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE))
+                    .show();
         }
 
         @Override
@@ -75,30 +88,27 @@ public class VerificationCodePresenter extends FragmentPresenter {
             if(result.equals(SUCCEDED)){
                 codeVerificationSuccess();
             }else{
-                showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_verification_code));
+                presenter.showErrorMessage(presenter.getContext().getResources().getString(R.string.error_singup_label), presenter.getContext().getResources().getString(R.string.error_verification_code));
             }
         }
     }
 
-    private void codeVerificationSuccess(){
-        new AlertDialog.Builder(getContext())
-                .setTitle(R.string.success_singup_label)
-                .setIcon(R.drawable.ic_baseline_done_outline_24)
-                .setMessage(R.string.success_singup_msg)
-                .setPositiveButton("OK", (dialog, which) -> getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE))
-                .show();
-    }
+
 
     public void pressResendVerificationCodeButton(){
         CognitoSettings cognitoSettings = CognitoSettings.getInstance(getContext());
         CognitoUser thisUser = cognitoSettings.getUserPool().getUser(eMail);
 
-        new ResendConfirmationCodeAsyncTask().execute(thisUser);
+        new ResendConfirmationCodeAsyncTask(this).execute(thisUser);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class ResendConfirmationCodeAsyncTask extends AsyncTask<CognitoUser, Void, String>{
-        private final String SUCCEDED = "Succeded";
+    private static class ResendConfirmationCodeAsyncTask extends AsyncTask<CognitoUser, Void, String>{
+        private final FragmentPresenter presenter;
+
+        public ResendConfirmationCodeAsyncTask(FragmentPresenter presenter){
+            super();
+            this.presenter = presenter;
+        }
 
         @Override
         protected String doInBackground(@NonNull CognitoUser... cognitoUser){
@@ -123,9 +133,9 @@ public class VerificationCodePresenter extends FragmentPresenter {
         @Override
         protected void onPostExecute (@NonNull String result){
             if(result.equals(SUCCEDED)){
-                showSuccessMessage(getContext().getResources().getString(R.string.resend_verification_code_success_label), getContext().getResources().getString(R.string.resend_verification_code_success_msg));
+                presenter.showSuccessMessage(presenter.getContext().getResources().getString(R.string.resend_verification_code_success_label), presenter.getContext().getResources().getString(R.string.resend_verification_code_success_msg));
             }else{
-                showErrorMessage(getContext().getResources().getString(R.string.resend_verification_code_error_label), result);
+                presenter.showErrorMessage(presenter.getContext().getResources().getString(R.string.resend_verification_code_error_label), result);
             }
         }
     }

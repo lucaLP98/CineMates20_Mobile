@@ -4,11 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -25,25 +22,21 @@ import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.UserReviewsFragment;
 
 public class ProfilePresenter extends FragmentPresenter{
-    private final TextView nameTextView;
-    private final TextView nicknameTextView;
-    private final TextView biographyTextView;
-    private final ImageView profileImageView;
-
     private final Activity parentActivity;
 
-    public ProfilePresenter(ProfileFragment profileFragment, @NonNull View inflate){
+    public ProfilePresenter(ProfileFragment profileFragment){
         super(profileFragment);
 
-        nameTextView = inflate.findViewById(R.id.nameProfileTextView);
-        nicknameTextView = inflate.findViewById(R.id.nicknameProfileTextView);
-        biographyTextView = inflate.findViewById(R.id.biographyTextView);
-        profileImageView = inflate.findViewById(R.id.profileImageView);
-
         parentActivity = profileFragment.getActivity();
+        setCustomizedTextView(profileFragment);
+        setProfileImageView(profileFragment.getProfileImageView());
+
+        profileFragment.getAddPhotoButton().setOnClickListener( v -> pressAddPhotoButton());
+        profileFragment.getRewiewsButton().setOnClickListener( v->pressViewReviewsListButton() );
+        profileFragment.getFriendsListButton().setOnClickListener( v->pressViewFriendsListButton() );
     }
 
-    public void setCustomizedTextView(){
+    private void setCustomizedTextView(ProfileFragment profileFragment){
         String name = null;
         String surname = null;
         String nickname = null;
@@ -58,13 +51,14 @@ public class ProfilePresenter extends FragmentPresenter{
 
         if(name != null && surname != null && nickname != null && bio != null){
             String completeName = name + " " + surname;
-            nameTextView.setText(completeName);
-            nicknameTextView.setText(nickname);
-            biographyTextView.setText(bio);
+
+            profileFragment.setNameTextView(completeName);
+            profileFragment.setNicknameTextView(nickname);
+            profileFragment.setBiographyTextView(bio);
         }
     }
 
-    public void setProfileImageView(){
+    private void setProfileImageView(ImageView profileImageView){
         if(ThisUser.getInstance() != null && ThisUser.getInstance().getUriProfileImage() != null){
             Glide
                 .with(getContext())

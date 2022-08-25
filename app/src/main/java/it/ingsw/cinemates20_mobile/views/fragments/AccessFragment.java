@@ -8,12 +8,27 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.AccessPresenter;
 
 public class AccessFragment extends Fragment {
-    private AccessPresenter accessPresenter;
+    private Button goToLoginButton;
+    private Button goToSingUpButton;
+    private Button loginLaterTextView;
+
+    public Button getGoToLoginButton() {
+        return goToLoginButton;
+    }
+
+    public Button getGoToSingUpButton() {
+        return goToSingUpButton;
+    }
+
+    public Button getLoginLaterTextView() {
+        return loginLaterTextView;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,14 +37,13 @@ public class AccessFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_access, container, false);
 
-        accessPresenter = new AccessPresenter(this);
+        goToLoginButton = inflate.findViewById(R.id.goToLoginButton);
+        goToSingUpButton = inflate.findViewById(R.id.goToSingUpButton);
+        loginLaterTextView = inflate.findViewById(R.id.loginLaterTextView);
 
-        inflate.findViewById(R.id.goToLoginButton).setOnClickListener( v -> accessPresenter.pressLoginButton());
-        inflate.findViewById(R.id.goToSingUpButton).setOnClickListener( v -> accessPresenter.pressSingUpButton());
-        inflate.findViewById(R.id.loginLaterTextView).setOnClickListener( v -> accessPresenter.pressSingInLater());
+        new AccessPresenter(this);
 
         return inflate;
     }

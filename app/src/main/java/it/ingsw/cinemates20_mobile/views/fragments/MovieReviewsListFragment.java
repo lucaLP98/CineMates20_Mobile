@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,8 @@ import it.ingsw.cinemates20_mobile.presenters.MovieReviewsPresenter;
 
 public class MovieReviewsListFragment extends Fragment {
     private final Movie movie;
-    private MovieReviewsPresenter movieReviewsPresenter;
+
+    private RecyclerView reviewMovieList;
 
     public MovieReviewsListFragment(Movie movie){
         this.movie = movie;
@@ -32,7 +34,9 @@ public class MovieReviewsListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_movie_reviews_list, container, false);
 
-        movieReviewsPresenter = new MovieReviewsPresenter(this, inflate, movie);
+        reviewMovieList = inflate.findViewById(R.id.movieReviewsRecyclerView);
+
+        MovieReviewsPresenter movieReviewsPresenter = new MovieReviewsPresenter(this, movie);
 
         Toolbar toolbar = inflate.findViewById(R.id.toolbar_movie_reviews_fragment);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -41,8 +45,10 @@ public class MovieReviewsListFragment extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener( v -> movieReviewsPresenter.pressBackButton() );
 
-        movieReviewsPresenter.setReviewsRecyclerView();
-
         return inflate;
+    }
+
+    public RecyclerView getReviewMovieList() {
+        return reviewMovieList;
     }
 }

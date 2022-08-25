@@ -1,33 +1,28 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
-import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.VolleyError;
 
 import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
-import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.User;
 import it.ingsw.cinemates20_mobile.utilities.RequestCallback;
 import it.ingsw.cinemates20_mobile.views.fragments.UsersFragment;
 import it.ingsw.cinemates20_mobile.widgets.adapters.UsersAdapter;
 
 public class UserPresenter extends FragmentPresenter{
-    private final EditText searcUsersEditText;
-    private final RecyclerView resultRecyclerView;
+    private final UsersFragment fragment;
 
-    public UserPresenter(@NonNull UsersFragment fragment, @NonNull View inflate) {
+    public UserPresenter(@NonNull UsersFragment fragment) {
         super(fragment);
 
-        searcUsersEditText = inflate.findViewById(R.id.searchUserEditText);
-        resultRecyclerView = inflate.findViewById(R.id.user_search_result_Recycle_view);
+        this.fragment = fragment;
+
+        fragment.getSearchUsersButton().setOnClickListener( v -> pressSerachUsersButton() );
     }
 
     @Nullable
@@ -41,12 +36,12 @@ public class UserPresenter extends FragmentPresenter{
         return null;
     }
 
-    public void pressSerachUsersButton(){
-        if(isEmptyEditText(searcUsersEditText)){
+    private void pressSerachUsersButton(){
+        if(isEmptyEditText(fragment.getSearcUsersEditText())){
             return;
         }
 
-        String user = String.valueOf(searcUsersEditText.getText());
+        String user = String.valueOf(fragment.getSearcUsersEditText().getText());
         String name, surname;
 
         Integer whiteSpacePosition = searchWhiteSpace(user);
@@ -61,8 +56,8 @@ public class UserPresenter extends FragmentPresenter{
         RequestCallback<List<User>> callback = new RequestCallback<List<User>>() {
             @Override
             public void onSuccess(@NonNull List<User> result) {
-                resultRecyclerView.setAdapter(new UsersAdapter(getContext(), result));
-                resultRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                fragment.getResultRecyclerView().setAdapter(new UsersAdapter(getContext(), result));
+                fragment.getResultRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
             }
 
             @Override

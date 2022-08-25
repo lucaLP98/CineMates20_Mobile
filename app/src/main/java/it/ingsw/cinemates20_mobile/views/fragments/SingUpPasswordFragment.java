@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.SingUpPasswordPresenter;
@@ -18,7 +20,26 @@ public class SingUpPasswordFragment extends Fragment {
     private final String eMail;
     private final String username;
 
-    private SingUpPasswordPresenter singUpPasswordPresenter;
+    private EditText newPasswordEditText;
+    private EditText repeatPasswordEditText;
+    private Button backSingUpPasswordButton;
+    private Button confirmButton;
+
+    public EditText getNewPasswordEditText() {
+        return newPasswordEditText;
+    }
+
+    public EditText getRepeatPasswordEditText() {
+        return repeatPasswordEditText;
+    }
+
+    public Button getBackSingUpPasswordButton() {
+        return backSingUpPasswordButton;
+    }
+
+    public Button getConfirmButton() {
+        return confirmButton;
+    }
 
     public SingUpPasswordFragment(String name, String surname, String eMail, String username){
         this.name = name;
@@ -34,13 +55,14 @@ public class SingUpPasswordFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_sing_up_password, container, false);
 
-        singUpPasswordPresenter = new SingUpPasswordPresenter(this, inflate, name, surname, username, eMail);
+        newPasswordEditText = inflate.findViewById(R.id.newPasswordEditText);
+        repeatPasswordEditText = inflate.findViewById(R.id.repeatNewPasswordEditText);
+        backSingUpPasswordButton = inflate.findViewById(R.id.backSingUpPasswordButton);
+        confirmButton = inflate.findViewById(R.id.confirmButton);
 
-        inflate.findViewById(R.id.backSingUpPasswordButton).setOnClickListener( v -> singUpPasswordPresenter.pressCancelButton());
-        inflate.findViewById(R.id.confirmButton).setOnClickListener( v -> singUpPasswordPresenter.pressConfirmButton());
+        new SingUpPasswordPresenter(this, name, surname, username, eMail);
 
         return inflate;
     }

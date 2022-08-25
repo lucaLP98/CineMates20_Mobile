@@ -8,12 +8,48 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.SingUpPresenter;
 
 public class SingUpFragment extends Fragment {
-    private SingUpPresenter singUpPresenter;
+    private EditText newNameEditText;
+    private EditText newSurnameEditText;
+    private EditText newUsernameEditText;
+    private EditText newEmailEditText;
+    private Button cancelSingUpButton;
+    private Button nextButton;
+    private Button alreadyCodeButton;
+
+    public EditText getNewNameEditText() {
+        return newNameEditText;
+    }
+
+    public EditText getNewSurnameEditText() {
+        return newSurnameEditText;
+    }
+
+    public EditText getNewUsernameEditText() {
+        return newUsernameEditText;
+    }
+
+    public EditText getNewEmailEditText() {
+        return newEmailEditText;
+    }
+
+    public Button getCancelSingUpButton() {
+        return cancelSingUpButton;
+    }
+
+    public Button getNextButton() {
+        return nextButton;
+    }
+
+    public Button getAlreadyCodeButton() {
+        return alreadyCodeButton;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,14 +59,17 @@ public class SingUpFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_sing_up, container, false);
 
-        singUpPresenter = new SingUpPresenter(this, inflate);
+        newNameEditText = inflate.findViewById(R.id.newNameEditText);
+        newSurnameEditText = inflate.findViewById(R.id.newSurnameEditText);
+        newUsernameEditText = inflate.findViewById(R.id.newUsernameEditText);
+        newEmailEditText = inflate.findViewById(R.id.newEmailEditText);
+        cancelSingUpButton = inflate.findViewById(R.id.cancelSingUpButton);
+        nextButton = inflate.findViewById(R.id.nextButton);
+        alreadyCodeButton = inflate.findViewById(R.id.alreadyCodeButton);
 
-        inflate.findViewById(R.id.cancelSingUpButton).setOnClickListener( v -> singUpPresenter.pressCancelButton());
-        inflate.findViewById(R.id.nextButton).setOnClickListener( v -> singUpPresenter.pressNextButton());
-        inflate.findViewById(R.id.alreadyCodeButton).setOnClickListener( v -> singUpPresenter.pressAlreadyCodeButton());
+        new SingUpPresenter(this);
 
         return inflate;
     }

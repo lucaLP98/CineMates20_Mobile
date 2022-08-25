@@ -1,28 +1,26 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
-import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.model.Movie;
 import it.ingsw.cinemates20_mobile.views.fragments.MovieReviewsListFragment;
 
 public class MovieReviewsPresenter extends FragmentPresenter{
-    private final RecyclerView reviewMovieList;
     private final Movie movie;
+    private final MovieReviewsListFragment fragment;
 
-    public MovieReviewsPresenter(@NonNull MovieReviewsListFragment fragment, @NonNull View inflate, Movie movie) {
+    public MovieReviewsPresenter(@NonNull MovieReviewsListFragment fragment, Movie movie) {
         super(fragment);
 
-        this.reviewMovieList = inflate.findViewById(R.id.movieReviewsRecyclerView);
+        this.fragment = fragment;
         this.movie = movie;
+
+        setReviewsRecyclerView();
     }
 
-    public void setReviewsRecyclerView(){
-        DAOFactory.getReviewDao().getMovieReviews(getContext(), movie.getMovieID(), reviewMovieList);
+    private void setReviewsRecyclerView(){
+        DAOFactory.getReviewDao().getMovieReviews(getContext(), movie.getMovieID(), fragment.getReviewMovieList());
     }
 
     public void pressBackButton(){

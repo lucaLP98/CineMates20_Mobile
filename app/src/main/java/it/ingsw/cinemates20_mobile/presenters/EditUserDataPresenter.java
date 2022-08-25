@@ -1,6 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -13,27 +12,26 @@ import it.ingsw.cinemates20_mobile.views.fragments.EditUserDataFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.FilmFragment;
 
 public class EditUserDataPresenter extends FragmentPresenter{
+    private final EditUserDataFragment editUserDataFragment;
 
-    private final EditText editName;
-    private final EditText editSruname;
-    private final EditText editNickname;
-    private final EditText editBio;
-
-    public EditUserDataPresenter(EditUserDataFragment editUserDataFragment, @NonNull View inflate){
+    public EditUserDataPresenter(EditUserDataFragment editUserDataFragment){
         super(editUserDataFragment);
 
-        editName = inflate.findViewById(R.id.editNameEditText);
-        editSruname = inflate.findViewById(R.id.editSurnameEditText);
-        editNickname = inflate.findViewById(R.id.editNicknameEditText);
-        editBio = inflate.findViewById(R.id.editBioEditText);
+        this.editUserDataFragment = editUserDataFragment;
+
+        setEditTextValue();
+
+        editUserDataFragment.getCancellEditutton().setOnClickListener( v -> pressCancellButton());
+        editUserDataFragment.getEditPasswordButton().findViewById(R.id.editPasswordButton).setOnClickListener( v -> pressEditPassword());
+        editUserDataFragment.getSaveChangesUserDataButton().findViewById(R.id.saveChangesUserDataButton).setOnClickListener( v -> pressSaveChanges());
     }
 
-    public void setEditTextValue(){
+    private void setEditTextValue(){
         if(ThisUser.getInstance() != null){
-            editName.setText(ThisUser.getInstance().getName());
-            editSruname.setText(ThisUser.getInstance().getSurname());
-            editNickname.setText(ThisUser.getInstance().getNickname());
-            editBio.setText(ThisUser.getInstance().getBiography());
+            editUserDataFragment.setEditNameEditText(ThisUser.getInstance().getName());
+            editUserDataFragment.setEditBioEditText(ThisUser.getInstance().getBiography());
+            editUserDataFragment.setEditNicknameEditText(ThisUser.getInstance().getNickname());
+            editUserDataFragment.setEditSurnameameEditText(ThisUser.getInstance().getSurname());
         }
     }
 
@@ -47,8 +45,13 @@ public class EditUserDataPresenter extends FragmentPresenter{
         return false;
     }
 
-    public void pressSaveChanges(){
-        if(!checkRequiredField()){
+    private void pressSaveChanges(){
+        EditText editName = editUserDataFragment.getEditNameEditText();
+        EditText editSruname = editUserDataFragment.getEditSrunameEditText();
+        EditText editNickname = editUserDataFragment.getEditNicknameEditText();
+        EditText editBio = editUserDataFragment.getEditBioEditText();
+
+        if(isEmptyEditText(editName) || isEmptyEditText(editSruname) || isEmptyEditText(editNickname)){
             showErrorMessage(getContext().getResources().getString(R.string.edit_data_error_label), getContext().getResources().getString(R.string.error_empty_field));
             return;
         }
@@ -68,15 +71,11 @@ public class EditUserDataPresenter extends FragmentPresenter{
         getFragmentManager().beginTransaction().replace(R.id.home_page_container, new FilmFragment(), FilmFragment.filmFragmentLabel).commit();
     }
 
-    private boolean checkRequiredField(){
-        return !isEmptyEditText(editName) && !isEmptyEditText(editSruname) && !isEmptyEditText(editNickname);
-    }
-
-    public void pressCancellButton(){
+    private void pressCancellButton(){
         getFragmentManager().popBackStack();
     }
 
-    public void pressEditPassword(){
+    private void pressEditPassword(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new EditPasswordFragment()).commit();
     }
 }

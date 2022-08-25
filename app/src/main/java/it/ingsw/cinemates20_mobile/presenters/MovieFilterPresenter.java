@@ -1,10 +1,8 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -23,60 +21,56 @@ import it.ingsw.cinemates20_mobile.model.builder.MovieFilterBuilder;
 import it.ingsw.cinemates20_mobile.views.fragments.MovieFilterFragment;
 
 public class MovieFilterPresenter extends FragmentPresenter{
-    private final EditText directorEditText;
-    private final Spinner genreSpinner;
-    private final EditText actorEditText;
-    private final EditText durationEditText;
-    private final EditText yearEditText;
+    private final MovieFilterFragment fragment;
 
-    public MovieFilterPresenter(MovieFilterFragment fragment, @NonNull View inflate){
+    public MovieFilterPresenter(MovieFilterFragment fragment){
         super(fragment);
 
-        directorEditText = inflate.findViewById(R.id.director_EditText);
-        genreSpinner = inflate.findViewById(R.id.genre_spinner);
-        yearEditText = inflate.findViewById(R.id.year_EditText);
-        durationEditText = inflate.findViewById(R.id.duration_EditText);
-        actorEditText = inflate.findViewById(R.id.actor_EditText);
+        this.fragment = fragment;
 
-        new getGenresListTask().execute();
+        fragment.getSetFilterButton().setOnClickListener( v -> {
+            FilmPresenter.filter = pressSetFilter();
+            getFragmentManager().popBackStack();
+        });
+
+        new GetGenresListTask(fragment).execute();
     }
 
     public void pressBackButton(){
         getFragmentManager().popBackStack();
     }
 
-    public MovieFilter pressSetFilter() {
+    private MovieFilter pressSetFilter() {
         Integer duration = null;
         Integer actorID = null;
         Integer directorID = null;
         Integer year = null;
 
-        Genre selectedGenre = (Genre)genreSpinner.getSelectedItem();
+        Genre selectedGenre = (Genre)fragment.getGenreSpinner().getSelectedItem();
         Integer genre = selectedGenre.getId();
 
-        if(!isEmptyEditText(durationEditText))
-            duration = Integer.parseInt(String.valueOf(durationEditText.getText()));
+        if(!isEmptyEditText(fragment.getDurationEditText()))
+            duration = Integer.parseInt(String.valueOf(fragment.getDurationEditText().getText()));
 
-        if(!isEmptyEditText(actorEditText)){
-            String actor =  String.valueOf(actorEditText.getText()).toLowerCase();
+        if(!isEmptyEditText(fragment.getActorEditText())){
+            String actor =  String.valueOf(fragment.getActorEditText().getText()).toLowerCase();
             try {
-                actorID = new getPeopleListTask().execute(actor).get();
+                actorID = new getPeopleListTask(getContext()).execute(actor).get();
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        if(!isEmptyEditText(directorEditText)){
-            String director =  String.valueOf(directorEditText.getText()).toLowerCase();
+        if(!isEmptyEditText(fragment.getDirectorEditText())){
+            String director =  String.valueOf(fragment.getDirectorEditText().getText()).toLowerCase();
             try {
-                directorID = new getPeopleListTask().execute(director).get();
+                directorID = new getPeopleListTask(getContext()).execute(director).get();
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        if(!isEmptyEditText(yearEditText))
-            year =  Integer.parseInt(String.valueOf(yearEditText.getText()));
+        if(!isEmptyEditText(fragment.getYearEditText()))    year =  Integer.parseInt(String.valueOf(fragment.getYearEditText().getText()));
 
         return MovieFilterBuilder.getBuilder()
                 .actorID(actorID)
@@ -87,19 +81,19 @@ public class MovieFilterPresenter extends FragmentPresenter{
                 .build();
     }
 
-    private <T extends NamedIdElement> void setSpinnerResult(@NonNull Spinner spinner, @NonNull List<T> items){
-        ArrayAdapter<T> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class getGenresListTask extends AsyncTask<Void, Void, String> {
+    private static class GetGenresListTask extends AsyncTask<Void, Void, String> {
         private List<Genre> genres;
+
+        private final MovieFilterFragment fragment;
+
+        public GetGenresListTask(MovieFilterFragment fragment){
+            super();
+            this.fragment = fragment;
+        }
 
         @Override
         protected String doInBackground(@NonNull Void... param){
-            genres = new TmdbApi(getContext()
+            genres = new TmdbApi(fragment.getContext()
                     .getResources()
                     .getString(R.string.APIkey_the_movie_database))
                     .getGenre()
@@ -109,17 +103,29 @@ public class MovieFilterPresenter extends FragmentPresenter{
             return "fail";
         }
 
+        private <T extends NamedIdElement> void setSpinnerResult(@NonNull Spinner spinner, @NonNull List<T> items){
+            ArrayAdapter<T> adapter = new ArrayAdapter<>(fragment.getContext(), android.R.layout.simple_spinner_item, items);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }
+
         @Override
         protected void onPostExecute (@NonNull String result){
-            if(result.equals("success")) setSpinnerResult(genreSpinner, genres);
+            if(result.equals("success")) setSpinnerResult(fragment.getGenreSpinner(), genres);
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class getPeopleListTask extends AsyncTask<String, Void, Integer> {
+    private static class getPeopleListTask extends AsyncTask<String, Void, Integer> {
+        private final Context context;
+
+        public getPeopleListTask(Context context){
+            super();
+            this.context = context;
+        }
+
         @Override
         protected Integer doInBackground(@NonNull String... param){
-            TmdbPeople.PersonResultsPage search = new TmdbApi(getContext()
+            TmdbPeople.PersonResultsPage search = new TmdbApi(context
                     .getResources()
                     .getString(R.string.APIkey_the_movie_database))
                     .getSearch()

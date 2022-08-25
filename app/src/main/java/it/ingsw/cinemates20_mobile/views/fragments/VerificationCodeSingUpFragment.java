@@ -8,13 +8,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.VerificationCodePresenter;
 
 public class VerificationCodeSingUpFragment extends Fragment {
     private final String userEmail;
-    private VerificationCodePresenter verificationCodePresenter;
+
+    private EditText codeEditText;
+    private Button singupVerificationCodeButton;
+    private Button resendVerificationCodeButton ;
 
     public VerificationCodeSingUpFragment(String eMail) {
         userEmail = eMail;
@@ -25,15 +30,27 @@ public class VerificationCodeSingUpFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public EditText getCodeEditText() {
+        return codeEditText;
+    }
+
+    public Button getSingupVerificationCodeButton() {
+        return singupVerificationCodeButton;
+    }
+
+    public Button getResendVerificationCodeButton() {
+        return resendVerificationCodeButton;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_verification_code_sing_up, container, false);
 
-        verificationCodePresenter = new VerificationCodePresenter(this, inflate, userEmail);
+        codeEditText = inflate.findViewById(R.id.verificationCodeEditText);
+        singupVerificationCodeButton = inflate.findViewById(R.id.singupVerificationCodeButton);
+        resendVerificationCodeButton = inflate.findViewById(R.id.resendVerificationCodeButton);
 
-        inflate.findViewById(R.id.singupVerificationCodeButton).setOnClickListener( v -> verificationCodePresenter.pressConfirmRegistrazion());
-        inflate.findViewById(R.id.resendVerificationCodeButton).setOnClickListener( v -> verificationCodePresenter.pressResendVerificationCodeButton());
+        new VerificationCodePresenter(this, userEmail);
 
         return inflate;
     }

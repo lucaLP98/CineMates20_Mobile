@@ -2,8 +2,6 @@ package it.ingsw.cinemates20_mobile.presenters;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -34,17 +32,19 @@ import it.ingsw.cinemates20_mobile.views.fragments.LoginFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.RecoveryPasswordFragment;
 
 public class LoginPresenter extends FragmentPresenter{
-    private final EditText emailEditText;
-    private final EditText pswEditText;
+    private final LoginFragment loginFragment;
 
-    public LoginPresenter(LoginFragment loginFragment, @NonNull View inflate){
+    public LoginPresenter(LoginFragment loginFragment){
         super(loginFragment);
 
-        emailEditText = inflate.findViewById(R.id.eMailEditText);
-        pswEditText = inflate.findViewById(R.id.passwordEditText);
+        this.loginFragment = loginFragment;
+
+        loginFragment.getLoginButton().setOnClickListener( v -> pressCancelButton());
+        loginFragment.getCancelLoginButton().setOnClickListener( v -> pressLoginButton());
+        loginFragment.getForgotPasswordButton().setOnClickListener( v -> pressForgottenPassword());
     }
 
-    public void pressCancelButton(){
+    private void pressCancelButton(){
         getFragmentManager().popBackStack();
     }
 
@@ -57,20 +57,20 @@ public class LoginPresenter extends FragmentPresenter{
         ret = matcher.find();
 
         return ret;
-    };
+    }
 
-    public void pressLoginButton(){
-        if(isEmptyEditText(pswEditText) || isEmptyEditText(emailEditText)){
+    private void pressLoginButton(){
+        if(isEmptyEditText(loginFragment.getPswEditText()) || isEmptyEditText(loginFragment.getEmailEditText())){
             showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), getContext().getResources().getString(R.string.error_empty_field));
             return;
         }
 
-        if(!checkEmailCorrectFormat(String.valueOf(emailEditText.getText()))){
+        if(!checkEmailCorrectFormat(String.valueOf(loginFragment.getEmailEditText().getText()))){
             showErrorMessage(getContext().getResources().getString(R.string.error_singin_label), getContext().getResources().getString(R.string.error_email_format));
             return;
         }
 
-        loginUser(String.valueOf(emailEditText.getText()));
+        loginUser(String.valueOf(loginFragment.getEmailEditText().getText()));
     }
 
     private void loginUser(String eMail){
@@ -116,7 +116,7 @@ public class LoginPresenter extends FragmentPresenter{
 
         @Override
         public void getAuthenticationDetails(@NonNull AuthenticationContinuation authenticationContinuation, String userId) {
-            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, String.valueOf(pswEditText.getText()), null);
+            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, String.valueOf(loginFragment.getPswEditText().getText()), null);
             authenticationContinuation.setAuthenticationDetails(authenticationDetails);
             authenticationContinuation.continueTask();
         }
@@ -137,14 +137,14 @@ public class LoginPresenter extends FragmentPresenter{
         }
     };
 
-    public void pressForgottenPassword(){
-        if(isEmptyEditText(emailEditText)){
+    private void pressForgottenPassword(){
+        if(isEmptyEditText(loginFragment.getEmailEditText())){
             showErrorMessage(getContext().getResources().getString(R.string.recovery_password_error_label), getContext().getResources().getString(R.string.email_already_code));
             return;
         }
 
         CognitoSettings cognito = CognitoSettings.getInstance(getContext());
-        CognitoUser user = cognito.getUserPool().getUser(String.valueOf(emailEditText.getText()));
+        CognitoUser user = cognito.getUserPool().getUser(String.valueOf(loginFragment.getEmailEditText().getText()));
 
         user.forgotPasswordInBackground(forgotPasswordCallback);
     }

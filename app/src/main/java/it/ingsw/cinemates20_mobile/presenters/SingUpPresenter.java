@@ -1,10 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
-import android.widget.EditText;
-
-import androidx.annotation.NonNull;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,19 +9,16 @@ import it.ingsw.cinemates20_mobile.views.fragments.SingUpPasswordFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.VerificationCodeSingUpFragment;
 
 public class SingUpPresenter extends FragmentPresenter{
-    private final EditText newNameEditText;
-    private final EditText newSurnameEditText;
-    private final EditText newUsernameEditText;
-    private final EditText newEmailEditText;
+    private final SingUpFragment singUpFragment;
 
-    public SingUpPresenter(SingUpFragment singUpFragment, @NonNull View inflate){
+    public SingUpPresenter(SingUpFragment singUpFragment){
         super(singUpFragment);
 
+        this.singUpFragment = singUpFragment;
 
-        newNameEditText = inflate.findViewById(R.id.newNameEditText);
-        newSurnameEditText = inflate.findViewById(R.id.newSurnameEditText);
-        newUsernameEditText = inflate.findViewById(R.id.newUsernameEditText);
-        newEmailEditText = inflate.findViewById(R.id.newEmailEditText);
+        singUpFragment.getNextButton().setOnClickListener( v -> pressNextButton());
+        singUpFragment.getCancelSingUpButton().setOnClickListener( v -> pressCancelButton());
+        singUpFragment.getAlreadyCodeButton().setOnClickListener( v -> pressAlreadyCodeButton());
     }
 
     public void pressCancelButton(){ getFragmentManager().popBackStack(); }
@@ -57,23 +49,23 @@ public class SingUpPresenter extends FragmentPresenter{
         }
 
         return ret;
-    };
+    }
 
-    public void pressNextButton(){
+    private void pressNextButton(){
         //required fields check
-        if( isEmptyEditText(newNameEditText) || isEmptyEditText(newSurnameEditText) ||
-            isEmptyEditText(newEmailEditText)  || isEmptyEditText(newUsernameEditText)
+        if( isEmptyEditText(singUpFragment.getNewNameEditText()) || isEmptyEditText(singUpFragment.getNewSurnameEditText()) ||
+            isEmptyEditText(singUpFragment.getNewEmailEditText())  || isEmptyEditText(singUpFragment.getNewUsernameEditText())
         ){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_empty_field));
             return;
         }
 
-        if(checkEmailCorrectFormat(String.valueOf(newEmailEditText))){
+        if(checkEmailCorrectFormat(String.valueOf(singUpFragment.getNewEmailEditText()))){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.error_email_format));
             return;
         }
 
-        if(containsWhiteSpace(String.valueOf(newNameEditText.getText())) || containsWhiteSpace(String.valueOf(newUsernameEditText.getText()))){
+        if(containsWhiteSpace(String.valueOf(singUpFragment.getNewNameEditText().getText())) || containsWhiteSpace(String.valueOf(singUpFragment.getNewEmailEditText().getText()))){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.whithespace_error));
             return;
         }
@@ -82,23 +74,23 @@ public class SingUpPresenter extends FragmentPresenter{
     }
 
     private void goToInsertPassword(){
-        String name = String.valueOf(newNameEditText.getText()).toUpperCase();
-        String surname = String.valueOf(newSurnameEditText.getText()).toUpperCase();
-        String nickname = String.valueOf(newUsernameEditText.getText());
-        String eMail = String.valueOf(newEmailEditText.getText()).toLowerCase();
+        String name = String.valueOf(singUpFragment.getNewNameEditText().getText()).toUpperCase();
+        String surname = String.valueOf(singUpFragment.getNewSurnameEditText().getText()).toUpperCase();
+        String nickname = String.valueOf(singUpFragment.getNewUsernameEditText().getText());
+        String eMail = String.valueOf(singUpFragment.getNewEmailEditText().getText()).toLowerCase();
 
         SingUpPasswordFragment singUpPasswordFragment = new SingUpPasswordFragment(name, surname, eMail, nickname);
 
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, singUpPasswordFragment).commit();
     }
 
-    public void pressAlreadyCodeButton(){
-        if(isEmptyEditText(newEmailEditText)){
+    private void pressAlreadyCodeButton(){
+        if(isEmptyEditText(singUpFragment.getNewEmailEditText())){
             showErrorMessage(getContext().getResources().getString(R.string.error_singup_label), getContext().getResources().getString(R.string.email_already_code));
             return;
         }
 
-        String eMail = String.valueOf(newEmailEditText.getText());
+        String eMail = String.valueOf(singUpFragment.getNewEmailEditText().getText());
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainActivityContainer, new VerificationCodeSingUpFragment(eMail)).commit();
     }
 }

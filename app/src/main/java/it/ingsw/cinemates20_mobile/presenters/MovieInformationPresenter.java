@@ -1,14 +1,9 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 
@@ -31,40 +26,25 @@ import it.ingsw.cinemates20_mobile.views.fragments.MovieReviewsListFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.WriteReviewFragment;
 
 public class MovieInformationPresenter extends FragmentPresenter{
-    private final ImageView posterImage;
-    private final TextView movieNameTextView;
-    private final TextView movieDurationTextView;
-    private final TextView movieYearTextView;
-    private final TextView movieGenresTextView;
-    private final TextView moviePlotTextView;
-    private final TextView productionCountryTextView;
-    private final TextView castTextView;
-    private final TextView directorTextView;
-    private final Toolbar toolbar;
-
     private Movie movie;
 
-    public MovieInformationPresenter(@NonNull MovieInformationFragment fragment, @NonNull View inflate) {
+    private final MovieInformationFragment fragment;
+
+    public MovieInformationPresenter(@NonNull MovieInformationFragment fragment) {
         super(fragment);
 
-        posterImage = inflate.findViewById(R.id.moviePosterImageView);
-        movieNameTextView = inflate.findViewById(R.id.movietitleTextView);
-        movieDurationTextView = inflate.findViewById(R.id.durationMovieTextView);
-        movieYearTextView = inflate.findViewById(R.id.yearMovieTextView);
-        movieGenresTextView = inflate.findViewById(R.id.genresMovieTextView);
-        moviePlotTextView = inflate.findViewById(R.id.plotMovieTextView);
-        productionCountryTextView = inflate.findViewById(R.id.countryMovieTextView);
-        castTextView = inflate.findViewById(R.id.castTextView);
-        directorTextView = inflate.findViewById(R.id.directorMovieTextView);
+        this.fragment = fragment;
 
-        toolbar = inflate.findViewById(R.id.toolbar_movie_information_fragment);
+        fragment.getViewReviewButton().setOnClickListener( v-> pressViewReviewsList() );
+        fragment.getWriteReviewButton().setOnClickListener( v-> pressWriteReviewButton() );
+        fragment.getToolbarMovieInformationFragment().setNavigationOnClickListener( v -> pressBackButton() );
     }
 
     public void showMovieDetails(int movieID){
         new getMovieByIDTask().execute(movieID);
     }
 
-    public void pressWriteReviewButton(){
+    private void pressWriteReviewButton(){
         if(ThisUser.getUserAuthenticated()){
             getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container, new WriteReviewFragment(movie)).commit();
         }else{
@@ -72,61 +52,14 @@ public class MovieInformationPresenter extends FragmentPresenter{
         }
     }
 
-    public void pressViewReviewsList(){
+    private void pressViewReviewsList(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container, new MovieReviewsListFragment(movie)).commit();
     }
 
-    public void pressBackButton(){
+    private void pressBackButton(){
         getFragmentManager().popBackStack();
     }
 
-    private void setDataField(){
-        if(movie != null){
-            toolbar.setTitle(movie.getTitle());
-
-            String genres = "";
-            for(Genre g : movie.getGenres()){
-                genres += g.getName() + " ";
-            }
-
-            String country = "";
-            for(ProductionCountry c : movie.getProductionCountry()){
-                country += c.getName() + " ";
-            }
-
-            String cast = "";
-            for(PersonCast c : movie.getCast()){
-                cast += c.getName() + ", ";
-            }
-            cast = cast.substring(0, cast.length()-1);
-            cast = cast.substring(0, cast.length()-1);
-
-            Glide
-                    .with(getContext())
-                    .load(movie.getPosterUri())
-                    .centerCrop()
-                    .into(posterImage);
-
-            int i=0;
-            for (PersonCrew c : movie.getCrew()){
-                if(c.getJob().equals("Director"))
-                    break;
-                i++;
-            }
-            String director = movie.getCrew().get(i).getName();
-
-            movieNameTextView.setText(movie.getTitle());
-            movieDurationTextView.setText(String.valueOf(movie.getDuration()));
-            movieYearTextView.setText(movie.getYears());
-            movieGenresTextView.setText(genres);
-            productionCountryTextView.setText(country);
-            moviePlotTextView.setText(movie.getPlot());
-            castTextView.setText(cast);
-            directorTextView.setText(director);
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
     private class getMovieByIDTask extends AsyncTask<Integer, Void, String> {
         private final String SUCCEDED = "Succeded";
         private final String FAIL = "Fail";
@@ -172,6 +105,52 @@ public class MovieInformationPresenter extends FragmentPresenter{
                         .build();
 
                 setDataField();
+            }
+        }
+
+        private void setDataField(){
+            if(movie != null){
+                fragment.getToolbarMovieInformationFragment().setTitle(movie.getTitle());
+
+                String genres = "";
+                for(Genre g : movie.getGenres()){
+                    genres = genres.concat(g.getName() + " ");
+                }
+
+                String country = "";
+                for(ProductionCountry c : movie.getProductionCountry()){
+                    country = country.concat(c.getName() + " ");
+                }
+
+                String cast = "";
+                for(PersonCast c : movie.getCast()){
+                    cast = cast.concat(c.getName() + ", ");
+                }
+                cast = cast.substring(0, cast.length()-1);
+                cast = cast.substring(0, cast.length()-1);
+
+                Glide
+                        .with(getContext())
+                        .load(movie.getPosterUri())
+                        .centerCrop()
+                        .into(fragment.getPosterImage());
+
+                int i=0;
+                for (PersonCrew c : movie.getCrew()){
+                    if(c.getJob().equals("Director"))
+                        break;
+                    i++;
+                }
+                String director = movie.getCrew().get(i).getName();
+
+                fragment.setMovieNameTextView(movie.getTitle());
+                fragment.setMovieDurationTextView(String.valueOf(movie.getDuration()));
+                fragment.setMovieYearTextView(movie.getYears());
+                fragment.setMovieGenresTextView(genres);
+                fragment.setProductionCountryTextView(country);
+                fragment.setMoviePlotTextView(movie.getPlot());
+                fragment.setCastTextView(cast);
+                fragment.setDirectorTextView(director);
             }
         }
     }

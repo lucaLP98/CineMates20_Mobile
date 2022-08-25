@@ -1,14 +1,10 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.VolleyError;
 
@@ -29,51 +25,60 @@ import it.ingsw.cinemates20_mobile.views.fragments.MovieFilterFragment;
 import it.ingsw.cinemates20_mobile.widgets.adapters.MovieAdapter;
 
 public class FilmPresenter extends FragmentPresenter{
-    private final RecyclerView filmSearchResutlRecycleView;
-    private final EditText filmSearchEditText;
-
     public static MovieFilter filter;
 
-    public FilmPresenter(@NonNull FilmFragment fragment, @NonNull View inflate) {
+    private static final String SUCCEDED = "Succeded";
+    private static final String FAIL = "Fail";
+
+    private final FilmFragment fragment;
+
+    public FilmPresenter(@NonNull FilmFragment fragment) {
         super(fragment);
 
-        filmSearchResutlRecycleView = inflate.findViewById(R.id.film_search_result_Recycle_view);
-        filmSearchEditText = inflate.findViewById(R.id.searchFilmEditText);
+        this.fragment = fragment;
 
-        filmSearchEditText.getText().clear();
+        fragment.getSearchMovieButton().setOnClickListener( v -> pressSearchButton() );
+        fragment.getFilterButton().setOnClickListener( v -> pressSetFilterButton() );
+
+        getPopularMovies();
+
+        fragment.getFilmSearchEditText().getText().clear();
     }
 
-    public void pressSearchButton(){
-        if(!isEmptyEditText(filmSearchEditText)){
-            String movieName = String.valueOf(filmSearchEditText.getText());
-            new SearchFilmTask().execute(movieName);
+    private  void pressSearchButton(){
+        if(!isEmptyEditText(fragment.getFilmSearchEditText())){
+            String movieName = String.valueOf(fragment.getFilmSearchEditText().getText());
+            new SearchFilmTask(fragment).execute(movieName);
         }else if(filter != null){
             searchFilmByFilter();
         }
     }
 
-    public void pressSetFilterButton(){
+    private void pressSetFilterButton(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new MovieFilterFragment()).commit();
     }
 
-    public void getPopularMovies(){
-        new PopularFilmSearchTask().execute();
+    private void getPopularMovies(){
+        new PopularFilmSearchTask(fragment).execute();
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class PopularFilmSearchTask extends AsyncTask<Void, Void, String> {
-        private final String SUCCEDED = "Succeded";
-        private final String FAIL = "Fail";
-
+    private static class PopularFilmSearchTask extends AsyncTask<Void, Void, String> {
         private MovieResultsPage movieResultsPage;
-        private final int numberOfResult = 20;
+        private final int NUMBER_OF_RESULT = 20;
+
+        private final FilmFragment fragment;
+
+        public PopularFilmSearchTask(FilmFragment fragment){
+            super();
+            this.fragment = fragment;
+        }
 
         @Override
         protected String doInBackground(Void... param){
             final String[] result = new String[1];
 
-            TmdbApi tmdbApi = new TmdbApi(getContext().getResources().getString(R.string.APIkey_the_movie_database));
-            movieResultsPage = tmdbApi.getMovies().getPopularMovies(Locale.getDefault().getLanguage(), numberOfResult);
+            TmdbApi tmdbApi = new TmdbApi(fragment.getContext().getResources().getString(R.string.APIkey_the_movie_database));
+            movieResultsPage = tmdbApi.getMovies().getPopularMovies(Locale.getDefault().getLanguage(), NUMBER_OF_RESULT);
 
             if(movieResultsPage != null){ result[0] = SUCCEDED; }
             else{ result[0] = FAIL; }
@@ -84,22 +89,25 @@ public class FilmPresenter extends FragmentPresenter{
         @Override
         protected void onPostExecute (@NonNull String result){
             if(result.equals(SUCCEDED))
-                setFilmSearchResutlRecycleView(movieResultsPage);
+                setFilmSearchResutlRecycleView(movieResultsPage, fragment);
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class SearchFilmTask extends AsyncTask<String, Void, String> {
-        private final String SUCCEDED = "Succeded";
-        private final String FAIL = "Fail";
-
+    private static class SearchFilmTask extends AsyncTask<String, Void, String> {
         private MovieResultsPage movieResultsPage;
+
+        private final FilmFragment fragment;
+
+        public SearchFilmTask(FilmFragment fragment){
+            super();
+            this.fragment = fragment;
+        }
 
         @Override
         protected String doInBackground(@NonNull String... filmName){
             final String[] result = new String[1];
 
-            TmdbApi tmdbApi = new TmdbApi(getContext().getResources().getString(R.string.APIkey_the_movie_database));
+            TmdbApi tmdbApi = new TmdbApi(fragment.getContext().getResources().getString(R.string.APIkey_the_movie_database));
             movieResultsPage = tmdbApi.getSearch().searchMovie(filmName[0], null, Locale.getDefault().getLanguage(), false, 0);
             if(movieResultsPage != null){ result[0] = SUCCEDED; }
             else{ result[0] = FAIL; }
@@ -110,12 +118,12 @@ public class FilmPresenter extends FragmentPresenter{
         @Override
         protected void onPostExecute (@NonNull String result){
             if(result.equals(SUCCEDED)){
-                setFilmSearchResutlRecycleView(movieResultsPage);
+                setFilmSearchResutlRecycleView(movieResultsPage, fragment);
             }
         }
     }
 
-    private void setFilmSearchResutlRecycleView(@NonNull MovieResultsPage movieResultsPage){
+    private static void setFilmSearchResutlRecycleView(@NonNull MovieResultsPage movieResultsPage, @NonNull FilmFragment fragment){
         List<Movie> movies = new ArrayList<>();
 
         movieResultsPage.forEach( movieDb -> {
@@ -133,16 +141,16 @@ public class FilmPresenter extends FragmentPresenter{
                     .build()
             );
         });
-        filmSearchResutlRecycleView.setAdapter(new MovieAdapter(getContext(), getFragmentManager(), movies));
-        filmSearchResutlRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragment.getFilmSearchResutlRecycleView().setAdapter(new MovieAdapter(fragment.getContext(), fragment.getParentFragmentManager(), movies));
+        fragment.getFilmSearchResutlRecycleView().setLayoutManager(new LinearLayoutManager(fragment.getContext()));
     }
 
     private void searchFilmByFilter(){
         RequestCallback<List<Movie>> callback = new RequestCallback<List<Movie>>() {
             @Override
             public void onSuccess(@NonNull List<Movie> result) {
-                filmSearchResutlRecycleView.setAdapter(new MovieAdapter(getContext(), getFragmentManager(), result));
-                filmSearchResutlRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+                fragment.getFilmSearchResutlRecycleView().setAdapter(new MovieAdapter(getContext(), getFragmentManager(), result));
+                fragment.getFilmSearchResutlRecycleView().setLayoutManager(new LinearLayoutManager(getContext()));
             }
 
             @Override

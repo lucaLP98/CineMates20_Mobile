@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ForgotPasswordContinuation;
 
@@ -15,7 +17,10 @@ import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.RecoveryPasswordPresenter;
 
 public class RecoveryPasswordFragment extends Fragment {
-    private RecoveryPasswordPresenter recoveryPasswordPresenter;
+    private EditText pswEditText;
+    private EditText verificationCodeEditText;
+    private EditText repeatPswEditText;
+    private Button resetPasswordButton;
 
     private final ForgotPasswordContinuation forgotPasswordContinuation;
 
@@ -32,13 +37,31 @@ public class RecoveryPasswordFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_recovery_password, container, false);
 
-        recoveryPasswordPresenter = new RecoveryPasswordPresenter(this, inflate, forgotPasswordContinuation);
+        verificationCodeEditText = inflate.findViewById(R.id.verificationCodeForgotPasswordEditText);
+        pswEditText = inflate.findViewById(R.id.newPasswordForgotEditText);
+        repeatPswEditText = inflate.findViewById(R.id.repeatNewPasswordForgotEditText);
+        resetPasswordButton = inflate.findViewById(R.id.resetPasswordButton);
 
-        inflate.findViewById(R.id.resetPasswordButton).setOnClickListener(v -> recoveryPasswordPresenter.pressResetPasswordButton());
+        new RecoveryPasswordPresenter(this, forgotPasswordContinuation);
 
         return inflate;
+    }
+
+    public EditText getPswEditText() {
+        return pswEditText;
+    }
+
+    public EditText getVerificationCodeEditText() {
+        return verificationCodeEditText;
+    }
+
+    public EditText getRepeatPswEditText() {
+        return repeatPswEditText;
+    }
+
+    public Button getResetPasswordButton() {
+        return resetPasswordButton;
     }
 }

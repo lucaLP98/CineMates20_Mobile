@@ -1,8 +1,5 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
-import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -15,32 +12,32 @@ import it.ingsw.cinemates20_mobile.views.fragments.EditPasswordFragment;
 import it.ingsw.cinemates20_mobile.views.fragments.ProfileFragment;
 
 public class EditPasswordPresenter extends FragmentPresenter{
+    private final EditPasswordFragment editPasswordFragment;
 
-    private final EditText oldPasswordEditText;
-    private final EditText newPasswordEditText;
-    private final EditText repeatNewPasswordEditText;
-
-    public EditPasswordPresenter(EditPasswordFragment editPasswordFragment, @NonNull View inflate){
+    public EditPasswordPresenter(EditPasswordFragment editPasswordFragment){
         super(editPasswordFragment);
 
-        oldPasswordEditText = inflate.findViewById(R.id.oldPasswordChangePasswordEditText);
-        newPasswordEditText = inflate.findViewById(R.id.newPasswordChangePasswordEditText);
-        repeatNewPasswordEditText = inflate.findViewById(R.id.repeatNewPasswordChangePasswordEditText2);
+        this.editPasswordFragment = editPasswordFragment;
+
+        editPasswordFragment.getCancelEditPasswordButton().setOnClickListener( v -> pressCancellButton());
+        editPasswordFragment.getSaveChangePasswordButton().setOnClickListener( v -> pressSaveChangesPassword());
     }
 
-    public void pressCancellButton(){
+    private void pressCancellButton(){
         getFragmentManager().popBackStack();
     }
 
-    public void pressSaveChangesPassword(){
-        if(isEmptyEditText(oldPasswordEditText) || isEmptyEditText(newPasswordEditText) || isEmptyEditText(repeatNewPasswordEditText)){
+    private void pressSaveChangesPassword(){
+        if(isEmptyEditText(editPasswordFragment.getOldPasswordEditText()) ||
+                isEmptyEditText(editPasswordFragment.getNewPasswordEditText()) ||
+                isEmptyEditText(editPasswordFragment.getRepeatNewPasswordEditText())){
             showErrorMessage(getContext().getResources().getString(R.string.edit_password_error), getContext().getResources().getString(R.string.error_empty_field));
             return;
         }
 
-        String newPsw = String.valueOf(newPasswordEditText.getText());
-        String repeatNewPsw = String.valueOf(repeatNewPasswordEditText.getText());
-        String oldPsw = String.valueOf(oldPasswordEditText.getText());
+        String newPsw = String.valueOf(editPasswordFragment.getNewPasswordEditText().getText());
+        String repeatNewPsw = String.valueOf(editPasswordFragment.getRepeatNewPasswordEditText().getText());
+        String oldPsw = String.valueOf(editPasswordFragment.getOldPasswordEditText().getText());
 
         if(!matchPassword(newPsw, repeatNewPsw)){
             showErrorMessage(getContext().getResources().getString(R.string.edit_password_error), getContext().getResources().getString(R.string.error_not_matched_password));

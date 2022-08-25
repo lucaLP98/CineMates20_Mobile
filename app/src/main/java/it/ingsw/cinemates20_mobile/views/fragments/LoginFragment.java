@@ -8,12 +8,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import it.ingsw.cinemates20_mobile.R;
 import it.ingsw.cinemates20_mobile.presenters.LoginPresenter;
 
 public class LoginFragment extends Fragment {
-    private LoginPresenter loginPresenter;
+    private EditText emailEditText;
+    private EditText pswEditText;
+    private Button cancelLoginButton;
+    private Button loginButton;
+    private Button forgotPasswordButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,12 +31,34 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_login, container, false);
 
-        loginPresenter = new LoginPresenter(this, inflate);
+        emailEditText = inflate.findViewById(R.id.eMailEditText);
+        pswEditText = inflate.findViewById(R.id.passwordEditText);
+        cancelLoginButton = inflate.findViewById(R.id.cancelLoginButton);
+        loginButton = inflate.findViewById(R.id.loginButton);
+        forgotPasswordButton = inflate.findViewById(R.id.forgotPasswordTextView);
 
-        inflate.findViewById(R.id.cancelLoginButton).setOnClickListener( v -> loginPresenter.pressCancelButton());
-        inflate.findViewById(R.id.loginButton).setOnClickListener( v -> loginPresenter.pressLoginButton());
-        inflate.findViewById(R.id.forgotPasswordTextView).setOnClickListener( v -> loginPresenter.pressForgottenPassword());
+        LoginPresenter loginPresenter = new LoginPresenter(this);
 
         return inflate;
+    }
+
+    public EditText getEmailEditText() {
+        return emailEditText;
+    }
+
+    public EditText getPswEditText() {
+        return pswEditText;
+    }
+
+    public Button getCancelLoginButton() {
+        return cancelLoginButton;
+    }
+
+    public Button getLoginButton() {
+        return loginButton;
+    }
+
+    public Button getForgotPasswordButton() {
+        return forgotPasswordButton;
     }
 }

@@ -1,14 +1,11 @@
 package it.ingsw.cinemates20_mobile.presenters;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.VolleyError;
 
-import java.util.Comparator;
 import java.util.List;
 
 import it.ingsw.cinemates20_mobile.DAO.DAOFactory;
@@ -20,38 +17,39 @@ import it.ingsw.cinemates20_mobile.views.fragments.NotificationsFragment;
 import it.ingsw.cinemates20_mobile.widgets.adapters.NotificationAdapter;
 
 public class NotificationsPresenter extends FragmentPresenter{
-    private final RecyclerView notificationsRecycleView;
+    private final NotificationsFragment fragment;
 
-    public NotificationsPresenter(@NonNull NotificationsFragment fragment, @NonNull View inflate) {
+    public NotificationsPresenter(@NonNull NotificationsFragment fragment) {
         super(fragment);
 
-        notificationsRecycleView = inflate.findViewById(R.id.notifications_Recycle_view);
+        this.fragment = fragment;
+
+        showNotidficationsList();
+
+        fragment.getGoToConnectionRequestsButton().setOnClickListener(v->goToConnectionRequests());
+        fragment.getRefreshNotificationsListFloatingActionButton().setOnClickListener(v->{
+            showNotidficationsList();
+            ViewCompat.animate(v)
+                    .rotation(360f)
+                    .withLayer()
+                    .setDuration(300)
+                    .start();
+        });
     }
 
-    public void goToConnectionRequests(){
+    private void goToConnectionRequests(){
         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.home_page_container , new ConnectionRequestsFragment()).commit();
     }
 
-    public void showNotidficationsList(){
+    private void showNotidficationsList(){
         DAOFactory.getNotificationDAO().getNotificationsList(getContext(), new RequestCallback<List<Notification>>() {
             @Override
             public void onSuccess(@NonNull List<Notification> result) {
 
-                result.sort(new Comparator<Notification>() {
-                    @Override
-                    public int compare(Notification o1, Notification o2) {
-                        int result;
+                result.sort((o1, o2) -> Integer.compare(o2.getNotificationID(), o1.getNotificationID()));
 
-                        if (o1.getNotificationID() < o2.getNotificationID()) result = 1;
-                        else if (o1.getNotificationID() == o2.getNotificationID()) result = 0;
-                        else result = -1;
-
-                        return result;
-                    }
-                });
-
-                notificationsRecycleView.setAdapter(new NotificationAdapter(getContext(), result, getFragmentManager()));
-                notificationsRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+                fragment.getNotificationsRecycleView().setAdapter(new NotificationAdapter(getContext(), result, getFragmentManager()));
+                fragment.getNotificationsRecycleView().setLayoutManager(new LinearLayoutManager(getContext()));
             }
 
             @Override
